@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">IzdajRacun</string>
+    <string name="sign_in_button_content">Sign in</string>
+    <string name="sign_out_menu_item_content">Sign out</string>
+
+    <string name="hello_blank_fragment">Hello properties fragment</string>
+</resources>
