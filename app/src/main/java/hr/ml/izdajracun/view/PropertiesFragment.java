@@ -1,4 +1,4 @@
-package hr.ml.izdajracun.View;
+package hr.ml.izdajracun.view;
 
 
 import android.os.Bundle;
@@ -25,5 +25,7 @@ public class PropertiesFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_properties, container, false);
     }
+
+
 
 }

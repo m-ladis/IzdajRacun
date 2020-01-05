@@ -3,20 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/izdaj_racun_navigation"
-    app:startDestination="@id/signInFragment">
+    app:startDestination="@id/propertiesFragment">
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="hr.ml.izdajracun.View.SignInFragment"
+        android:name="hr.ml.izdajracun.view.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
             android:id="@+id/action_signInFragment_to_propertiesFragment"
-            app:destination="@id/propertiesFragment" />
+            app:destination="@id/propertiesFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@+id/signInFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/propertiesFragment"
-        android:name="hr.ml.izdajracun.View.PropertiesFragment"
+        android:name="hr.ml.izdajracun.view.PropertiesFragment"
         android:label="fragment_properties"
         tools:layout="@layout/fragment_properties" />
 </navigation>

@@ -1,4 +1,4 @@
-package hr.ml.izdajracun.View;
+package hr.ml.izdajracun.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +18,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
 
 import hr.ml.izdajracun.R;
+import hr.ml.izdajracun.viewmodel.GoogleSignInViewModel;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_FIRST_USER;
@@ -33,7 +32,6 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "SignInFragment";
     private static final int RC_SIGN_IN = 1000;
-    private static final Scope scopes = new Scope(Scopes.DRIVE_APPFOLDER);
 
     private GoogleSignInClient googleSignInClient;
     private NavController navController;
@@ -56,7 +54,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
         GoogleSignInOptions signInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestScopes(scopes)
+                        .requestScopes(GoogleSignInViewModel.scopes)
                         .build();
 
         googleSignInClient = GoogleSignIn.getClient(getContext(), signInOptions);
@@ -64,19 +62,6 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         navController = NavHostFragment.findNavController(this);
 
         return root;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
-
-        //check if user is signed in with required scopes
-        if(userSignInWithRequiredScopes(account)){
-            //navigate to next fragment
-            navController.navigate(R.id.action_signInFragment_to_propertiesFragment);
-        }
     }
 
     @Override
@@ -138,7 +123,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         boolean signedInWithScopes = false;
 
         if(account != null){
-            if(GoogleSignIn.hasPermissions(account, scopes)) {
+            if(GoogleSignIn.hasPermissions(account, GoogleSignInViewModel.scopes)) {
                 signedInWithScopes = true;
             }
         }
