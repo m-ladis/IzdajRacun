@@ -21,5 +21,14 @@
         android:id="@+id/propertiesFragment"
         android:name="hr.ml.izdajracun.view.PropertiesFragment"
         android:label="fragment_properties"
-        tools:layout="@layout/fragment_properties" />
+        tools:layout="@layout/fragment_properties" >
+        <action
+            android:id="@+id/action_propertiesFragment_to_addPropertyFregment"
+            app:destination="@id/addPropertyFregment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPropertyFregment"
+        android:name="hr.ml.izdajracun.view.AddPropertyFregment"
+        android:label="fragment_add_property_fregment"
+        tools:layout="@layout/fragment_add_property_fregment" />
 </navigation>

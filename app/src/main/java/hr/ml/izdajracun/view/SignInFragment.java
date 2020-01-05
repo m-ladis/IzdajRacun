@@ -3,6 +3,7 @@ package hr.ml.izdajracun.view;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -10,6 +11,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -52,6 +55,8 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         //adding onClickListeners
         signInButton.setOnClickListener(this);
 
+        setHasOptionsMenu(true);
+
         GoogleSignInOptions signInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestScopes(GoogleSignInViewModel.scopes)
@@ -62,6 +67,14 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         navController = NavHostFragment.findNavController(this);
 
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        //remove sign out menu item
+        menu.removeItem(R.id.sign_out_menu_item);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

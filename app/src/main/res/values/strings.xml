@@ -3,5 +3,6 @@
     <string name="sign_in_button_content">Sign in</string>
     <string name="sign_out_menu_item_content">Sign out</string>
 
-    <string name="hello_blank_fragment">Hello properties fragment</string>
+    <string name="hello_properties_fragment">Hello properties fragment</string>
+    <string name="hello_add_property_fragment">Hello add property fragment</string>
 </resources>
