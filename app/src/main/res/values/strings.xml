@@ -1,8 +1,20 @@
 <resources>
     <string name="app_name">IzdajRacun</string>
-    <string name="sign_in_button_content">Sign in</string>
+
+
     <string name="sign_out_menu_item_content">Sign out</string>
 
-    <string name="hello_properties_fragment">Hello properties fragment</string>
+    <string name="sign_in_button_content">Sign in</string>
+
     <string name="hello_add_property_fragment">Hello add property fragment</string>
+    <string name="rental_property_name_hint">Naziv objekta</string>
+    <string name="owner_label">Vlasnik</string>
+    <string name="owner_first_name_hint">Ime</string>
+    <string name="owner_last_name_hint">Prezime</string>
+    <string name="owner_oib_hint">OIB</string>
+    <string name="owner_iban_hint">IBAN</string>
+    <string name="rental_property_label">Smještajni objekt</string>
+    <string name="rental_property_address_hint">Adresa (Ulica i kućni broj, mjesto)</string>
+
+    <string name="hello_properties_fragment">Hello properties fragment</string>
 </resources>
