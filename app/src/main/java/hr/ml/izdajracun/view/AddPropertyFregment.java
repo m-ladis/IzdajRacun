@@ -13,6 +13,7 @@ import hr.ml.izdajracun.R;
 
 public class AddPropertyFregment extends Fragment {
 
+    private static final String TAG = "AddPropertyFregment";
 
     public AddPropertyFregment() {}
 
@@ -20,8 +21,9 @@ public class AddPropertyFregment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_property_fregment, container, false);
-    }
 
+        View root = inflater.inflate(R.layout.fragment_add_property_fregment, container, false);
+
+        return root;
+    }
 }
