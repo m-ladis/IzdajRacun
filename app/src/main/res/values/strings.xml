@@ -17,4 +17,6 @@
     <string name="rental_property_address_hint">Adresa (Ulica i kućni broj, mjesto)</string>
 
     <string name="hello_properties_fragment">Hello properties fragment</string>
+
+    <string name="hello_property_dashboard_fragment">Hello property dashboard fragment</string>
 </resources>

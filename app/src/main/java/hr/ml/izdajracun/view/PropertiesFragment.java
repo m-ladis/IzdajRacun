@@ -6,10 +6,10 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +23,7 @@ import hr.ml.izdajracun.adapter.PropertiesAdapter;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.viewmodel.RentalPropertyViewModel;
 
-public class PropertiesFragment extends Fragment implements View.OnClickListener,
-        OnItemClickListener {
+public class PropertiesFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "PropertiesFragment";
 
@@ -48,8 +47,11 @@ public class PropertiesFragment extends Fragment implements View.OnClickListener
         //adding onClickListeners
         addPropertyButton.setOnClickListener(this);
 
+        //recycler view now can navigate fragments
+        Navigation.setViewNavController(propertiesRecyclerView,
+                NavHostFragment.findNavController(this));
+
         adapter = new PropertiesAdapter(getContext());
-        adapter.setOnItemClickedListener(this);
         propertiesRecyclerView.setAdapter(adapter);
 
         RentalPropertyViewModel propertyViewModel = ViewModelProviders.of(this)
@@ -73,12 +75,5 @@ public class PropertiesFragment extends Fragment implements View.OnClickListener
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_propertiesFragment_to_addPropertyFregment);
         }
-    }
-
-    @Override
-    public void itemClicked(int position) {
-        Log.d(TAG, "clicked" + Integer.valueOf(position));
-        String name = adapter.getPropertyAtIndex(position).getName();
-        Log.d(TAG, "cliked " + name);
     }
 }

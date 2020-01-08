@@ -3,8 +3,10 @@ package hr.ml.izdajracun.model.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "rental_property_info")
-public class RentalPropertyInfo {
+public class RentalPropertyInfo implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

@@ -1,25 +1,25 @@
 package hr.ml.izdajracun.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
-import hr.ml.izdajracun.view.OnItemClickListener;
 
 public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.PropertyViewHolder> {
 
     private List<RentalPropertyInfo> properties;
     private Context context;
-    private OnItemClickListener onItemClickedListener;
 
     public PropertiesAdapter(Context context) {
         this.context = context;
@@ -27,10 +27,25 @@ public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.Pr
 
     @NonNull
     @Override
-    public PropertyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.property_item, parent, false);
+    public PropertyViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
+        final View view = LayoutInflater.from(context).inflate(R.layout.property_item, parent, false);
+        final PropertyViewHolder propertyViewHolder = new PropertyViewHolder(view);
 
-        return new PropertyViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RentalPropertyInfo propertyInfo = properties
+                        .get(propertyViewHolder.getAdapterPosition());
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("property", propertyInfo);
+
+                Navigation.findNavController(parent)
+                        .navigate(R.id.action_propertiesFragment_to_propertyDashboard, bundle);
+            }
+        });
+
+        return propertyViewHolder;
     }
 
     @Override
@@ -41,15 +56,6 @@ public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.Pr
         holder.addressTextView.setText(propertyInfo.getAddress());
         holder.ownerFullNameTextView
                 .setText(propertyInfo.getOwnerFirstName() + " " + propertyInfo.getOwnerLastName());
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(onItemClickedListener != null){
-                    onItemClickedListener.itemClicked(position);
-                }
-            }
-        });
     }
 
     @Override
@@ -59,14 +65,6 @@ public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.Pr
 
     public void setProperties(List<RentalPropertyInfo> properties) {
         this.properties = properties;
-    }
-
-    public void setOnItemClickedListener(OnItemClickListener listener){
-        onItemClickedListener = listener;
-    }
-
-    public RentalPropertyInfo getPropertyAtIndex(int index) {
-        return properties.get(index);
     }
 
     public class PropertyViewHolder extends RecyclerView.ViewHolder{

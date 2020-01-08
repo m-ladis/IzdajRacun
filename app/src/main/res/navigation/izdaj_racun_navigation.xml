@@ -25,14 +25,18 @@
         <action
             android:id="@+id/action_propertiesFragment_to_addPropertyFregment"
             app:destination="@id/addPropertyFregment" />
+        <action
+            android:id="@+id/action_propertiesFragment_to_propertyDashboard"
+            app:destination="@id/propertyDashboard" />
     </fragment>
     <fragment
         android:id="@+id/addPropertyFregment"
         android:name="hr.ml.izdajracun.view.AddPropertyFregment"
         android:label="fragment_add_property_fregment"
-        tools:layout="@layout/fragment_add_property_fregment" >
-        <action
-            android:id="@+id/action_addPropertyFregment_to_propertiesFragment"
-            app:destination="@id/propertiesFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_add_property_fregment" />
+    <fragment
+        android:id="@+id/propertyDashboard"
+        android:name="hr.ml.izdajracun.view.PropertyDashboardFragment"
+        android:label="fragment_property_dashboard"
+        tools:layout="@layout/fragment_property_dashboard" />
 </navigation>

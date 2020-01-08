@@ -93,7 +93,7 @@ public class AddPropertyFregment extends Fragment implements View.OnClickListene
 
             //navigate to PropertiesFragment
             NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_addPropertyFregment_to_propertiesFragment);
+                    .popBackStack();
         }
     }
 
