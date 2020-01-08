@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.repository.IzdajRacunRepository;
+import hr.ml.izdajracun.utils.InputFieldValidator;
 
 public class AddPropertyFregment extends Fragment implements View.OnClickListener {
 
@@ -35,12 +36,6 @@ public class AddPropertyFregment extends Fragment implements View.OnClickListene
     private EditText ownerIbanEditText;
     private EditText ownerOibEditText;
 
-    private String name;
-    private String address;
-    private String ownerFirstName;
-    private String ownerLastName;
-    private String ownerIban;
-    private String ownerOib;
     private IzdajRacunRepository repository;
 
     public AddPropertyFregment() {}
@@ -77,87 +72,63 @@ public class AddPropertyFregment extends Fragment implements View.OnClickListene
     }
 
     private void doneButtonAction() {
-        name = nameEditText.getText().toString().trim();
-        address = addressEditText.getText().toString().trim();
-        ownerFirstName = ownerFirstNameEditText.getText().toString().trim();
-        ownerLastName = ownerLastNameEditText.getText().toString().trim();
-        ownerIban = ownerIbanEditText.getText().toString().trim();
-        ownerOib = ownerOibEditText.getText().toString().trim();
+        String name = nameEditText.getText().toString().trim();
+        String address = addressEditText.getText().toString().trim();
+        String ownerFirstName = ownerFirstNameEditText.getText().toString().trim();
+        String ownerLastName = ownerLastNameEditText.getText().toString().trim();
+        String ownerIban = ownerIbanEditText.getText().toString().trim();
+        String ownerOib = ownerOibEditText.getText().toString().trim();
 
-        if(!isAnyEditTextFieldEmpty() && isOIB(ownerOib) && isIBAN(ownerIban)){
-            RentalPropertyInfo rentalPropertyInfo = new RentalPropertyInfo(
-                    name, address,ownerFirstName,
-                    ownerLastName, ownerIban, ownerOib);
+        if(InputFieldValidator.isAnyStringEmpty(name, address, ownerFirstName,
+                ownerLastName, ownerIban, ownerOib)){
 
-            repository.insert(rentalPropertyInfo);
+            startAnimationOnFirstEmptyEditText(nameEditText, ownerFirstNameEditText,
+                    ownerLastNameEditText, ownerOibEditText,
+                    ownerIbanEditText, addressEditText);
 
-            //navigate to PropertiesFragment
-            NavHostFragment.findNavController(this)
-                    .popBackStack();
+            return;
+        }
+
+        if(!InputFieldValidator.isOib(ownerOib)){
+            Toast.makeText(getContext(), R.string.non_valid_oib_toast_content, Toast.LENGTH_SHORT)
+                    .show();
+
+            startAnimationOnView(ownerOibEditText);
+            return;
+        }
+
+        if(!InputFieldValidator.isHrIban(ownerIban)){
+            Toast.makeText(getContext(), R.string.non_valid_iban_toast_content, Toast.LENGTH_SHORT)
+                    .show();
+
+            startAnimationOnView(ownerIbanEditText);
+            return;
+        }
+
+        //At this point all validation passed
+        RentalPropertyInfo rentalPropertyInfo = new RentalPropertyInfo(
+                name, address, ownerFirstName,
+                ownerLastName, ownerIban, ownerOib);
+
+        repository.insert(rentalPropertyInfo);
+
+        //navigate to PropertiesFragment
+        NavHostFragment.findNavController(this)
+                .popBackStack();
+    }
+
+    private void startAnimationOnFirstEmptyEditText(EditText...editTexts){
+
+        for (EditText editText : editTexts){
+            if(editText.getText().toString().trim().isEmpty()){
+                startAnimationOnView(editText);
+                break;
+            }
         }
     }
 
-    private boolean isAnyEditTextFieldEmpty(){
-
-        if (name.isEmpty()) {
-            nameEditText.startAnimation(shake);
-            nameEditText.requestFocus();
-
-            return true;
-
-        } else if(ownerFirstName.isEmpty()){
-            ownerFirstNameEditText.startAnimation(shake);
-            ownerFirstNameEditText.requestFocus();
-
-            return true;
-
-        } else if(ownerLastName.isEmpty()){
-            ownerLastNameEditText.startAnimation(shake);
-            ownerLastNameEditText.requestFocus();
-
-            return true;
-
-        } else if(ownerOib.isEmpty()){
-            ownerOibEditText.startAnimation(shake);
-            ownerOibEditText.requestFocus();
-
-            return true;
-
-        } else if(ownerIban.isEmpty()){
-            ownerIbanEditText.startAnimation(shake);
-            ownerIbanEditText.requestFocus();
-
-            return true;
-
-        } else if(address.isEmpty()){
-            addressEditText.startAnimation(shake);
-            addressEditText.requestFocus();
-
-            return true;
-
-        }
-
-        return false;
-
-    }
-
-    private boolean isOIB(String OIB){
-        if(OIB.length() == 11){
-            return true;
-        }
-        else{
-            Toast.makeText(getContext(), "OIB mora sadržavati 11 brojeva.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
-
-    private boolean isIBAN(String IBAN){
-        if(IBAN.length() == 21){
-            return true;
-        }
-        else{
-            Toast.makeText(getContext(), "IBAN mora sadržavati 21 znak.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+    private void startAnimationOnView(View view){
+        view.startAnimation(shake);
+        view.requestFocus();
     }
 }
