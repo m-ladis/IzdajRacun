@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
@@ -14,14 +16,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
+import hr.ml.izdajracun.viewmodel.SelectedYearViewModel;
 
-public class PropertyDashboardFragment extends Fragment {
+public class PropertyDashboardFragment extends Fragment implements View.OnClickListener {
 
     private static final int editMenuItemId = 1000;
 
     private RentalPropertyInfo propertyInfo;
+
+    private FloatingActionButton incrementYearButton;
+    private FloatingActionButton decrementYearButton;
+
+    SelectedYearViewModel selectedYearViewModel;
 
     public PropertyDashboardFragment() {
     }
@@ -36,13 +46,33 @@ public class PropertyDashboardFragment extends Fragment {
 
         propertyInfo = (RentalPropertyInfo) getArguments().getSerializable("property");
 
-        TextView propertyName = rootView.findViewById(R.id.property_name);
-        TextView propertyAddress = rootView.findViewById(R.id.property_address);
-        TextView ownerName = rootView.findViewById(R.id.owner_name);
+        //getting references to UI
+        incrementYearButton = rootView.findViewById(R.id.increment_year);
+        decrementYearButton = rootView.findViewById(R.id.decrement_year);
+        TextView propertyNameTextView = rootView.findViewById(R.id.property_name);
+        TextView propertyAddressTextView = rootView.findViewById(R.id.property_address);
+        TextView ownerNameTextView = rootView.findViewById(R.id.owner_name);
+        final TextView currentYearTextView = rootView.findViewById(R.id.year);
 
-        propertyName.setText(propertyInfo.getName());
-        propertyAddress.setText(propertyInfo.getAddress());
-        ownerName.setText(propertyInfo.getOwnerFirstName() + " " + propertyInfo.getOwnerLastName());
+        //add content to views
+        propertyNameTextView.setText(propertyInfo.getName());
+        propertyAddressTextView.setText(propertyInfo.getAddress());
+        ownerNameTextView.setText(
+                propertyInfo.getOwnerFirstName() + " " + propertyInfo.getOwnerLastName());
+
+        //set listeners
+        incrementYearButton.setOnClickListener(this);
+        decrementYearButton.setOnClickListener(this);
+
+        selectedYearViewModel = ViewModelProviders.of(this)
+                .get(SelectedYearViewModel.class);
+
+        selectedYearViewModel.selectedYear.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer year) {
+                currentYearTextView.setText(String.valueOf(year));
+            }
+        });
 
         return rootView;
     }
@@ -66,5 +96,14 @@ public class PropertyDashboardFragment extends Fragment {
                     .navigate(R.id.action_propertyDashboard_to_addPropertyFregment, bundle);
         }
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == incrementYearButton){
+            selectedYearViewModel.incrementYear();
+        } else if (v == decrementYearButton){
+            selectedYearViewModel.decrementYear();
+        }
     }
 }
