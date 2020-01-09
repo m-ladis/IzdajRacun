@@ -70,6 +70,7 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
                     .getSerializable("property");
 
             viewModel.setMode(AddEditPropertyViewModel.Mode.MODE_UPDATE);
+            viewModel.setPropertyInfoToUpdate(propertyInfo);
 
             nameEditText.setText(propertyInfo.getName());
             addressEditText.setText(propertyInfo.getAddress());

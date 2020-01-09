@@ -8,11 +8,14 @@ import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 
 public class AddEditPropertyViewModel extends RentalPropertyViewModel {
 
+    private static final String TAG = "AddEditPropertyVM";
+
     public enum Mode {
         MODE_ADD, MODE_UPDATE
     }
 
     private Mode mode;
+    private RentalPropertyInfo propertyInfoToUpdate;
 
     public AddEditPropertyViewModel(@NonNull Application application) {
         super(application);
@@ -24,6 +27,10 @@ public class AddEditPropertyViewModel extends RentalPropertyViewModel {
         this.mode = mode;
     }
 
+    public void setPropertyInfoToUpdate(RentalPropertyInfo propertyInfoToUpdate) {
+        this.propertyInfoToUpdate = propertyInfoToUpdate;
+    }
+
     public void handlePropertyInfo(RentalPropertyInfo propertyInfo){
         switch (mode){
             case MODE_ADD:
@@ -31,7 +38,11 @@ public class AddEditPropertyViewModel extends RentalPropertyViewModel {
                 break;
 
             case MODE_UPDATE:
-                update(propertyInfo);
+                if(propertyInfoToUpdate != null){
+                    propertyInfo.setId(propertyInfoToUpdate.getId());
+                    update(propertyInfo);
+                }
+
                 break;
         }
     }
