@@ -21,9 +21,9 @@ import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.repository.IzdajRacunRepository;
 import hr.ml.izdajracun.utils.InputFieldValidator;
 
-public class AddPropertyFregment extends Fragment implements View.OnClickListener {
+public class AddEditPropertyFragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "AddPropertyFregment";
+    private static final String TAG = "AddEditPropertyFragment";
 
     private boolean update = false;
 
@@ -41,7 +41,7 @@ public class AddPropertyFregment extends Fragment implements View.OnClickListene
     private IzdajRacunRepository repository;
     private RentalPropertyInfo propertyInfo;
 
-    public AddPropertyFregment() {}
+    public AddEditPropertyFragment() {}
 
 
     @Override

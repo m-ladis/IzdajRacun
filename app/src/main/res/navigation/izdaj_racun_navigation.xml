@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPropertyFragment"
-        android:name="hr.ml.izdajracun.view.AddPropertyFregment"
+        android:name="hr.ml.izdajracun.view.AddEditPropertyFragment"
         android:label="fragment_add_property_fregment"
         tools:layout="@layout/fragment_add_property_fregment" >
         <action
