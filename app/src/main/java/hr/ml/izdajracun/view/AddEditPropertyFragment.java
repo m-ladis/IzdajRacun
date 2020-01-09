@@ -4,6 +4,7 @@ package hr.ml.izdajracun.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
@@ -18,14 +19,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
-import hr.ml.izdajracun.repository.IzdajRacunRepository;
 import hr.ml.izdajracun.utils.InputFieldValidator;
+import hr.ml.izdajracun.viewmodel.AddEditPropertyViewModel;
 
 public class AddEditPropertyFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "AddEditPropertyFragment";
-
-    private boolean update = false;
 
     private Animation shake;
 
@@ -38,8 +37,9 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
     private EditText ownerIbanEditText;
     private EditText ownerOibEditText;
 
-    private IzdajRacunRepository repository;
     private RentalPropertyInfo propertyInfo;
+
+    private AddEditPropertyViewModel viewModel;
 
     public AddEditPropertyFragment() {}
 
@@ -50,10 +50,8 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
         View root = inflater
                 .inflate(R.layout.fragment_add_property_fregment, container, false);
 
-        if (getArguments() != null) {
-            propertyInfo = (RentalPropertyInfo) getArguments()
-                    .getSerializable("property");
-        }
+        viewModel = ViewModelProviders.of(this)
+                .get(AddEditPropertyViewModel.class);
 
         shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
 
@@ -67,10 +65,11 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
 
         doneButton.setOnClickListener(this);
 
-        repository = new IzdajRacunRepository(getActivity().getApplication());
+        if (getArguments() != null) {
+            propertyInfo = (RentalPropertyInfo) getArguments()
+                    .getSerializable("property");
 
-        if(propertyInfo != null){
-            update = true;
+            viewModel.setMode(AddEditPropertyViewModel.Mode.MODE_UPDATE);
 
             nameEditText.setText(propertyInfo.getName());
             addressEditText.setText(propertyInfo.getAddress());
@@ -130,12 +129,7 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
                 name, address, ownerFirstName,
                 ownerLastName, ownerIban, ownerOib);
 
-        if(update){
-            rentalPropertyInfo.setId(propertyInfo.getId());
-            repository.update(rentalPropertyInfo);
-        } else {
-            repository.insert(rentalPropertyInfo);
-        }
+        viewModel.handlePropertyInfo(rentalPropertyInfo);
 
         //navigate to PropertiesFragment
         NavHostFragment.findNavController(this)
