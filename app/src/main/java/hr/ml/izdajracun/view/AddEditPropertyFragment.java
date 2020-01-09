@@ -37,8 +37,6 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
     private EditText ownerIbanEditText;
     private EditText ownerOibEditText;
 
-    private RentalPropertyInfo propertyInfo;
-
     private AddEditPropertyViewModel viewModel;
 
     public AddEditPropertyFragment() {}
@@ -66,7 +64,7 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
         doneButton.setOnClickListener(this);
 
         if (getArguments() != null) {
-            propertyInfo = (RentalPropertyInfo) getArguments()
+            RentalPropertyInfo propertyInfo = (RentalPropertyInfo) getArguments()
                     .getSerializable("property");
 
             viewModel.setMode(AddEditPropertyViewModel.Mode.MODE_UPDATE);

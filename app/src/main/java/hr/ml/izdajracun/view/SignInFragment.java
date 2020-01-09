@@ -15,12 +15,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.Toast;
+
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
@@ -39,7 +41,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     private GoogleSignInClient googleSignInClient;
     private NavController navController;
 
-    private Button signInButton;
+    private SignInButton signInButton;
 
     public SignInFragment() {}
 
@@ -97,6 +99,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
             switch (resultCode){
                 case RESULT_CANCELED:
                     Log.d(TAG, "sign_in canceled");
+                    Toast.makeText(getContext(), R.string.sign_in_canceled_message,
+                            Toast.LENGTH_SHORT).show();
+
                     break;
 
                 case RESULT_FIRST_USER:

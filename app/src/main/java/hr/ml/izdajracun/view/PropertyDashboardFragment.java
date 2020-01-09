@@ -37,8 +37,12 @@ public class PropertyDashboardFragment extends Fragment {
         propertyInfo = (RentalPropertyInfo) getArguments().getSerializable("property");
 
         TextView propertyName = rootView.findViewById(R.id.property_name);
-        propertyName.setText(propertyInfo.getName());
+        TextView propertyAddress = rootView.findViewById(R.id.property_address);
+        TextView ownerName = rootView.findViewById(R.id.owner_name);
 
+        propertyName.setText(propertyInfo.getName());
+        propertyAddress.setText(propertyInfo.getAddress());
+        ownerName.setText(propertyInfo.getOwnerFirstName() + " " + propertyInfo.getOwnerLastName());
 
         return rootView;
     }

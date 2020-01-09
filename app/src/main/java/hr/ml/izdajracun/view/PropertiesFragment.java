@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -43,6 +44,8 @@ public class PropertiesFragment extends Fragment implements View.OnClickListener
         //getting references to UI
         addPropertyButton = root.findViewById(R.id.addNewProperty);
         propertiesRecyclerView = root.findViewById(R.id.properties);
+        propertiesRecyclerView.addItemDecoration(new DividerItemDecoration(
+                propertiesRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         //adding onClickListeners
         addPropertyButton.setOnClickListener(this);
