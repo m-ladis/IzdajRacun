@@ -6,6 +6,7 @@
     tools:context=".view.PropertyDashboardFragment">
 
     <TextView
+        android:id="@+id/property_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_property_dashboard_fragment" />

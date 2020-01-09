@@ -13,7 +13,6 @@
         <action
             android:id="@+id/action_signInFragment_to_propertiesFragment"
             app:destination="@id/propertiesFragment"
-            app:launchSingleTop="false"
             app:popUpTo="@+id/signInFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -24,19 +23,29 @@
         tools:layout="@layout/fragment_properties" >
         <action
             android:id="@+id/action_propertiesFragment_to_addPropertyFregment"
-            app:destination="@id/addPropertyFregment" />
+            app:destination="@id/addPropertyFragment" />
         <action
             android:id="@+id/action_propertiesFragment_to_propertyDashboard"
             app:destination="@id/propertyDashboard" />
     </fragment>
     <fragment
-        android:id="@+id/addPropertyFregment"
+        android:id="@+id/addPropertyFragment"
         android:name="hr.ml.izdajracun.view.AddPropertyFregment"
         android:label="fragment_add_property_fregment"
-        tools:layout="@layout/fragment_add_property_fregment" />
+        tools:layout="@layout/fragment_add_property_fregment" >
+        <action
+            android:id="@+id/action_addPropertyFregment_to_propertiesFragment"
+            app:destination="@id/propertiesFragment"
+            app:popUpTo="@id/propertiesFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/propertyDashboard"
         android:name="hr.ml.izdajracun.view.PropertyDashboardFragment"
         android:label="fragment_property_dashboard"
-        tools:layout="@layout/fragment_property_dashboard" />
+        tools:layout="@layout/fragment_property_dashboard" >
+        <action
+            android:id="@+id/action_propertyDashboard_to_addPropertyFregment"
+            app:destination="@id/addPropertyFragment" />
+    </fragment>
 </navigation>

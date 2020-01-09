@@ -25,6 +25,8 @@ public class AddPropertyFregment extends Fragment implements View.OnClickListene
 
     private static final String TAG = "AddPropertyFregment";
 
+    private boolean update = false;
+
     private Animation shake;
 
     private FloatingActionButton doneButton;
@@ -37,6 +39,7 @@ public class AddPropertyFregment extends Fragment implements View.OnClickListene
     private EditText ownerOibEditText;
 
     private IzdajRacunRepository repository;
+    private RentalPropertyInfo propertyInfo;
 
     public AddPropertyFregment() {}
 
@@ -46,6 +49,11 @@ public class AddPropertyFregment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         View root = inflater
                 .inflate(R.layout.fragment_add_property_fregment, container, false);
+
+        if (getArguments() != null) {
+            propertyInfo = (RentalPropertyInfo) getArguments()
+                    .getSerializable("property");
+        }
 
         shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
 
@@ -60,6 +68,17 @@ public class AddPropertyFregment extends Fragment implements View.OnClickListene
         doneButton.setOnClickListener(this);
 
         repository = new IzdajRacunRepository(getActivity().getApplication());
+
+        if(propertyInfo != null){
+            update = true;
+
+            nameEditText.setText(propertyInfo.getName());
+            addressEditText.setText(propertyInfo.getAddress());
+            ownerFirstNameEditText.setText(propertyInfo.getOwnerFirstName());
+            ownerLastNameEditText.setText(propertyInfo.getOwnerLastName());
+            ownerIbanEditText.setText(propertyInfo.getOwnerIBAN());
+            ownerOibEditText.setText(propertyInfo.getOwnerOIB());
+        }
 
         return root;
     }
@@ -106,15 +125,21 @@ public class AddPropertyFregment extends Fragment implements View.OnClickListene
         }
 
         //At this point all validation passed
+
         RentalPropertyInfo rentalPropertyInfo = new RentalPropertyInfo(
                 name, address, ownerFirstName,
                 ownerLastName, ownerIban, ownerOib);
 
-        repository.insert(rentalPropertyInfo);
+        if(update){
+            rentalPropertyInfo.setId(propertyInfo.getId());
+            repository.update(rentalPropertyInfo);
+        } else {
+            repository.insert(rentalPropertyInfo);
+        }
 
         //navigate to PropertiesFragment
         NavHostFragment.findNavController(this)
-                .popBackStack();
+                .navigate(R.id.action_addPropertyFregment_to_propertiesFragment);
     }
 
     private void startAnimationOnFirstEmptyEditText(EditText...editTexts){
