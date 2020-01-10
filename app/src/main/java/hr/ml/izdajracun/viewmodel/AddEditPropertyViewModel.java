@@ -4,9 +4,11 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.repository.IzdajRacunRepository;
+import hr.ml.izdajracun.utils.InputFieldValidator;
 
 public class AddEditPropertyViewModel extends AndroidViewModel {
 
@@ -16,6 +18,12 @@ public class AddEditPropertyViewModel extends AndroidViewModel {
         MODE_ADD, MODE_UPDATE
     }
 
+    public enum DataValidationStatus {
+        VALID, DATA_HAS_EMPTY_FIELD, OIB_NOT_VALID, IBAN_NOT_VALID, NONE
+    }
+
+    public MutableLiveData<DataValidationStatus> dataValidationStatus = new MutableLiveData<>();
+
     private Mode mode;
     private RentalPropertyInfo propertyInfoToUpdate;
     private IzdajRacunRepository repository;
@@ -24,6 +32,7 @@ public class AddEditPropertyViewModel extends AndroidViewModel {
         super(application);
 
         repository = new IzdajRacunRepository(application);
+        dataValidationStatus.setValue(DataValidationStatus.NONE);
         mode = Mode.MODE_ADD;
     }
 
@@ -36,19 +45,44 @@ public class AddEditPropertyViewModel extends AndroidViewModel {
     }
 
     public void handlePropertyInfo(RentalPropertyInfo propertyInfo){
-        switch (mode){
-            case MODE_ADD:
-                insert(propertyInfo);
-                break;
+        if(isPropertyInfoDataValid(propertyInfo)){
+            switch (mode){
+                case MODE_ADD:
+                    insert(propertyInfo);
+                    break;
 
-            case MODE_UPDATE:
-                if(propertyInfoToUpdate != null){
-                    propertyInfo.setId(propertyInfoToUpdate.getId());
-                    update(propertyInfo);
-                }
+                case MODE_UPDATE:
+                    if(propertyInfoToUpdate != null){
+                        propertyInfo.setId(propertyInfoToUpdate.getId());
+                        update(propertyInfo);
+                    }
 
-                break;
+                    break;
+            }
         }
+    }
+
+    private boolean isPropertyInfoDataValid(RentalPropertyInfo propertyInfo) {
+        if(InputFieldValidator.isAnyStringEmpty(propertyInfo.getName(), propertyInfo.getAddress(),
+                propertyInfo.getOwnerFirstName(), propertyInfo.getOwnerLastName(),
+                propertyInfo.getOwnerOIB(), propertyInfo.getOwnerIBAN())){
+
+            dataValidationStatus.setValue(DataValidationStatus.DATA_HAS_EMPTY_FIELD);
+            return false;
+        }
+
+        if(!InputFieldValidator.isOib(propertyInfo.getOwnerOIB())){
+            dataValidationStatus.setValue(DataValidationStatus.OIB_NOT_VALID);
+            return false;
+        }
+
+        if(!InputFieldValidator.isHrIban(propertyInfo.getOwnerIBAN())){
+            dataValidationStatus.setValue(DataValidationStatus.IBAN_NOT_VALID);
+            return false;
+        }
+
+        dataValidationStatus.setValue(DataValidationStatus.VALID);
+        return true;
     }
 
     private void insert(RentalPropertyInfo propertyInfo){

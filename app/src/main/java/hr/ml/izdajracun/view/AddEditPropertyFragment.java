@@ -4,6 +4,7 @@ package hr.ml.izdajracun.view;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -19,10 +20,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
-import hr.ml.izdajracun.utils.InputFieldValidator;
 import hr.ml.izdajracun.viewmodel.AddEditPropertyViewModel;
 
-public class AddEditPropertyFragment extends Fragment implements View.OnClickListener {
+
+public class AddEditPropertyFragment extends Fragment implements View.OnClickListener, Observer<AddEditPropertyViewModel.DataValidationStatus>{
 
     private static final String TAG = "AddEditPropertyFragment";
 
@@ -78,7 +79,31 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
             ownerOibEditText.setText(propertyInfo.getOwnerOIB());
         }
 
+        viewModel.dataValidationStatus.observe(this, this);
+
         return root;
+    }
+
+    @Override
+    public void onChanged(AddEditPropertyViewModel.DataValidationStatus validationStatus) {
+        switch (validationStatus){
+            case DATA_HAS_EMPTY_FIELD:
+                startAnimationOnFirstEmptyEditText(nameEditText, ownerFirstNameEditText,
+                        ownerLastNameEditText, ownerOibEditText,
+                        ownerIbanEditText, addressEditText);
+
+                break;
+            case OIB_NOT_VALID:
+                showOibNotValid();
+                break;
+            case IBAN_NOT_VALID:
+                showIbanNotValid();
+                break;
+            case VALID:
+                NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_addPropertyFregment_to_propertiesFragment);
+                break;
+        }
     }
 
     @Override
@@ -96,33 +121,6 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
         String ownerIban = ownerIbanEditText.getText().toString().trim();
         String ownerOib = ownerOibEditText.getText().toString().trim();
 
-        if(InputFieldValidator.isAnyStringEmpty(name, address, ownerFirstName,
-                ownerLastName, ownerIban, ownerOib)){
-
-            startAnimationOnFirstEmptyEditText(nameEditText, ownerFirstNameEditText,
-                    ownerLastNameEditText, ownerOibEditText,
-                    ownerIbanEditText, addressEditText);
-
-            return;
-        }
-
-        if(!InputFieldValidator.isOib(ownerOib)){
-            Toast.makeText(getContext(), R.string.non_valid_oib_toast_content, Toast.LENGTH_SHORT)
-                    .show();
-
-            startAnimationOnView(ownerOibEditText);
-            return;
-        }
-
-        if(!InputFieldValidator.isHrIban(ownerIban)){
-            Toast.makeText(getContext(), R.string.non_valid_iban_toast_content, Toast.LENGTH_SHORT)
-                    .show();
-
-            startAnimationOnView(ownerIbanEditText);
-            return;
-        }
-
-        //At this point all validation passed
 
         RentalPropertyInfo rentalPropertyInfo = new RentalPropertyInfo(
                 name, address, ownerFirstName,
@@ -130,9 +128,20 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
 
         viewModel.handlePropertyInfo(rentalPropertyInfo);
 
-        //navigate to PropertiesFragment
-        NavHostFragment.findNavController(this)
-                .navigate(R.id.action_addPropertyFregment_to_propertiesFragment);
+    }
+
+    private void showIbanNotValid() {
+        Toast.makeText(getContext(), R.string.non_valid_oib_toast_content, Toast.LENGTH_SHORT)
+                .show();
+
+        startAnimationOnView(ownerOibEditText);
+    }
+
+    private void showOibNotValid() {
+        Toast.makeText(getContext(), R.string.non_valid_iban_toast_content, Toast.LENGTH_SHORT)
+                .show();
+
+        startAnimationOnView(ownerIbanEditText);
     }
 
     private void startAnimationOnFirstEmptyEditText(EditText...editTexts){
