@@ -30,6 +30,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
     private FloatingActionButton incrementYearButton;
     private FloatingActionButton decrementYearButton;
+    private FloatingActionButton newInvoiceButton;
 
     SelectedYearViewModel selectedYearViewModel;
 
@@ -47,6 +48,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         propertyInfo = (RentalPropertyInfo) getArguments().getSerializable("property");
 
         //getting references to UI
+        newInvoiceButton = rootView.findViewById(R.id.new_invoice);
         incrementYearButton = rootView.findViewById(R.id.increment_year);
         decrementYearButton = rootView.findViewById(R.id.decrement_year);
         TextView propertyNameTextView = rootView.findViewById(R.id.property_name);
@@ -63,6 +65,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         //set listeners
         incrementYearButton.setOnClickListener(this);
         decrementYearButton.setOnClickListener(this);
+        newInvoiceButton.setOnClickListener(this);
 
         selectedYearViewModel = ViewModelProviders.of(this)
                 .get(SelectedYearViewModel.class);
@@ -104,6 +107,12 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
             selectedYearViewModel.incrementYear();
         } else if (v == decrementYearButton){
             selectedYearViewModel.decrementYear();
+        } else if (v == newInvoiceButton){
+            Bundle args = new Bundle();
+            args.putSerializable("property", propertyInfo);
+
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_propertyDashboard_to_invoiceFragment, args);
         }
     }
 }
