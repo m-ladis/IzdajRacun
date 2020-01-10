@@ -20,7 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
-import hr.ml.izdajracun.viewmodel.SelectedYearViewModel;
+import hr.ml.izdajracun.viewmodel.PropertyDashboardViewModel;
 
 public class PropertyDashboardFragment extends Fragment implements View.OnClickListener {
 
@@ -32,7 +32,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
     private FloatingActionButton decrementYearButton;
     private FloatingActionButton newInvoiceButton;
 
-    SelectedYearViewModel selectedYearViewModel;
+    PropertyDashboardViewModel propertyDashboardViewModel;
 
     public PropertyDashboardFragment() {
     }
@@ -67,10 +67,10 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         decrementYearButton.setOnClickListener(this);
         newInvoiceButton.setOnClickListener(this);
 
-        selectedYearViewModel = ViewModelProviders.of(this)
-                .get(SelectedYearViewModel.class);
+        propertyDashboardViewModel = ViewModelProviders.of(this)
+                .get(PropertyDashboardViewModel.class);
 
-        selectedYearViewModel.selectedYear.observe(this, new Observer<Integer>() {
+        propertyDashboardViewModel.selectedYear.observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer year) {
                 currentYearTextView.setText(String.valueOf(year));
@@ -104,9 +104,9 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
     @Override
     public void onClick(View v) {
         if(v == incrementYearButton){
-            selectedYearViewModel.incrementYear();
+            propertyDashboardViewModel.incrementYear();
         } else if (v == decrementYearButton){
-            selectedYearViewModel.decrementYear();
+            propertyDashboardViewModel.decrementYear();
         } else if (v == newInvoiceButton){
             Bundle args = new Bundle();
             args.putSerializable("property", propertyInfo);

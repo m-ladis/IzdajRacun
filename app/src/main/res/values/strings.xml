@@ -22,8 +22,9 @@
     <string name="select_property_label">Izaberite smještajnu\njedinicu</string>
 
     <string name="hello_property_dashboard_fragment">Hello property dashboard fragment</string>
+
     <string name="edit_property_info_menu_item">Izmjeni podatke objekta</string>
-    <string name="broj_racuna_hint">Broj računa</string>
+    <string name="invoice_number_label">Broj računa</string>
     <string name="customer_name_hint">Puni naziv unajmitelja usluge</string>
     <string name="quantity_label">Broj noćenja :</string>
     <string name="unit_prica_label">Cijena noćenja iz cjenika :</string>

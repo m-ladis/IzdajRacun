@@ -22,7 +22,7 @@ import java.util.List;
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.adapter.PropertiesAdapter;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
-import hr.ml.izdajracun.viewmodel.RentalPropertyViewModel;
+import hr.ml.izdajracun.viewmodel.PropertiesViewModel;
 
 public class PropertiesFragment extends Fragment implements View.OnClickListener {
 
@@ -57,10 +57,10 @@ public class PropertiesFragment extends Fragment implements View.OnClickListener
         adapter = new PropertiesAdapter(getContext());
         propertiesRecyclerView.setAdapter(adapter);
 
-        RentalPropertyViewModel propertyViewModel = ViewModelProviders.of(this)
-                .get(RentalPropertyViewModel.class);
+        PropertiesViewModel viewModel = ViewModelProviders.of(this)
+                .get(PropertiesViewModel.class);
 
-        propertyViewModel.properties.observe(this, new Observer<List<RentalPropertyInfo>>() {
+        viewModel.properties.observe(this, new Observer<List<RentalPropertyInfo>>() {
             @Override
             public void onChanged(List<RentalPropertyInfo> rentalPropertyInfos) {
                 adapter.setProperties(rentalPropertyInfos);

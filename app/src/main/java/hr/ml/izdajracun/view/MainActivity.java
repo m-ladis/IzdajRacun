@@ -16,13 +16,13 @@ import android.view.MenuItem;
 
 
 import hr.ml.izdajracun.R;
-import hr.ml.izdajracun.viewmodel.GoogleSignInViewModel;
+import hr.ml.izdajracun.viewmodel.MainActivityViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private GoogleSignInViewModel googleSignInViewModel;
+    private MainActivityViewModel viewModel;
     private NavController navController;
 
     @Override
@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
 
-        googleSignInViewModel = ViewModelProviders.of(this).get(GoogleSignInViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
-        googleSignInViewModel.authState
-                .observe(this, new Observer<GoogleSignInViewModel.AuthState>() {
+        viewModel.authState
+                .observe(this, new Observer<MainActivityViewModel.AuthState>() {
             @Override
-            public void onChanged(GoogleSignInViewModel.AuthState authState) {
+            public void onChanged(MainActivityViewModel.AuthState authState) {
                 switch (authState){
                     case UNAUTHENTICATED:
                         Log.d(TAG, "UNAUTHENTICATED");
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        googleSignInViewModel.checkAuthState();
+        viewModel.checkAuthState();
     }
 
     @Override
@@ -76,6 +76,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sign_out() {
-        googleSignInViewModel.signOut();
+        viewModel.signOut();
     }
 }

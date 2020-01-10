@@ -15,7 +15,7 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class GoogleSignInViewModel extends AndroidViewModel {
+public class MainActivityViewModel extends AndroidViewModel {
 
     public enum AuthState {
         AUTHENTICATED, UNAUTHENTICATED
@@ -27,7 +27,7 @@ public class GoogleSignInViewModel extends AndroidViewModel {
     private Application application;
     private GoogleSignInClient googleSignInClient;
 
-    public GoogleSignInViewModel(@NonNull Application application) {
+    public MainActivityViewModel(@NonNull Application application) {
         super(application);
 
         this.application = application;
@@ -35,7 +35,7 @@ public class GoogleSignInViewModel extends AndroidViewModel {
 
         GoogleSignInOptions signInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestScopes(GoogleSignInViewModel.scopes)
+                        .requestScopes(MainActivityViewModel.scopes)
                         .build();
 
         googleSignInClient = GoogleSignIn.getClient(application, signInOptions);

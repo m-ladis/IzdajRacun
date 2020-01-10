@@ -3,10 +3,12 @@ package hr.ml.izdajracun.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
+import hr.ml.izdajracun.repository.IzdajRacunRepository;
 
-public class AddEditPropertyViewModel extends RentalPropertyViewModel {
+public class AddEditPropertyViewModel extends AndroidViewModel {
 
     private static final String TAG = "AddEditPropertyVM";
 
@@ -16,10 +18,12 @@ public class AddEditPropertyViewModel extends RentalPropertyViewModel {
 
     private Mode mode;
     private RentalPropertyInfo propertyInfoToUpdate;
+    private IzdajRacunRepository repository;
 
     public AddEditPropertyViewModel(@NonNull Application application) {
         super(application);
 
+        repository = new IzdajRacunRepository(application);
         mode = Mode.MODE_ADD;
     }
 
@@ -45,5 +49,13 @@ public class AddEditPropertyViewModel extends RentalPropertyViewModel {
 
                 break;
         }
+    }
+
+    private void insert(RentalPropertyInfo propertyInfo){
+        repository.insert(propertyInfo);
+    }
+
+    private void update(RentalPropertyInfo propertyInfo){
+        repository.update(propertyInfo);
     }
 }

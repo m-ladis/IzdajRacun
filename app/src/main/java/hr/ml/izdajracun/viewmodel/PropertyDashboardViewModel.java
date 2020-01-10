@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel;
 
 import hr.ml.izdajracun.utils.CustomTimeUtils;
 
-public class SelectedYearViewModel extends ViewModel {
+public class PropertyDashboardViewModel extends ViewModel {
 
     public MutableLiveData<Integer> selectedYear = new MutableLiveData<>();
 
-    public SelectedYearViewModel() {
+    public PropertyDashboardViewModel() {
         selectedYear.setValue(CustomTimeUtils.getCurrentYear());
     }
 

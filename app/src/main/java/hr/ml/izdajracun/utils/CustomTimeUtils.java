@@ -10,4 +10,16 @@ public class CustomTimeUtils {
 
         return calendar.get(Calendar.YEAR);
     }
+
+    public static Integer getCurrentMonth(){
+        Calendar calendar = new GregorianCalendar(Locale.getDefault());
+
+        return calendar.get(Calendar.MONTH);
+    }
+
+    public static Integer getCurrentDay(){
+        Calendar calendar = new GregorianCalendar(Locale.getDefault());
+
+        return calendar.get(Calendar.DATE);
+    }
 }

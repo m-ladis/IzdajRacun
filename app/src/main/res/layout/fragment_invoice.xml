@@ -6,68 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".view.InvoiceFragment">
 
-    <TextView
-        android:id="@+id/invoice_number_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/broj_racuna_hint"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/invoice_number"
         style="@android:style/Widget.Material.Light.EditText"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:ems="10"
-        android:focusable="false"
+        android:layout_marginTop="16dp"
+        android:ems="5"
         android:longClickable="false"
         android:maxLength="9"
+        android:inputType="number"
+        android:hint="@string/invoice_number_label"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/increment_invoice_number"
-        app:layout_constraintStart_toEndOf="@+id/decrement_invoice_number"
-        app:layout_constraintTop_toBottomOf="@+id/invoice_number_label" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/increment_invoice_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="75dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        app:elevation="0dp"
-        app:fabSize="mini"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_chevron_right_black" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/decrement_invoice_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="58dp"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:elevation="0dp"
-        app:fabSize="mini"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_chevron_left_black" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/customer_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="@string/customer_name_hint"
@@ -195,7 +157,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description"
         app:srcCompat="@drawable/ic_date_range_black" />
@@ -204,7 +166,7 @@
         android:id="@+id/date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:focusable="false"
         android:hint="@string/date_hint"
@@ -215,7 +177,7 @@
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/spremi"
+        android:id="@+id/invoice_done_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

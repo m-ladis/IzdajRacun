@@ -27,7 +27,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 import hr.ml.izdajracun.R;
-import hr.ml.izdajracun.viewmodel.GoogleSignInViewModel;
+import hr.ml.izdajracun.viewmodel.MainActivityViewModel;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_FIRST_USER;
@@ -61,7 +61,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
         GoogleSignInOptions signInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestScopes(GoogleSignInViewModel.scopes)
+                        .requestScopes(MainActivityViewModel.scopes)
                         .build();
 
         googleSignInClient = GoogleSignIn.getClient(getContext(), signInOptions);
@@ -141,7 +141,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         boolean signedInWithScopes = false;
 
         if(account != null){
-            if(GoogleSignIn.hasPermissions(account, GoogleSignInViewModel.scopes)) {
+            if(GoogleSignIn.hasPermissions(account, MainActivityViewModel.scopes)) {
                 signedInWithScopes = true;
             }
         }
