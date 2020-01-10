@@ -6,53 +6,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.PropertyDashboardFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <RelativeLayout
+        android:id="@+id/property_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:padding="16dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
+        <TextView
+            android:id="@+id/property_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/property_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/property_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/property_name"
+            android:layout_centerHorizontal="true" />
 
-            <TextView
-                android:id="@+id/property_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/property_name"/>
+        <TextView
+            android:id="@+id/owner_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/property_address"
+            android:layout_centerHorizontal="true" />
 
-            <TextView
-                android:id="@+id/owner_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/property_address"/>
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/decrement_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_below="@+id/property_info"
         android:layout_marginTop="12dp"
-        app:elevation="0dp"
-        app:fabSize="mini"
-        android:layout_below="@+id/cardView"
+        android:layout_marginEnd="32dp"
         android:layout_toStartOf="@id/year"
-        android:src="@drawable/ic_chevron_left_black"/>
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:src="@drawable/ic_chevron_left_black"
+        app:fabSize="mini" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/increment_year"
@@ -60,9 +55,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
-        app:elevation="0dp"
+        android:backgroundTint="@color/colorPrimaryDark"
         app:fabSize="mini"
-        android:layout_below="@id/cardView"
+        android:layout_below="@id/property_info"
         android:layout_toEndOf="@id/year"
         android:src="@drawable/ic_chevron_right_black"/>
 
@@ -74,7 +69,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="15dp"
         android:textSize="24sp"
-        android:layout_below="@id/cardView"
+        android:layout_below="@id/property_info"
         android:layout_centerHorizontal="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
