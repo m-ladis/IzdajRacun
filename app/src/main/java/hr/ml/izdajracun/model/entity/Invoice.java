@@ -17,6 +17,7 @@ public class Invoice {
     private double totalPrice;
     private String description;
     private Calendar date;
+    private int year;
 
     public Invoice(int id, int number, String customerName, int quantity, double unitPrice,
                    double totalPrice, String description, Calendar date) {
@@ -28,6 +29,7 @@ public class Invoice {
         this.totalPrice = totalPrice;
         this.description = description;
         this.date = date;
+        this.year = date.get(Calendar.YEAR);
     }
 
     public void setId(int id) {
@@ -64,5 +66,9 @@ public class Invoice {
 
     public Calendar getDate() {
         return date;
+    }
+
+    public int getYear() {
+        return year;
     }
 }
