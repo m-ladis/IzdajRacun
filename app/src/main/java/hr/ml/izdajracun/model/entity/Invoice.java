@@ -32,6 +32,10 @@ public class Invoice {
         this.year = date.get(Calendar.YEAR);
     }
 
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

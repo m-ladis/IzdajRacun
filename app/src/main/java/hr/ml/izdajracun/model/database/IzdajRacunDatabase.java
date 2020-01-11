@@ -7,14 +7,17 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import hr.ml.izdajracun.model.dao.InvoiceDao;
 import hr.ml.izdajracun.model.dao.RentalPropertyInfoDao;
 import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
+import hr.ml.izdajracun.model.entity.typeconverter.CalendarTypeConverter;
 
-@Database(entities = {RentalPropertyInfo.class, Invoice.class}, version = 1)
+@Database(entities = {RentalPropertyInfo.class, Invoice.class}, version = 2)
+@TypeConverters(value = CalendarTypeConverter.class)
 public abstract class IzdajRacunDatabase extends RoomDatabase {
 
     private static IzdajRacunDatabase database;

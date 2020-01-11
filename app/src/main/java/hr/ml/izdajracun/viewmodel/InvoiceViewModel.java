@@ -8,12 +8,21 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.Calendar;
 
+import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.repository.InvoiceRepository;
+
 public class InvoiceViewModel extends AndroidViewModel {
 
     private MutableLiveData<Calendar> invoiceDate = new MutableLiveData<>();
+    private InvoiceRepository invoiceRepository;
 
     public InvoiceViewModel(@NonNull Application application) {
         super(application);
+        invoiceRepository = new InvoiceRepository(application);
+    }
+
+    public void insert(Invoice invoice){
+        invoiceRepository.insert(invoice);
     }
 
     public void setYearMonthDay(int year, int month, int day){
