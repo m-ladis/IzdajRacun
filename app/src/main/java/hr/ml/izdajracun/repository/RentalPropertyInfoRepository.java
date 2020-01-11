@@ -11,12 +11,12 @@ import hr.ml.izdajracun.model.dao.RentalPropertyInfoDao;
 import hr.ml.izdajracun.model.database.IzdajRacunDatabase;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 
-public class IzdajRacunRepository {
+public class RentalPropertyInfoRepository {
 
     private RentalPropertyInfoDao rentalPropertyInfoDao;
     private LiveData<List<RentalPropertyInfo>> propertiesInfo;
 
-    public IzdajRacunRepository(Application application) {
+    public RentalPropertyInfoRepository(Application application) {
         IzdajRacunDatabase database = IzdajRacunDatabase.getInstance(application);
         rentalPropertyInfoDao = database.rentalPropertyInfoDao();
         propertiesInfo = rentalPropertyInfoDao.getAllRentalPropertiesInfo();

@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
-import hr.ml.izdajracun.repository.IzdajRacunRepository;
+import hr.ml.izdajracun.repository.RentalPropertyInfoRepository;
 import hr.ml.izdajracun.utils.InputFieldValidator;
 
 public class AddEditPropertyViewModel extends AndroidViewModel {
@@ -26,12 +26,12 @@ public class AddEditPropertyViewModel extends AndroidViewModel {
 
     private Mode mode;
     private RentalPropertyInfo propertyInfoToUpdate;
-    private IzdajRacunRepository repository;
+    private RentalPropertyInfoRepository repository;
 
     public AddEditPropertyViewModel(@NonNull Application application) {
         super(application);
 
-        repository = new IzdajRacunRepository(application);
+        repository = new RentalPropertyInfoRepository(application);
         dataValidationStatus.setValue(DataValidationStatus.NONE);
         mode = Mode.MODE_ADD;
     }

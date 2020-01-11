@@ -9,17 +9,17 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
-import hr.ml.izdajracun.repository.IzdajRacunRepository;
+import hr.ml.izdajracun.repository.RentalPropertyInfoRepository;
 
 public class PropertiesViewModel extends AndroidViewModel {
 
-    private IzdajRacunRepository repository;
+    private RentalPropertyInfoRepository repository;
     public LiveData<List<RentalPropertyInfo>> properties;
 
     public PropertiesViewModel(@NonNull Application application) {
         super(application);
 
-        repository = new IzdajRacunRepository(application);
+        repository = new RentalPropertyInfoRepository(application);
         properties = repository.getAllPropertiesInfo();
     }
 

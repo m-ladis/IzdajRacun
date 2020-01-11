@@ -9,15 +9,19 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import hr.ml.izdajracun.model.dao.InvoiceDao;
 import hr.ml.izdajracun.model.dao.RentalPropertyInfoDao;
+import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 
-@Database(entities = RentalPropertyInfo.class, version = 1)
+@Database(entities = {RentalPropertyInfo.class, Invoice.class}, version = 1)
 public abstract class IzdajRacunDatabase extends RoomDatabase {
 
     private static IzdajRacunDatabase database;
 
     public abstract RentalPropertyInfoDao rentalPropertyInfoDao();
+
+    public abstract InvoiceDao invoiceDao();
 
     public static synchronized IzdajRacunDatabase getInstance(Context context){
         if(database == null){
