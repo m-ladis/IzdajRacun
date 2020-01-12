@@ -8,23 +8,17 @@ import androidx.lifecycle.MutableLiveData;
 
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.repository.RentalPropertyInfoRepository;
+import hr.ml.izdajracun.utils.DataValidationStatus;
 import hr.ml.izdajracun.utils.InputFieldValidator;
+import hr.ml.izdajracun.utils.ViewModelMode;
 
 public class AddEditPropertyViewModel extends AndroidViewModel {
 
     private static final String TAG = "AddEditPropertyVM";
 
-    public enum Mode {
-        MODE_ADD, MODE_UPDATE
-    }
-
-    public enum DataValidationStatus {
-        VALID, DATA_HAS_EMPTY_FIELD, OIB_NOT_VALID, IBAN_NOT_VALID, NONE
-    }
-
     public MutableLiveData<DataValidationStatus> dataValidationStatus = new MutableLiveData<>();
 
-    private Mode mode;
+    private ViewModelMode mode;
     private RentalPropertyInfo propertyInfoToUpdate;
     private RentalPropertyInfoRepository repository;
 
@@ -33,10 +27,10 @@ public class AddEditPropertyViewModel extends AndroidViewModel {
 
         repository = new RentalPropertyInfoRepository(application);
         dataValidationStatus.setValue(DataValidationStatus.NONE);
-        mode = Mode.MODE_ADD;
+        mode = ViewModelMode.MODE_ADD;
     }
 
-    public void setMode(Mode mode) {
+    public void setMode(ViewModelMode mode) {
         this.mode = mode;
     }
 
