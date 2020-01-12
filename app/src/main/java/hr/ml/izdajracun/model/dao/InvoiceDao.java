@@ -23,6 +23,6 @@ public interface InvoiceDao {
     @Delete
     void delete(Invoice invoice);
 
-    @Query(value = "SELECT * FROM invoice WHERE year = :year ORDER BY number ASC ")
-    LiveData<List<Invoice>> getAllInvoicesInYear(int year);
+    @Query(value = "SELECT * FROM invoice WHERE year = :year AND propertyId = :propertyId ORDER BY number ASC ")
+    LiveData<List<Invoice>> getAllInvoicesInYear(int propertyId, int year);
 }

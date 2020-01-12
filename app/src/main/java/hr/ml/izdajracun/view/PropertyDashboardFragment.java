@@ -87,6 +87,8 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
         propertyDashboardViewModel = ViewModelProviders.of(this)
                 .get(PropertyDashboardViewModel.class);
+        propertyDashboardViewModel.setPropertyId(propertyInfo.getId());
+        propertyDashboardViewModel.updateInvoices();
 
         Navigation.setViewNavController(invoicesRecyclerView,
                 NavHostFragment.findNavController(this));
@@ -97,7 +99,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
                 currentYearTextView.setText(integer.toString());
 
                 propertyDashboardViewModel.invoices.removeObservers(getViewLifecycleOwner());
-                propertyDashboardViewModel.invoiceYearChanged();
+                propertyDashboardViewModel.updateInvoices();
                 propertyDashboardViewModel.invoices.observe(getViewLifecycleOwner(),
                         new Observer<List<Invoice>>() {
                     @Override

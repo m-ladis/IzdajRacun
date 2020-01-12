@@ -32,8 +32,8 @@ public class InvoiceRepository {
         new DeleteInvoiceAsyncTask(invoiceDao).execute(invoice);
     }
 
-    public LiveData<List<Invoice>> getAllInvoicesInYear(int year){
-        return invoiceDao.getAllInvoicesInYear(year);
+    public LiveData<List<Invoice>> getAllInvoicesInYear(int propertyId, int year){
+        return invoiceDao.getAllInvoicesInYear(propertyId, year);
     }
 
     private static class InsertInvoiceAsyncTask

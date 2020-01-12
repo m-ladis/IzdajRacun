@@ -22,6 +22,7 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
 
     private InvoiceRepository invoiceRepository;
     private RentalPropertyInfoRepository propertyInfoRepository;
+    private int propertyInfoId;
 
     public PropertyDashboardViewModel(@NonNull Application application) {
         super(application);
@@ -32,11 +33,10 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
         int year = CustomTimeUtils.getCurrentYear();
 
         selectedYear.setValue(year);
-        invoices = invoiceRepository.getAllInvoicesInYear(year);
     }
 
-    public void invoiceYearChanged(){
-        invoices = invoiceRepository.getAllInvoicesInYear(selectedYear.getValue());
+    public void updateInvoices(){
+        invoices = invoiceRepository.getAllInvoicesInYear(propertyInfoId, selectedYear.getValue());
     }
 
     public void deleteAllPropertyData(RentalPropertyInfo propertyInfo){
@@ -49,5 +49,9 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
 
     public void decrementYear(){
         selectedYear.setValue(selectedYear.getValue() - 1);
+    }
+
+    public void setPropertyId(int propertyInfoId) {
+        this.propertyInfoId = propertyInfoId;
     }
 }
