@@ -1,16 +1,38 @@
 package hr.ml.izdajracun.viewmodel;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import java.util.List;
+
+import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.repository.InvoiceRepository;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
 
-public class PropertyDashboardViewModel extends ViewModel {
+public class PropertyDashboardViewModel extends AndroidViewModel {
 
     public MutableLiveData<Integer> selectedYear = new MutableLiveData<>();
+    public LiveData<List<Invoice>> invoices;
 
-    public PropertyDashboardViewModel() {
-        selectedYear.setValue(CustomTimeUtils.getCurrentYear());
+    private InvoiceRepository invoiceRepository;
+
+    public PropertyDashboardViewModel(@NonNull Application application) {
+        super(application);
+
+        invoiceRepository = new InvoiceRepository(application);
+
+        int year = CustomTimeUtils.getCurrentYear();
+
+        selectedYear.setValue(year);
+        invoices = invoiceRepository.getAllInvoicesInYear(year);
+    }
+
+    public void invoiceYearChanged(){
+        invoices = invoiceRepository.getAllInvoicesInYear(selectedYear.getValue());
     }
 
     public void incrementYear(){

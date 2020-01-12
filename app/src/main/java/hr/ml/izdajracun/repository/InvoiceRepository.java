@@ -14,7 +14,6 @@ import hr.ml.izdajracun.model.entity.Invoice;
 public class InvoiceRepository {
 
     private InvoiceDao invoiceDao;
-    private LiveData<List<Invoice>> invoices;
 
     public InvoiceRepository(Application application) {
         IzdajRacunDatabase database = IzdajRacunDatabase.getInstance(application);
@@ -34,7 +33,7 @@ public class InvoiceRepository {
     }
 
     public LiveData<List<Invoice>> getAllInvoicesInYear(int year){
-        return invoices;
+        return invoiceDao.getAllInvoicesInYear(year);
     }
 
     private static class InsertInvoiceAsyncTask

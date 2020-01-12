@@ -19,17 +19,18 @@ public class Invoice {
     private Calendar date;
     private int year;
 
-    public Invoice(int id, int number, String customerName, int quantity, double unitPrice,
-                   double totalPrice, String description, Calendar date) {
-        this.id = id;
+    public Invoice(int number, String customerName, int quantity, double unitPrice,
+                   double totalPrice, String description) {
         this.number = number;
         this.customerName = customerName;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
         this.description = description;
+    }
+
+    public void setDate(Calendar date) {
         this.date = date;
-        this.year = date.get(Calendar.YEAR);
     }
 
     public void setYear(int year) {

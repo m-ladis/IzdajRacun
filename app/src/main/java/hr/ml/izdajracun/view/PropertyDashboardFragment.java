@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,12 +19,16 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 import hr.ml.izdajracun.R;
+import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.viewmodel.PropertyDashboardViewModel;
 
-public class PropertyDashboardFragment extends Fragment implements View.OnClickListener {
+public class PropertyDashboardFragment extends Fragment implements View.OnClickListener, Observer {
 
+    private static final String TAG = "PropertyDashboard";
     private static final int editMenuItemId = 1000;
 
     private RentalPropertyInfo propertyInfo;
@@ -33,6 +38,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
     private FloatingActionButton newInvoiceButton;
 
     PropertyDashboardViewModel propertyDashboardViewModel;
+    private TextView currentYearTextView;
 
     public PropertyDashboardFragment() {
     }
@@ -54,7 +60,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         TextView propertyNameTextView = rootView.findViewById(R.id.property_name);
         TextView propertyAddressTextView = rootView.findViewById(R.id.property_address);
         TextView ownerNameTextView = rootView.findViewById(R.id.owner_name);
-        final TextView currentYearTextView = rootView.findViewById(R.id.year);
+        currentYearTextView = rootView.findViewById(R.id.year);
 
         //add content to views
         propertyNameTextView.setText(propertyInfo.getName());
@@ -70,12 +76,8 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         propertyDashboardViewModel = ViewModelProviders.of(this)
                 .get(PropertyDashboardViewModel.class);
 
-        propertyDashboardViewModel.selectedYear.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer year) {
-                currentYearTextView.setText(String.valueOf(year));
-            }
-        });
+        propertyDashboardViewModel.selectedYear.observe(this, this);
+        propertyDashboardViewModel.invoices.observe(this, this);
 
         return rootView;
     }
@@ -113,6 +115,22 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_propertyDashboard_to_invoiceFragment, args);
+        }
+    }
+
+    @Override
+    public void onChanged(Object o) {
+        if(o instanceof List){
+            List<Invoice> invoices = (List<Invoice>) o;
+            for(Invoice invoice : invoices){
+                Log.d(TAG, invoice.getCustomerName());
+            }
+
+        } else if (o instanceof Integer){
+            currentYearTextView.setText(o.toString());
+            propertyDashboardViewModel.invoices.removeObservers(this);
+            propertyDashboardViewModel.invoiceYearChanged();
+            propertyDashboardViewModel.invoices.observe(this, this);
         }
     }
 }

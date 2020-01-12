@@ -14,9 +14,12 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Calendar;
 
 import hr.ml.izdajracun.R;
+import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
 import hr.ml.izdajracun.viewmodel.InvoiceViewModel;
 
@@ -30,6 +33,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
     private EditText totalPriceEditText;
     private EditText descriptionEditText;
     private EditText dateEditText;
+    private FloatingActionButton invoiceDoneButton;
 
     InvoiceViewModel viewModel;
 
@@ -52,8 +56,10 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         totalPriceEditText = rootView.findViewById(R.id.total_price);
         descriptionEditText = rootView.findViewById(R.id.description);
         dateEditText = rootView.findViewById(R.id.date);
+        invoiceDoneButton = rootView.findViewById(R.id.invoice_done_button);
 
         dateEditText.setOnClickListener(this);
+        invoiceDoneButton.setOnClickListener(this);
 
         viewModel.getInvoiceDate().observe(this, new Observer<Calendar>() {
             @Override
@@ -73,7 +79,21 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v == dateEditText){
             showDatePicker();
+        } else if(v == invoiceDoneButton){
+            invoiceDoneButtonAction();
         }
+    }
+
+    private void invoiceDoneButtonAction() {
+        int invoiceNumber = Integer.parseInt(invoiceNumberEditText.getText().toString());
+        String customerName = customerNameEditText.getText().toString();
+        int quantity = Integer.parseInt(quantityEditText.getText().toString());
+        double unitPrice = Double.parseDouble(unitPriceEditText.getText().toString());
+        double totoalPrice = Double.parseDouble(totalPriceEditText.getText().toString());
+        String description = descriptionEditText.getText().toString();
+
+        viewModel.handleData(new Invoice(invoiceNumber, customerName, quantity,
+                unitPrice, totoalPrice, description));
     }
 
     private void showDatePicker() {

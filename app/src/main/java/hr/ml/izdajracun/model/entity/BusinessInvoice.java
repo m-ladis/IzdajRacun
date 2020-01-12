@@ -13,12 +13,12 @@ public class BusinessInvoice extends Invoice {
     private Calendar payDueDate;
     private Calendar deliveryDate;
 
-    public BusinessInvoice(int id, int number, String customerName, int quantity, double unitPrice,
-                           double totalPrice, String description, Calendar date,
-                           String customerAddress, String customerOib, String paymentMethod,
-                           Calendar payDueDate, Calendar deliveryDate) {
+    public BusinessInvoice(Invoice invoice, String customerAddress, String customerOib,
+                           String paymentMethod, Calendar payDueDate, Calendar deliveryDate) {
 
-        super(id, number, customerName, quantity, unitPrice, totalPrice, description, date);
+        super(invoice.getNumber(), invoice.getCustomerName(), invoice.getQuantity(),
+                invoice.getUnitPrice(), invoice.getTotalPrice(), invoice.getDescription());
+
         this.customerAddress = customerAddress;
         this.customerOib = customerOib;
         this.paymentMethod = paymentMethod;

@@ -21,7 +21,16 @@ public class InvoiceViewModel extends AndroidViewModel {
         invoiceRepository = new InvoiceRepository(application);
     }
 
-    public void insert(Invoice invoice){
+    public void handleData(Invoice invoice){
+        insert(invoice);
+    }
+
+    private void insert(Invoice invoice){
+        Calendar calendar = getInvoiceDate().getValue();
+
+        invoice.setDate(calendar);
+        invoice.setYear(calendar.get(Calendar.YEAR));
+
         invoiceRepository.insert(invoice);
     }
 
