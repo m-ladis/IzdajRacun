@@ -50,6 +50,11 @@
         <action
             android:id="@+id/action_propertyDashboard_to_invoiceFragment"
             app:destination="@id/invoiceFragment" />
+        <action
+            android:id="@+id/action_propertyDashboard_to_propertiesFragment"
+            app:destination="@id/propertiesFragment"
+            app:popUpTo="@+id/propertiesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/invoiceFragment"

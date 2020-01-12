@@ -24,6 +24,7 @@
     <string name="hello_property_dashboard_fragment">Hello property dashboard fragment</string>
 
     <string name="edit_property_info_menu_item">Izmjeni podatke objekta</string>
+    <string name="delete_all_property_info_menu_item">Obriši smještajni objekt</string>
     <string name="invoice_number_label">Broj računa</string>
     <string name="customer_name_hint">Puni naziv unajmitelja usluge</string>
     <string name="quantity_label">Broj noćenja :</string>

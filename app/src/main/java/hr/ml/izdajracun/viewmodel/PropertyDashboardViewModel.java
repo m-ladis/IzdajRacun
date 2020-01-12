@@ -10,7 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.repository.InvoiceRepository;
+import hr.ml.izdajracun.repository.RentalPropertyInfoRepository;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
 
 public class PropertyDashboardViewModel extends AndroidViewModel {
@@ -19,11 +21,13 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
     public LiveData<List<Invoice>> invoices;
 
     private InvoiceRepository invoiceRepository;
+    private RentalPropertyInfoRepository propertyInfoRepository;
 
     public PropertyDashboardViewModel(@NonNull Application application) {
         super(application);
 
         invoiceRepository = new InvoiceRepository(application);
+        propertyInfoRepository = new RentalPropertyInfoRepository(application);
 
         int year = CustomTimeUtils.getCurrentYear();
 
@@ -33,6 +37,10 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
 
     public void invoiceYearChanged(){
         invoices = invoiceRepository.getAllInvoicesInYear(selectedYear.getValue());
+    }
+
+    public void deleteAllPropertyData(RentalPropertyInfo propertyInfo){
+        propertyInfoRepository.delete(propertyInfo);
     }
 
     public void incrementYear(){

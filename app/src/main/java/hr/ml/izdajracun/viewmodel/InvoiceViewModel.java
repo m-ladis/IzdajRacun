@@ -62,9 +62,9 @@ public class InvoiceViewModel extends AndroidViewModel {
     }
 
     public boolean isInvoiceDataValid(String invoiceNumber, String customerName, String quantity,
-                                       String unitPrice, String totalPrice, String description) {
+                                       String unitPrice, String totalPrice, String date) {
         if(InputFieldValidator.isAnyStringEmpty(invoiceNumber, customerName, quantity, unitPrice,
-                totalPrice)){
+                totalPrice, date)){
 
             dataValidationStatus.setValue(DataValidationStatus.DATA_HAS_EMPTY_FIELD);
             return false;

@@ -55,6 +55,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
     private String unitPrice;
     private String totalPrice;
     private String description;
+    private String date;
 
     public InvoiceFragment() {
     }
@@ -89,10 +90,10 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onChanged(Calendar calendar) {
                 int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
+                int month = calendar.get(Calendar.MONTH) + 1;
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                dateEditText.setText(day + "." + month+1 + "." + year + "." );
+                dateEditText.setText(day + "." + month + "." + year + "." );
             }
         });
 
@@ -174,9 +175,10 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         unitPrice = unitPriceEditText.getText().toString();
         totalPrice = totalPriceEditText.getText().toString();
         description = descriptionEditText.getText().toString();
+        date = dateEditText.getText().toString();
 
         viewModel.isInvoiceDataValid(invoiceNumber, customerName, quantity,
-                unitPrice, totalPrice, description);
+                unitPrice, totalPrice, date);
     }
 
     private void startAnimationOnFirstEmptyEditText(EditText...editTexts){

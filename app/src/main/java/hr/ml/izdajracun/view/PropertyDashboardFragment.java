@@ -33,6 +33,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
     private static final String TAG = "PropertyDashboard";
     private static final int editMenuItemId = 1000;
+    private static final int deleteAllIMenutemId = 1001;
 
     private RentalPropertyInfo propertyInfo;
 
@@ -119,6 +120,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         super.onCreateOptionsMenu(menu, inflater);
 
         menu.add(Menu.NONE, editMenuItemId, Menu.NONE, R.string.edit_property_info_menu_item);
+        menu.add(Menu.NONE, deleteAllIMenutemId, Menu.NONE, R.string.delete_all_property_info_menu_item);
     }
 
     @Override
@@ -131,6 +133,11 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_propertyDashboard_to_addPropertyFregment, bundle);
+        } else if(item.getItemId() == deleteAllIMenutemId){
+            propertyDashboardViewModel.deleteAllPropertyData(propertyInfo);
+
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_propertyDashboard_to_propertiesFragment);
         }
         return true;
     }
