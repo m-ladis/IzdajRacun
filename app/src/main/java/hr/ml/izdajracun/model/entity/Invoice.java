@@ -1,15 +1,25 @@
 package hr.ml.izdajracun.model.entity;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-@Entity(tableName = "invoice")
-public class Invoice {
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(tableName = "invoice", foreignKeys =
+        {@ForeignKey(entity = RentalPropertyInfo.class,
+                parentColumns = "id",
+                childColumns = "propertyId",
+                onDelete = CASCADE)})
+
+public class Invoice implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    private int propertyId;
     private int number;
     private String customerName;
     private int quantity;
@@ -19,8 +29,9 @@ public class Invoice {
     private Calendar date;
     private int year;
 
-    public Invoice(int number, String customerName, int quantity, double unitPrice,
+    public Invoice(int propertyId, int number, String customerName, int quantity, double unitPrice,
                    double totalPrice, String description) {
+        this.propertyId = propertyId;
         this.number = number;
         this.customerName = customerName;
         this.quantity = quantity;
@@ -39,6 +50,10 @@ public class Invoice {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPropertyId() {
+        return propertyId;
     }
 
     public int getId() {

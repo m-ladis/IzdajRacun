@@ -1,12 +1,14 @@
 package hr.ml.izdajracun.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Calendar;
@@ -19,16 +21,32 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
 
     private List<Invoice> invoices;
     private Context context;
+    private Bundle bundle;
 
-    public InvoicesAdapter(Context context) {
+    public InvoicesAdapter(Context context, Bundle bundle) {
         this.context = context;
+        this.bundle = bundle;
     }
 
     @NonNull
     @Override
-    public InvoiceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public InvoiceViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.invoice_item, parent, false);
-        return new InvoiceViewHolder(view);
+        final InvoiceViewHolder viewHolder = new InvoiceViewHolder(view);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Invoice invoice = invoices.get(viewHolder.getAdapterPosition());
+
+                bundle.putSerializable("invoice", invoice);
+
+                Navigation.findNavController(parent)
+                        .navigate(R.id.action_propertyDashboard_to_invoiceFragment, bundle);
+            }
+        });
+
+        return viewHolder;
     }
 
     @Override

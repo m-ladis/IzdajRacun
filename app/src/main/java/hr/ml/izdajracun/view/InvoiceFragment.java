@@ -20,11 +20,15 @@ import java.util.Calendar;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
+import hr.ml.izdajracun.utils.ViewModelMode;
 import hr.ml.izdajracun.viewmodel.InvoiceViewModel;
 
 
 public class InvoiceFragment extends Fragment implements View.OnClickListener {
+
+    private final static String TAG = "InvoiceFragment";
 
     private EditText invoiceNumberEditText;
     private EditText customerNameEditText;
@@ -35,7 +39,8 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
     private EditText dateEditText;
     private FloatingActionButton invoiceDoneButton;
 
-    InvoiceViewModel viewModel;
+    private InvoiceViewModel viewModel;
+    private RentalPropertyInfo propertyInfo;
 
     public InvoiceFragment() {
     }
@@ -46,6 +51,9 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_invoice, container, false);
+
+        Invoice invoiceToUpdate = (Invoice) getArguments().getSerializable("invoice");
+        propertyInfo = (RentalPropertyInfo) getArguments().getSerializable("property");
 
         viewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
 
@@ -72,6 +80,11 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        if(invoiceToUpdate != null){
+            viewModel.setViewModelMode(ViewModelMode.MODE_UPDATE);
+            viewModel.setInvoiceToUpdate(invoiceToUpdate);
+        }
+
         return rootView;
     }
 
@@ -92,8 +105,8 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         double totoalPrice = Double.parseDouble(totalPriceEditText.getText().toString());
         String description = descriptionEditText.getText().toString();
 
-        viewModel.handleData(new Invoice(invoiceNumber, customerName, quantity,
-                unitPrice, totoalPrice, description));
+        viewModel.handleData(new Invoice(propertyInfo.getId(), invoiceNumber, customerName,
+                quantity, unitPrice, totoalPrice, description));
     }
 
     private void showDatePicker() {

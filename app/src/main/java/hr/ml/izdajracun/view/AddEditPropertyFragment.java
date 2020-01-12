@@ -20,6 +20,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
+import hr.ml.izdajracun.utils.DataValidationStatus;
+import hr.ml.izdajracun.utils.ViewModelMode;
 import hr.ml.izdajracun.viewmodel.AddEditPropertyViewModel;
 
 
@@ -68,7 +70,7 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
             RentalPropertyInfo propertyInfo = (RentalPropertyInfo) getArguments()
                     .getSerializable("property");
 
-            viewModel.setMode(AddEditPropertyViewModel.Mode.MODE_UPDATE);
+            viewModel.setMode(ViewModelMode.MODE_UPDATE);
             viewModel.setPropertyInfoToUpdate(propertyInfo);
 
             nameEditText.setText(propertyInfo.getName());
@@ -80,9 +82,9 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
         }
 
         viewModel.dataValidationStatus.observe(this,
-                new Observer<AddEditPropertyViewModel.DataValidationStatus>() {
+                new Observer<DataValidationStatus>() {
             @Override
-            public void onChanged(AddEditPropertyViewModel.DataValidationStatus validationStatus) {
+            public void onChanged(DataValidationStatus validationStatus) {
                 switch (validationStatus){
                     case DATA_HAS_EMPTY_FIELD:
                         startAnimationOnFirstEmptyEditText(nameEditText, ownerFirstNameEditText,

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +44,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
     private InvoicesAdapter adapter;
     private PropertyDashboardViewModel propertyDashboardViewModel;
+    private Bundle bundle;
 
     public PropertyDashboardFragment() {
     }
@@ -55,7 +57,9 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
         setHasOptionsMenu(true);
 
-        propertyInfo = (RentalPropertyInfo) getArguments().getSerializable("property");
+        bundle = getArguments();
+
+        propertyInfo = (RentalPropertyInfo) bundle.getSerializable("property");
 
         //getting references to UI
         invoicesRecyclerView = rootView.findViewById(R.id.invoices);
@@ -83,6 +87,9 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         propertyDashboardViewModel = ViewModelProviders.of(this)
                 .get(PropertyDashboardViewModel.class);
 
+        Navigation.setViewNavController(invoicesRecyclerView,
+                NavHostFragment.findNavController(this));
+
         propertyDashboardViewModel.selectedYear.observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -101,7 +108,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
             }
         });
 
-        adapter = new InvoicesAdapter(getContext());
+        adapter = new InvoicesAdapter(getContext(), bundle);
         invoicesRecyclerView.setAdapter(adapter);
 
         return rootView;
@@ -135,11 +142,9 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         } else if (v == decrementYearButton){
             propertyDashboardViewModel.decrementYear();
         } else if (v == newInvoiceButton){
-            Bundle args = new Bundle();
-            args.putSerializable("property", propertyInfo);
 
             NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_propertyDashboard_to_invoiceFragment, args);
+                    .navigate(R.id.action_propertyDashboard_to_invoiceFragment, bundle);
         }
     }
 }
