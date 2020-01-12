@@ -76,7 +76,10 @@
         android:id="@+id/invoices"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/year"/>
+        android:layout_below="@id/year"
+        android:layout_marginTop="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/invoice_item"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/new_invoice"

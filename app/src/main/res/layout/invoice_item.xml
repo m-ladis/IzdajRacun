@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/invoice_item_number_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/invoice_item_number_label"/>
+
+        <TextView
+            android:id="@+id/invoice_item_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/invoice_item_number_label"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:id="@+id/invoice_item_customer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/invoice_item_number"/>
+
+        <TextView
+            android:id="@+id/invoice_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/invoice_item_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/invoice_item_customer"/>
+
+        <TextView
+            android:id="@+id/invoice_item_currency_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/invoice_item_total_price"
+            android:layout_below="@id/invoice_item_customer"
+            android:text="@string/currency_label"
+            android:layout_marginStart="5dp"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

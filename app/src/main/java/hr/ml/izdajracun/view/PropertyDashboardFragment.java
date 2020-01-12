@@ -7,8 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,23 +23,26 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import hr.ml.izdajracun.R;
+import hr.ml.izdajracun.adapter.InvoicesAdapter;
 import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.viewmodel.PropertyDashboardViewModel;
 
-public class PropertyDashboardFragment extends Fragment implements View.OnClickListener, Observer {
+public class PropertyDashboardFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "PropertyDashboard";
     private static final int editMenuItemId = 1000;
 
     private RentalPropertyInfo propertyInfo;
 
+    private RecyclerView invoicesRecyclerView;
+    private TextView currentYearTextView;
     private FloatingActionButton incrementYearButton;
     private FloatingActionButton decrementYearButton;
     private FloatingActionButton newInvoiceButton;
 
-    PropertyDashboardViewModel propertyDashboardViewModel;
-    private TextView currentYearTextView;
+    private InvoicesAdapter adapter;
+    private PropertyDashboardViewModel propertyDashboardViewModel;
 
     public PropertyDashboardFragment() {
     }
@@ -54,6 +58,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         propertyInfo = (RentalPropertyInfo) getArguments().getSerializable("property");
 
         //getting references to UI
+        invoicesRecyclerView = rootView.findViewById(R.id.invoices);
         newInvoiceButton = rootView.findViewById(R.id.new_invoice);
         incrementYearButton = rootView.findViewById(R.id.increment_year);
         decrementYearButton = rootView.findViewById(R.id.decrement_year);
@@ -67,6 +72,8 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         propertyAddressTextView.setText(propertyInfo.getAddress());
         ownerNameTextView.setText(
                 propertyInfo.getOwnerFirstName() + " " + propertyInfo.getOwnerLastName());
+        invoicesRecyclerView.addItemDecoration(new DividerItemDecoration(
+                invoicesRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         //set listeners
         incrementYearButton.setOnClickListener(this);
@@ -76,8 +83,26 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         propertyDashboardViewModel = ViewModelProviders.of(this)
                 .get(PropertyDashboardViewModel.class);
 
-        propertyDashboardViewModel.selectedYear.observe(this, this);
-        propertyDashboardViewModel.invoices.observe(this, this);
+        propertyDashboardViewModel.selectedYear.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                currentYearTextView.setText(integer.toString());
+
+                propertyDashboardViewModel.invoices.removeObservers(getViewLifecycleOwner());
+                propertyDashboardViewModel.invoiceYearChanged();
+                propertyDashboardViewModel.invoices.observe(getViewLifecycleOwner(),
+                        new Observer<List<Invoice>>() {
+                    @Override
+                    public void onChanged(List<Invoice> invoices) {
+                        adapter.setInvoices(invoices);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+
+        adapter = new InvoicesAdapter(getContext());
+        invoicesRecyclerView.setAdapter(adapter);
 
         return rootView;
     }
@@ -115,22 +140,6 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_propertyDashboard_to_invoiceFragment, args);
-        }
-    }
-
-    @Override
-    public void onChanged(Object o) {
-        if(o instanceof List){
-            List<Invoice> invoices = (List<Invoice>) o;
-            for(Invoice invoice : invoices){
-                Log.d(TAG, invoice.getCustomerName());
-            }
-
-        } else if (o instanceof Integer){
-            currentYearTextView.setText(o.toString());
-            propertyDashboardViewModel.invoices.removeObservers(this);
-            propertyDashboardViewModel.invoiceYearChanged();
-            propertyDashboardViewModel.invoices.observe(this, this);
         }
     }
 }

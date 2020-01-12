@@ -66,7 +66,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
             public void onChanged(Calendar calendar) {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DATE);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 dateEditText.setText(day + "." + month+1 + "." + year + "." );
             }

@@ -23,7 +23,7 @@ import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.viewmodel.AddEditPropertyViewModel;
 
 
-public class AddEditPropertyFragment extends Fragment implements View.OnClickListener, Observer<AddEditPropertyViewModel.DataValidationStatus>{
+public class AddEditPropertyFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "AddEditPropertyFragment";
 
@@ -79,31 +79,32 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
             ownerOibEditText.setText(propertyInfo.getOwnerOIB());
         }
 
-        viewModel.dataValidationStatus.observe(this, this);
+        viewModel.dataValidationStatus.observe(this,
+                new Observer<AddEditPropertyViewModel.DataValidationStatus>() {
+            @Override
+            public void onChanged(AddEditPropertyViewModel.DataValidationStatus validationStatus) {
+                switch (validationStatus){
+                    case DATA_HAS_EMPTY_FIELD:
+                        startAnimationOnFirstEmptyEditText(nameEditText, ownerFirstNameEditText,
+                                ownerLastNameEditText, ownerOibEditText,
+                                ownerIbanEditText, addressEditText);
+
+                        break;
+                    case OIB_NOT_VALID:
+                        showOibNotValid();
+                        break;
+                    case IBAN_NOT_VALID:
+                        showIbanNotValid();
+                        break;
+                    case VALID:
+                        NavHostFragment.findNavController(getParentFragment())
+                                .navigate(R.id.action_addPropertyFregment_to_propertiesFragment);
+                        break;
+                }
+            }
+        });
 
         return root;
-    }
-
-    @Override
-    public void onChanged(AddEditPropertyViewModel.DataValidationStatus validationStatus) {
-        switch (validationStatus){
-            case DATA_HAS_EMPTY_FIELD:
-                startAnimationOnFirstEmptyEditText(nameEditText, ownerFirstNameEditText,
-                        ownerLastNameEditText, ownerOibEditText,
-                        ownerIbanEditText, addressEditText);
-
-                break;
-            case OIB_NOT_VALID:
-                showOibNotValid();
-                break;
-            case IBAN_NOT_VALID:
-                showIbanNotValid();
-                break;
-            case VALID:
-                NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_addPropertyFregment_to_propertiesFragment);
-                break;
-        }
     }
 
     @Override
