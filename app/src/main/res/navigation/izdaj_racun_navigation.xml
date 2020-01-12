@@ -55,5 +55,11 @@
         android:id="@+id/invoiceFragment"
         android:name="hr.ml.izdajracun.view.InvoiceFragment"
         android:label="fragment_invoice"
-        tools:layout="@layout/fragment_invoice" />
+        tools:layout="@layout/fragment_invoice" >
+        <action
+            android:id="@+id/action_invoiceFragment_to_propertyDashboard"
+            app:destination="@id/propertyDashboard"
+            app:popUpTo="@id/propertyDashboard"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

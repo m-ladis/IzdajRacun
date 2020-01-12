@@ -11,11 +11,12 @@ import java.util.Calendar;
 import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.repository.InvoiceRepository;
 import hr.ml.izdajracun.utils.DataValidationStatus;
+import hr.ml.izdajracun.utils.InputFieldValidator;
 import hr.ml.izdajracun.utils.ViewModelMode;
 
 public class InvoiceViewModel extends AndroidViewModel {
 
-    public MutableLiveData<DataValidationStatus> dataValidationStatus;
+    public MutableLiveData<DataValidationStatus> dataValidationStatus = new MutableLiveData<>();
 
     private MutableLiveData<Calendar> invoiceDate = new MutableLiveData<>();
     private InvoiceRepository invoiceRepository;
@@ -58,6 +59,26 @@ public class InvoiceViewModel extends AndroidViewModel {
         calendar.set(year, month, day);
 
         invoiceDate.setValue(calendar);
+    }
+
+    public boolean isInvoiceDataValid(String invoiceNumber, String customerName, String quantity,
+                                       String unitPrice, String totalPrice, String description) {
+        if(InputFieldValidator.isAnyStringEmpty(invoiceNumber, customerName, quantity, unitPrice,
+                totalPrice)){
+
+            dataValidationStatus.setValue(DataValidationStatus.DATA_HAS_EMPTY_FIELD);
+            return false;
+        }
+
+        if(!InputFieldValidator.isPriceValid(Integer.parseInt(quantity),
+                Double.parseDouble(unitPrice), Double.parseDouble(totalPrice))){
+
+            dataValidationStatus.setValue(DataValidationStatus.PRICE_NOT_VALID);
+            return false;
+        }
+
+        dataValidationStatus.setValue(DataValidationStatus.VALID);
+        return true;
     }
 
     public MutableLiveData<Calendar> getInvoiceDate() {

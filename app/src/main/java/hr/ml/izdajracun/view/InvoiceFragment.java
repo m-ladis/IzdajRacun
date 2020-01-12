@@ -7,12 +7,16 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -22,6 +26,7 @@ import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
+import hr.ml.izdajracun.utils.DataValidationStatus;
 import hr.ml.izdajracun.utils.ViewModelMode;
 import hr.ml.izdajracun.viewmodel.InvoiceViewModel;
 
@@ -29,6 +34,8 @@ import hr.ml.izdajracun.viewmodel.InvoiceViewModel;
 public class InvoiceFragment extends Fragment implements View.OnClickListener {
 
     private final static String TAG = "InvoiceFragment";
+
+    private Animation shake;
 
     private EditText invoiceNumberEditText;
     private EditText customerNameEditText;
@@ -41,6 +48,13 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
 
     private InvoiceViewModel viewModel;
     private RentalPropertyInfo propertyInfo;
+    private Invoice invoice;
+    private String invoiceNumber;
+    private String customerName;
+    private String quantity;
+    private String unitPrice;
+    private String totalPrice;
+    private String description;
 
     public InvoiceFragment() {
     }
@@ -56,6 +70,8 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         propertyInfo = (RentalPropertyInfo) getArguments().getSerializable("property");
 
         viewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
+
+        shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
 
         invoiceNumberEditText = rootView.findViewById(R.id.invoice_number);
         customerNameEditText = rootView.findViewById(R.id.customer_name);
@@ -80,12 +96,66 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        viewModel.dataValidationStatus.observe(this, new Observer<DataValidationStatus>() {
+            @Override
+            public void onChanged(DataValidationStatus dataValidationStatus) {
+                switch (dataValidationStatus){
+                    case DATA_HAS_EMPTY_FIELD:
+                        startAnimationOnFirstEmptyEditText(invoiceNumberEditText,
+                                customerNameEditText, quantityEditText, unitPriceEditText,
+                                totalPriceEditText, dateEditText);
+                        break;
+
+                    case PRICE_NOT_VALID:
+                        showUnitPriceNotValid();
+                        break;
+
+                    case VALID:
+                        invoice = new Invoice(propertyInfo.getId(), Integer.parseInt(invoiceNumber),
+                                customerName, Integer.parseInt(quantity), Double.parseDouble(unitPrice),
+                                Double.parseDouble(totalPrice), description);
+
+                        viewModel.handleData(invoice);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("property", propertyInfo);
+
+                        NavHostFragment.findNavController(getParentFragment())
+                                .navigate(R.id.action_invoiceFragment_to_propertyDashboard, bundle);
+
+                        break;
+                }
+
+            }
+        });
+
         if(invoiceToUpdate != null){
             viewModel.setViewModelMode(ViewModelMode.MODE_UPDATE);
             viewModel.setInvoiceToUpdate(invoiceToUpdate);
+
+            //update views with invoice data
+            invoiceNumberEditText.setText(String.valueOf(invoiceToUpdate.getNumber()));
+            customerNameEditText.setText(invoiceToUpdate.getCustomerName());
+            quantityEditText.setText(String.valueOf(invoiceToUpdate.getQuantity()));
+            unitPriceEditText.setText(String.valueOf(invoiceToUpdate.getUnitPrice()));
+            totalPriceEditText.setText(String.valueOf(invoiceToUpdate.getTotalPrice()));
+            descriptionEditText.setText(invoiceToUpdate.getDescription());
+
+            Calendar calendar = invoiceToUpdate.getDate();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            viewModel.setYearMonthDay(year, month, day);
         }
 
         return rootView;
+    }
+
+    private void showUnitPriceNotValid() {
+        Toast.makeText(getContext(), R.string.unit_price_not_valid_message, Toast.LENGTH_LONG)
+                .show();
+
+        startAnimationOnView(unitPriceEditText);
     }
 
     @Override
@@ -98,15 +168,30 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
     }
 
     private void invoiceDoneButtonAction() {
-        int invoiceNumber = Integer.parseInt(invoiceNumberEditText.getText().toString());
-        String customerName = customerNameEditText.getText().toString();
-        int quantity = Integer.parseInt(quantityEditText.getText().toString());
-        double unitPrice = Double.parseDouble(unitPriceEditText.getText().toString());
-        double totoalPrice = Double.parseDouble(totalPriceEditText.getText().toString());
-        String description = descriptionEditText.getText().toString();
+        invoiceNumber = invoiceNumberEditText.getText().toString();
+        customerName = customerNameEditText.getText().toString();
+        quantity = quantityEditText.getText().toString();
+        unitPrice = unitPriceEditText.getText().toString();
+        totalPrice = totalPriceEditText.getText().toString();
+        description = descriptionEditText.getText().toString();
 
-        viewModel.handleData(new Invoice(propertyInfo.getId(), invoiceNumber, customerName,
-                quantity, unitPrice, totoalPrice, description));
+        viewModel.isInvoiceDataValid(invoiceNumber, customerName, quantity,
+                unitPrice, totalPrice, description);
+    }
+
+    private void startAnimationOnFirstEmptyEditText(EditText...editTexts){
+
+        for (EditText editText : editTexts){
+            if(editText.getText().toString().trim().isEmpty()){
+                startAnimationOnView(editText);
+                break;
+            }
+        }
+    }
+
+    private void startAnimationOnView(View view){
+        view.startAnimation(shake);
+        view.requestFocus();
     }
 
     private void showDatePicker() {

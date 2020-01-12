@@ -143,6 +143,9 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
             propertyDashboardViewModel.decrementYear();
         } else if (v == newInvoiceButton){
 
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("property", propertyInfo);
+
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_propertyDashboard_to_invoiceFragment, bundle);
         }

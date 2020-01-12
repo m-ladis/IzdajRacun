@@ -34,6 +34,8 @@
     <string name="total_price_hint">0.00</string>
     <string name="description_hint">Napomena</string>
     <string name="date_hint">Datum izdavanja</string>
+    <string name="unit_price_not_valid_message">Ukupna cijena prelazi cijenu iz vašeg službenog cjenika, povećajte cijenu po noćenju</string>
+
 
     <string name="invoice_item_number_label">Broj računa:</string>
 

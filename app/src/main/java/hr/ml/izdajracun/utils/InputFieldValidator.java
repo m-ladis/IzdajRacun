@@ -52,4 +52,8 @@ public class InputFieldValidator {
 
         return false;
     }
+
+    public static boolean isPriceValid(int quantity, double unitPrice, double totalPrice){
+        return !(quantity * unitPrice < totalPrice);
+    }
 }
