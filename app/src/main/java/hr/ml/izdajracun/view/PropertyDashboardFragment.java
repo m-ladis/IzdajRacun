@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -41,7 +42,9 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
     private TextView currentYearTextView;
     private FloatingActionButton incrementYearButton;
     private FloatingActionButton decrementYearButton;
-    private FloatingActionButton newInvoiceButton;
+    private ExtendedFloatingActionButton newPersonalInvoiceButton;
+    private ExtendedFloatingActionButton newBusinessInvoiceButton;
+    private FloatingActionButton invoiceButton;
 
     private InvoicesAdapter adapter;
     private PropertyDashboardViewModel propertyDashboardViewModel;
@@ -64,7 +67,9 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
         //getting references to UI
         invoicesRecyclerView = rootView.findViewById(R.id.invoices);
-        newInvoiceButton = rootView.findViewById(R.id.new_invoice);
+        newPersonalInvoiceButton = rootView.findViewById(R.id.new_personal_invoice);
+        newBusinessInvoiceButton = rootView.findViewById(R.id.new_business_invioce);
+        invoiceButton = rootView.findViewById(R.id.new_invoice);
         incrementYearButton = rootView.findViewById(R.id.increment_year);
         decrementYearButton = rootView.findViewById(R.id.decrement_year);
         TextView propertyNameTextView = rootView.findViewById(R.id.property_name);
@@ -83,7 +88,9 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         //set listeners
         incrementYearButton.setOnClickListener(this);
         decrementYearButton.setOnClickListener(this);
-        newInvoiceButton.setOnClickListener(this);
+        newPersonalInvoiceButton.setOnClickListener(this);
+        newBusinessInvoiceButton.setOnClickListener(this);
+        invoiceButton.setOnClickListener(this);
 
         propertyDashboardViewModel = ViewModelProviders.of(this)
                 .get(PropertyDashboardViewModel.class);
@@ -150,13 +157,27 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
             propertyDashboardViewModel.incrementYear();
         } else if (v == decrementYearButton){
             propertyDashboardViewModel.decrementYear();
-        } else if (v == newInvoiceButton){
+        } else if (v == newPersonalInvoiceButton){
 
             Bundle bundle = new Bundle();
             bundle.putSerializable("property", propertyInfo);
 
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_propertyDashboard_to_invoiceFragment, bundle);
+
+        } else if (v == newBusinessInvoiceButton){
+
+        } else if (v == invoiceButton) {
+            int visibility = newBusinessInvoiceButton.getVisibility();
+
+            if (visibility == View.GONE){
+                visibility = View.VISIBLE;
+            } else if (visibility == View.VISIBLE){
+                visibility = View.GONE;
+            }
+
+            newBusinessInvoiceButton.setVisibility(visibility);
+            newPersonalInvoiceButton.setVisibility(visibility);
         }
     }
 }

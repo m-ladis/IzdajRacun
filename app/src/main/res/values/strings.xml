@@ -39,6 +39,8 @@
 
 
     <string name="invoice_item_number_label">Broj računa:</string>
+    <string name="new_business_invoice_button_content">R1 račun</string>
+    <string name="new_invoice_button_content">račun</string>
 
 
 </resources>

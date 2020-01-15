@@ -22,8 +22,4 @@ public class PropertiesViewModel extends AndroidViewModel {
         repository = new RentalPropertyInfoRepository(application);
         properties = repository.getAllPropertiesInfo();
     }
-
-    public LiveData<List<RentalPropertyInfo>> getAllPropertiesInfo(){
-        return repository.getAllPropertiesInfo();
-    }
 }

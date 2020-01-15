@@ -45,8 +45,8 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
         android:layout_toStartOf="@id/year"
-        android:backgroundTint="@color/colorPrimaryDark"
         android:src="@drawable/ic_chevron_left_black"
+        android:backgroundTint="@color/design_default_color_background"
         app:fabSize="mini" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -55,8 +55,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
-        android:backgroundTint="@color/colorPrimaryDark"
         app:fabSize="mini"
+        android:backgroundTint="@color/design_default_color_background"
         android:layout_below="@id/property_info"
         android:layout_toEndOf="@id/year"
         android:src="@drawable/ic_chevron_right_black"/>
@@ -88,6 +88,28 @@
         android:src="@drawable/ic_add_black"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/new_personal_invoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_invoice_button_content"
+        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/new_invoice"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/new_business_invioce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_business_invoice_button_content"
+        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/new_personal_invoice"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"/>
 
