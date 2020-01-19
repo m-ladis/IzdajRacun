@@ -32,7 +32,6 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
     private Animation shake;
 
     private FloatingActionButton doneButton;
-
     private EditText nameEditText;
     private EditText addressEditText;
     private EditText ownerFirstNameEditText;
@@ -40,6 +39,7 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
     private EditText ownerIbanEditText;
     private EditText ownerOibEditText;
 
+    private RentalPropertyInfo rentalPropertyInfo;
     private AddEditPropertyViewModel viewModel;
 
     public AddEditPropertyFragment() {}
@@ -51,8 +51,8 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
         View root = inflater
                 .inflate(R.layout.fragment_add_property_fregment, container, false);
 
-        viewModel = ViewModelProviders.of(this)
-                .get(AddEditPropertyViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(AddEditPropertyViewModel.class);
+        viewModel.start(getArguments());
 
         shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
 
@@ -66,47 +66,52 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
 
         doneButton.setOnClickListener(this);
 
-        if (getArguments() != null) {
-            RentalPropertyInfo propertyInfo = (RentalPropertyInfo) getArguments()
-                    .getSerializable("property");
-
-            viewModel.setMode(ViewModelMode.MODE_UPDATE);
-            viewModel.setPropertyInfoToUpdate(propertyInfo);
-
-            nameEditText.setText(propertyInfo.getName());
-            addressEditText.setText(propertyInfo.getAddress());
-            ownerFirstNameEditText.setText(propertyInfo.getOwnerFirstName());
-            ownerLastNameEditText.setText(propertyInfo.getOwnerLastName());
-            ownerIbanEditText.setText(propertyInfo.getOwnerIBAN());
-            ownerOibEditText.setText(propertyInfo.getOwnerOIB());
-        }
-
-        viewModel.dataValidationStatus.observe(this,
-                new Observer<DataValidationStatus>() {
+        viewModel.mode.observe(this, new Observer<ViewModelMode>() {
             @Override
-            public void onChanged(DataValidationStatus validationStatus) {
-                switch (validationStatus){
-                    case DATA_HAS_EMPTY_FIELD:
-                        startAnimationOnFirstEmptyEditText(nameEditText, ownerFirstNameEditText,
-                                ownerLastNameEditText, ownerOibEditText,
-                                ownerIbanEditText, addressEditText);
+            public void onChanged(ViewModelMode viewModelMode) {
+                if(viewModelMode == ViewModelMode.MODE_UPDATE){
+                    RentalPropertyInfo propertyInfo = viewModel.getPropertyInfoToUpdate();
 
-                        break;
-                    case OIB_NOT_VALID:
-                        showOibNotValid();
-                        break;
-                    case IBAN_NOT_VALID:
-                        showIbanNotValid();
-                        break;
-                    case VALID:
-                        NavHostFragment.findNavController(getParentFragment())
-                                .navigate(R.id.action_addPropertyFregment_to_propertiesFragment);
-                        break;
+                    nameEditText.setText(propertyInfo.getName());
+                    addressEditText.setText(propertyInfo.getAddress());
+                    ownerFirstNameEditText.setText(propertyInfo.getOwnerFirstName());
+                    ownerLastNameEditText.setText(propertyInfo.getOwnerLastName());
+                    ownerIbanEditText.setText(propertyInfo.getOwnerIBAN());
+                    ownerOibEditText.setText(propertyInfo.getOwnerOIB());
                 }
             }
         });
 
+        viewModel.dataValidationStatus.observe(this,
+                new Observer<DataValidationStatus>() {
+                    @Override
+                    public void onChanged(DataValidationStatus validationStatus) {
+                        switch (validationStatus){
+                            case DATA_HAS_EMPTY_FIELD:
+                                startAnimationOnFirstEmptyEditText(nameEditText, ownerFirstNameEditText,
+                                        ownerLastNameEditText, ownerOibEditText,
+                                        ownerIbanEditText, addressEditText);
+                                break;
+                            case OIB_NOT_VALID:
+                                showOibNotValid();
+                                break;
+                            case IBAN_NOT_VALID:
+                                showIbanNotValid();
+                                break;
+                            case VALID:
+                                viewModel.handlePropertyInfo(rentalPropertyInfo);
+                                navigate();
+                                break;
+                        }
+                    }
+                });
+
         return root;
+    }
+
+    private void navigate() {
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_addPropertyFregment_to_propertiesFragment);
     }
 
     @Override
@@ -125,11 +130,11 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
         String ownerOib = ownerOibEditText.getText().toString().trim();
 
 
-        RentalPropertyInfo rentalPropertyInfo = new RentalPropertyInfo(
+        rentalPropertyInfo = new RentalPropertyInfo(
                 name, address, ownerFirstName,
                 ownerLastName, ownerIban, ownerOib);
 
-        viewModel.handlePropertyInfo(rentalPropertyInfo);
+        viewModel.isPropertyInfoDataValid(rentalPropertyInfo);
 
     }
 

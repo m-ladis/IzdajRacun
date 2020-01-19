@@ -24,7 +24,6 @@ import java.util.Calendar;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.Invoice;
-import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
 import hr.ml.izdajracun.utils.DataValidationStatus;
 import hr.ml.izdajracun.utils.ViewModelMode;
@@ -47,15 +46,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
     private FloatingActionButton invoiceDoneButton;
 
     private InvoiceViewModel viewModel;
-    private RentalPropertyInfo propertyInfo;
     private Invoice invoice;
-    private String invoiceNumber;
-    private String customerName;
-    private String quantity;
-    private String unitPrice;
-    private String totalPrice;
-    private String description;
-    private String date;
 
     public InvoiceFragment() {
     }
@@ -67,10 +58,8 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
 
         View rootView = inflater.inflate(R.layout.fragment_invoice, container, false);
 
-        Invoice invoiceToUpdate = (Invoice) getArguments().getSerializable("invoice");
-        propertyInfo = (RentalPropertyInfo) getArguments().getSerializable("property");
-
         viewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
+        viewModel.start(getArguments());
 
         shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
 
@@ -86,7 +75,16 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         dateEditText.setOnClickListener(this);
         invoiceDoneButton.setOnClickListener(this);
 
-        viewModel.getInvoiceDate().observe(this, new Observer<Calendar>() {
+        viewModel.mode.observe(this, new Observer<ViewModelMode>() {
+            @Override
+            public void onChanged(ViewModelMode viewModelMode) {
+                if(viewModelMode == ViewModelMode.MODE_UPDATE){
+                    updateUIWithInvoice(viewModel.invoiceToUpdate);
+                }
+            }
+        });
+
+        viewModel.invoiceDate.observe(this, new Observer<Calendar>() {
             @Override
             public void onChanged(Calendar calendar) {
                 int year = calendar.get(Calendar.YEAR);
@@ -112,14 +110,10 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
                         break;
 
                     case VALID:
-                        invoice = new Invoice(propertyInfo.getId(), Integer.parseInt(invoiceNumber),
-                                customerName, Integer.parseInt(quantity), Double.parseDouble(unitPrice),
-                                Double.parseDouble(totalPrice), description);
-
                         viewModel.handleData(invoice);
 
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("property", propertyInfo);
+                        bundle.putSerializable("property", viewModel.getPropertyInfo());
 
                         NavHostFragment.findNavController(getParentFragment())
                                 .navigate(R.id.action_invoiceFragment_to_propertyDashboard, bundle);
@@ -130,26 +124,16 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        if(invoiceToUpdate != null){
-            viewModel.setViewModelMode(ViewModelMode.MODE_UPDATE);
-            viewModel.setInvoiceToUpdate(invoiceToUpdate);
-
-            //update views with invoice data
-            invoiceNumberEditText.setText(String.valueOf(invoiceToUpdate.getNumber()));
-            customerNameEditText.setText(invoiceToUpdate.getCustomerName());
-            quantityEditText.setText(String.valueOf(invoiceToUpdate.getQuantity()));
-            unitPriceEditText.setText(String.valueOf(invoiceToUpdate.getUnitPrice()));
-            totalPriceEditText.setText(String.valueOf(invoiceToUpdate.getTotalPrice()));
-            descriptionEditText.setText(invoiceToUpdate.getDescription());
-
-            Calendar calendar = invoiceToUpdate.getDate();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            viewModel.setYearMonthDay(year, month, day);
-        }
-
         return rootView;
+    }
+
+    private void updateUIWithInvoice(Invoice invoiceToUpdate) {
+        invoiceNumberEditText.setText(String.valueOf(invoiceToUpdate.getNumber()));
+        customerNameEditText.setText(invoiceToUpdate.getCustomerName());
+        quantityEditText.setText(String.valueOf(invoiceToUpdate.getQuantity()));
+        unitPriceEditText.setText(String.valueOf(invoiceToUpdate.getUnitPrice()));
+        totalPriceEditText.setText(String.valueOf(invoiceToUpdate.getTotalPrice()));
+        descriptionEditText.setText(invoiceToUpdate.getDescription());
     }
 
     private void showUnitPriceNotValid() {
@@ -169,13 +153,19 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
     }
 
     private void invoiceDoneButtonAction() {
-        invoiceNumber = invoiceNumberEditText.getText().toString();
-        customerName = customerNameEditText.getText().toString();
-        quantity = quantityEditText.getText().toString();
-        unitPrice = unitPriceEditText.getText().toString();
-        totalPrice = totalPriceEditText.getText().toString();
-        description = descriptionEditText.getText().toString();
-        date = dateEditText.getText().toString();
+        String invoiceNumber = invoiceNumberEditText.getText().toString();
+        String customerName = customerNameEditText.getText().toString();
+        String quantity = quantityEditText.getText().toString();
+        String unitPrice = unitPriceEditText.getText().toString();
+        String totalPrice = totalPriceEditText.getText().toString();
+        String description = descriptionEditText.getText().toString();
+        String date = dateEditText.getText().toString();
+
+        try{
+            invoice = new Invoice(Integer.parseInt(invoiceNumber), customerName,
+                    Integer.parseInt(quantity), Double.parseDouble(unitPrice),
+                    Double.parseDouble(totalPrice), description);
+        } catch (Exception e){}
 
         viewModel.isInvoiceDataValid(invoiceNumber, customerName, quantity,
                 unitPrice, totalPrice, date);

@@ -2,6 +2,7 @@ package hr.ml.izdajracun.model.entity;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -38,6 +39,21 @@ public class Invoice implements Serializable {
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
         this.description = description;
+    }
+
+    @Ignore
+    public Invoice(int number, String customerName, int quantity, double unitPrice,
+                   double totalPrice, String description) {
+        this.number = number;
+        this.customerName = customerName;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+        this.description = description;
+    }
+
+    public void setPropertyId(int propertyId) {
+        this.propertyId = propertyId;
     }
 
     public void setDate(Calendar date) {

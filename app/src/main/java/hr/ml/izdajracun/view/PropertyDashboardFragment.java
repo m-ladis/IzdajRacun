@@ -94,7 +94,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
         propertyDashboardViewModel = ViewModelProviders.of(this)
                 .get(PropertyDashboardViewModel.class);
-        propertyDashboardViewModel.setPropertyId(propertyInfo.getId());
+        propertyDashboardViewModel.start(getArguments());
         propertyDashboardViewModel.updateInvoices();
 
         Navigation.setViewNavController(invoicesRecyclerView,
@@ -136,14 +136,11 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if(item.getItemId() == editMenuItemId){
-
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("property", propertyInfo);
-
             NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_propertyDashboard_to_addPropertyFregment, bundle);
+                    .navigate(R.id.action_propertyDashboard_to_addPropertyFregment, getArguments());
+
         } else if(item.getItemId() == deleteAllIMenutemId){
-            propertyDashboardViewModel.deleteAllPropertyData(propertyInfo);
+            propertyDashboardViewModel.deleteAllPropertyData();
 
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_propertyDashboard_to_propertiesFragment);
@@ -159,11 +156,8 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
             propertyDashboardViewModel.decrementYear();
         } else if (v == newPersonalInvoiceButton){
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("property", propertyInfo);
-
             NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_propertyDashboard_to_invoiceFragment, bundle);
+                    .navigate(R.id.action_propertyDashboard_to_invoiceFragment, getArguments());
 
         } else if (v == newBusinessInvoiceButton){
 

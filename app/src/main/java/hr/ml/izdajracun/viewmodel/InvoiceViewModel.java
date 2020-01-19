@@ -1,6 +1,8 @@
 package hr.ml.izdajracun.viewmodel;
 
 import android.app.Application;
+import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -9,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.Calendar;
 
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.repository.InvoiceRepository;
 import hr.ml.izdajracun.utils.DataValidationStatus;
 import hr.ml.izdajracun.utils.InputFieldValidator;
@@ -16,26 +19,44 @@ import hr.ml.izdajracun.utils.ViewModelMode;
 
 public class InvoiceViewModel extends AndroidViewModel {
 
-    public MutableLiveData<DataValidationStatus> dataValidationStatus = new MutableLiveData<>();
+    private static final String TAG = "InvoiceViewModel";
 
-    private MutableLiveData<Calendar> invoiceDate = new MutableLiveData<>();
+    public MutableLiveData<DataValidationStatus> dataValidationStatus = new MutableLiveData<>();
+    public MutableLiveData<Calendar> invoiceDate = new MutableLiveData<>();
+    public MutableLiveData<ViewModelMode> mode = new MutableLiveData<>();
+    public Invoice invoiceToUpdate;
+
     private InvoiceRepository invoiceRepository;
-    private ViewModelMode viewModelMode;
-    private Invoice invoiceToUpdate;
+    public RentalPropertyInfo propertyInfo;
 
     public InvoiceViewModel(@NonNull Application application) {
         super(application);
         invoiceRepository = new InvoiceRepository(application);
-        viewModelMode = ViewModelMode.MODE_ADD;
+    }
+
+    public void start(Bundle arguments) {
+        if(arguments != null){
+            propertyInfo = (RentalPropertyInfo) arguments.getSerializable("property");
+            invoiceToUpdate = (Invoice) arguments.getSerializable("invoice");
+
+            if(invoiceToUpdate == null) {
+                mode.setValue(ViewModelMode.MODE_ADD);
+            } else {
+                mode.setValue(ViewModelMode.MODE_UPDATE);
+                invoiceDate.setValue(invoiceToUpdate.getDate());
+            }
+        } else {
+            Log.d(TAG, "failed to get arguments");
+        }
     }
 
     public void handleData(Invoice invoice){
-        Calendar calendar = getInvoiceDate().getValue();
-
+        Calendar calendar = invoiceDate.getValue();
         invoice.setDate(calendar);
         invoice.setYear(calendar.get(Calendar.YEAR));
+        invoice.setPropertyId(propertyInfo.getId());
 
-        switch (viewModelMode){
+        switch (mode.getValue()){
             case MODE_ADD:
                 insert(invoice);
                 break;
@@ -81,15 +102,7 @@ public class InvoiceViewModel extends AndroidViewModel {
         return true;
     }
 
-    public MutableLiveData<Calendar> getInvoiceDate() {
-        return invoiceDate;
-    }
-
-    public void setInvoiceToUpdate(Invoice invoiceToUpdate) {
-        this.invoiceToUpdate = invoiceToUpdate;
-    }
-
-    public void setViewModelMode(ViewModelMode viewModelMode) {
-        this.viewModelMode = viewModelMode;
+    public RentalPropertyInfo getPropertyInfo() {
+        return propertyInfo;
     }
 }

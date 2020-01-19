@@ -1,6 +1,7 @@
 package hr.ml.izdajracun.viewmodel;
 
 import android.app.Application;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,8 +18,8 @@ public class AddEditPropertyViewModel extends AndroidViewModel {
     private static final String TAG = "AddEditPropertyVM";
 
     public MutableLiveData<DataValidationStatus> dataValidationStatus = new MutableLiveData<>();
+    public MutableLiveData<ViewModelMode> mode = new MutableLiveData<>();
 
-    private ViewModelMode mode;
     private RentalPropertyInfo propertyInfoToUpdate;
     private RentalPropertyInfoRepository repository;
 
@@ -26,37 +27,30 @@ public class AddEditPropertyViewModel extends AndroidViewModel {
         super(application);
 
         repository = new RentalPropertyInfoRepository(application);
-        dataValidationStatus.setValue(DataValidationStatus.NONE);
-        mode = ViewModelMode.MODE_ADD;
     }
 
-    public void setMode(ViewModelMode mode) {
-        this.mode = mode;
-    }
-
-    public void setPropertyInfoToUpdate(RentalPropertyInfo propertyInfoToUpdate) {
-        this.propertyInfoToUpdate = propertyInfoToUpdate;
-    }
-
-    public void handlePropertyInfo(RentalPropertyInfo propertyInfo){
-        if(isPropertyInfoDataValid(propertyInfo)){
-            switch (mode){
-                case MODE_ADD:
-                    insert(propertyInfo);
-                    break;
-
-                case MODE_UPDATE:
-                    if(propertyInfoToUpdate != null){
-                        propertyInfo.setId(propertyInfoToUpdate.getId());
-                        update(propertyInfo);
-                    }
-
-                    break;
-            }
+    public void start(Bundle bundle){
+        if (bundle == null){
+            mode.setValue(ViewModelMode.MODE_ADD);
+        } else {
+            mode.setValue(ViewModelMode.MODE_UPDATE);
+            propertyInfoToUpdate = (RentalPropertyInfo) bundle.getSerializable("property");
         }
     }
 
-    private boolean isPropertyInfoDataValid(RentalPropertyInfo propertyInfo) {
+    public void handlePropertyInfo(RentalPropertyInfo propertyInfo) {
+        switch (mode.getValue()) {
+            case MODE_ADD:
+                repository.insert(propertyInfo);
+                break;
+            case MODE_UPDATE:
+                propertyInfo.setId(propertyInfoToUpdate.getId());
+                repository.update(propertyInfo);
+                break;
+        }
+    }
+
+    public boolean isPropertyInfoDataValid(RentalPropertyInfo propertyInfo) {
         if(InputFieldValidator.isAnyStringEmpty(propertyInfo.getName(), propertyInfo.getAddress(),
                 propertyInfo.getOwnerFirstName(), propertyInfo.getOwnerLastName(),
                 propertyInfo.getOwnerOIB(), propertyInfo.getOwnerIBAN())){
@@ -79,11 +73,7 @@ public class AddEditPropertyViewModel extends AndroidViewModel {
         return true;
     }
 
-    private void insert(RentalPropertyInfo propertyInfo){
-        repository.insert(propertyInfo);
-    }
-
-    private void update(RentalPropertyInfo propertyInfo){
-        repository.update(propertyInfo);
+    public RentalPropertyInfo getPropertyInfoToUpdate() {
+        return propertyInfoToUpdate;
     }
 }

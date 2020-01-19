@@ -1,6 +1,8 @@
 package hr.ml.izdajracun.viewmodel;
 
 import android.app.Application;
+import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,12 +19,14 @@ import hr.ml.izdajracun.utils.CustomTimeUtils;
 
 public class PropertyDashboardViewModel extends AndroidViewModel {
 
+    private static final String TAG = "PropertyDashboardVM";
+
     public MutableLiveData<Integer> selectedYear = new MutableLiveData<>();
     public LiveData<List<Invoice>> invoices;
 
     private InvoiceRepository invoiceRepository;
     private RentalPropertyInfoRepository propertyInfoRepository;
-    private int propertyInfoId;
+    private RentalPropertyInfo propertyInfo;
 
     public PropertyDashboardViewModel(@NonNull Application application) {
         super(application);
@@ -35,11 +39,20 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
         selectedYear.setValue(year);
     }
 
-    public void updateInvoices(){
-        invoices = invoiceRepository.getAllInvoicesInYear(propertyInfoId, selectedYear.getValue());
+    public void start(Bundle arguments) {
+        if(arguments != null){
+            propertyInfo = (RentalPropertyInfo) arguments.getSerializable("property");
+        } else {
+            Log.d(TAG, "failed to get arguments");
+        }
     }
 
-    public void deleteAllPropertyData(RentalPropertyInfo propertyInfo){
+    public void updateInvoices(){
+        invoices = invoiceRepository
+                .getAllInvoicesInYear(propertyInfo.getId(), selectedYear.getValue());
+    }
+
+    public void deleteAllPropertyData(){
         propertyInfoRepository.delete(propertyInfo);
     }
 
@@ -49,9 +62,5 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
 
     public void decrementYear(){
         selectedYear.setValue(selectedYear.getValue() - 1);
-    }
-
-    public void setPropertyId(int propertyInfoId) {
-        this.propertyInfoId = propertyInfoId;
     }
 }
