@@ -42,5 +42,8 @@
     <string name="new_business_invoice_button_content">R1 račun</string>
     <string name="new_invoice_button_content">račun</string>
 
+    <string name="invoice_edit">Uredi</string>
+    <string name="invoice_delete">Izbriši</string>
+    <string name="invoice_export_as_pdf">Izvezi u PDF</string>
 
 </resources>

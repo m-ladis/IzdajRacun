@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/invoice_edit"
+        android:title="@string/invoice_edit"/>
+
+    <item
+        android:id="@+id/invoice_delete"
+        android:title="@string/invoice_delete"/>
+
+    <item
+        android:id="@+id/invoice_export_as_pdf"
+        android:title="@string/invoice_export_as_pdf"/>
+</menu>

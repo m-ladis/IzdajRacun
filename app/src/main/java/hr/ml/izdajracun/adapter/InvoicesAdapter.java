@@ -1,14 +1,15 @@
 package hr.ml.izdajracun.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Calendar;
@@ -16,37 +17,23 @@ import java.util.List;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.view.OnInvoicePopupMenuItemSelectedListener;
 
 public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.InvoiceViewHolder> {
 
     private List<Invoice> invoices;
     private Context context;
-    private Bundle bundle;
+    private OnInvoicePopupMenuItemSelectedListener itemOptionsListener;
 
-    public InvoicesAdapter(Context context, Bundle bundle) {
+    public InvoicesAdapter(Context context) {
         this.context = context;
-        this.bundle = bundle;
     }
 
     @NonNull
     @Override
     public InvoiceViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.invoice_item, parent, false);
-        final InvoiceViewHolder viewHolder = new InvoiceViewHolder(view);
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Invoice invoice = invoices.get(viewHolder.getAdapterPosition());
-
-                bundle.putSerializable("invoice", invoice);
-
-                Navigation.findNavController(parent)
-                        .navigate(R.id.action_propertyDashboard_to_invoiceFragment, bundle);
-            }
-        });
-
-        return viewHolder;
+        return new InvoiceViewHolder(view);
     }
 
     @Override
@@ -71,6 +58,10 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         this.invoices = invoices;
     }
 
+    public void setItemOptionsListener(OnInvoicePopupMenuItemSelectedListener optionsListener) {
+        this.itemOptionsListener = optionsListener;
+    }
+
     public class InvoiceViewHolder extends RecyclerView.ViewHolder {
 
         private TextView invoiceNumberTextView;
@@ -85,6 +76,37 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
             invoiceCustomerTextView = itemView.findViewById(R.id.invoice_item_customer);
             invoiceDateTextView = itemView.findViewById(R.id.invoice_item_date);
             invoiceTotalPriceTextView = itemView.findViewById(R.id.invoice_item_total_price);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    PopupMenu itemMenu = new PopupMenu(context, v);
+                    itemMenu.inflate(R.menu.invoice_popup_menu);
+                    itemMenu.show();
+
+                    itemMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            Invoice invoice = invoices.get(getAdapterPosition());
+
+                            switch (item.getItemId()){
+                                case R.id.invoice_edit:
+                                    itemOptionsListener.edit(invoice);
+                                    return true;
+                                case R.id.invoice_delete:
+                                    itemOptionsListener.delete(invoice);
+                                    return true;
+                                case R.id.invoice_export_as_pdf:
+                                    itemOptionsListener.exportAsPdf(invoice);
+                                    return true;
+                                default:
+                                    return false;
+                            }
+                        }
+                    });
+                    return true;
+                }
+            });
         }
     }
 }

@@ -30,7 +30,8 @@ import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.viewmodel.PropertyDashboardViewModel;
 
-public class PropertyDashboardFragment extends Fragment implements View.OnClickListener {
+public class PropertyDashboardFragment extends Fragment implements View.OnClickListener,
+        OnInvoicePopupMenuItemSelectedListener{
 
     private static final String TAG = "PropertyDashboard";
     private static final int editMenuItemId = 1000;
@@ -118,7 +119,8 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
             }
         });
 
-        adapter = new InvoicesAdapter(getContext(), bundle);
+        adapter = new InvoicesAdapter(getContext());
+        adapter.setItemOptionsListener(this);
         invoicesRecyclerView.setAdapter(adapter);
 
         return rootView;
@@ -173,5 +175,23 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
             newBusinessInvoiceButton.setVisibility(visibility);
             newPersonalInvoiceButton.setVisibility(visibility);
         }
+    }
+
+    @Override
+    public void edit(Invoice invoice) {
+        bundle.putSerializable("invoice", invoice);
+
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_propertyDashboard_to_invoiceFragment, bundle);
+    }
+
+    @Override
+    public void delete(Invoice invoice) {
+        propertyDashboardViewModel.deleteInvoice(invoice);
+    }
+
+    @Override
+    public void exportAsPdf(Invoice invoice) {
+
     }
 }

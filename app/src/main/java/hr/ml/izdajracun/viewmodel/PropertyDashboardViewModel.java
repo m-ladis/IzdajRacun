@@ -52,6 +52,10 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
                 .getAllInvoicesInYear(propertyInfo.getId(), selectedYear.getValue());
     }
 
+    public void deleteInvoice(Invoice invoice){
+        invoiceRepository.delete(invoice);
+    }
+
     public void deleteAllPropertyData(){
         propertyInfoRepository.delete(propertyInfo);
     }
