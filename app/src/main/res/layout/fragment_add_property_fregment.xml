@@ -7,30 +7,33 @@
     android:padding="6dp"
     tools:context=".view.AddEditPropertyFragment">
 
-    <EditText
-        android:id="@+id/rental_property_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/rental_property_name_hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/done_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rental_property_name"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/rental_property_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:hint="@string/rental_property_name_hint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/owner_label"
             android:textColor="?attr/colorAccent"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/owner_first_name"
@@ -42,7 +45,7 @@
             android:hint="@string/owner_first_name_hint"
             android:inputType="textCapWords"
             android:maxLength="30"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/owner_last_name"
@@ -98,6 +101,7 @@
 
     </LinearLayout>
 
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/done_button"
