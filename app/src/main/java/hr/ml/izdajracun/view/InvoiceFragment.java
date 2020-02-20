@@ -69,7 +69,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         unitPriceEditText = rootView.findViewById(R.id.unit_price);
         totalPriceEditText = rootView.findViewById(R.id.total_price);
         descriptionEditText = rootView.findViewById(R.id.description);
-        dateEditText = rootView.findViewById(R.id.date);
+        dateEditText = rootView.findViewById(R.id.delivery_date);
         invoiceDoneButton = rootView.findViewById(R.id.invoice_done_button);
 
         dateEditText.setOnClickListener(this);
@@ -165,7 +165,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
             invoice = new Invoice(Integer.parseInt(invoiceNumber), customerName,
                     Integer.parseInt(quantity), Double.parseDouble(unitPrice),
                     Double.parseDouble(totalPrice), description);
-        } catch (Exception e){}
+        } catch (Exception ignored){}
 
         viewModel.isInvoiceDataValid(invoiceNumber, customerName, quantity,
                 unitPrice, totalPrice, date);

@@ -54,8 +54,8 @@ public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.Pr
 
         holder.nameTextView.setText(propertyInfo.getName());
         holder.addressTextView.setText(propertyInfo.getAddress());
-        holder.ownerFullNameTextView
-                .setText(propertyInfo.getOwnerFirstName() + " " + propertyInfo.getOwnerLastName());
+        holder.ownerFullNameTextView.setText(String.format(
+                "%s %s", propertyInfo.getOwnerFirstName(), propertyInfo.getOwnerLastName()));
     }
 
     @Override

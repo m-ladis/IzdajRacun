@@ -44,8 +44,8 @@ public class InputFieldValidator {
     }
 
     public static boolean isAnyStringEmpty(@NonNull String... strings) {
-        for (int i = 0; i < strings.length; i++) {
-            if (strings[i].isEmpty()) {
+        for (String string : strings) {
+            if (string.isEmpty()) {
                 return true;
             }
         }
@@ -54,6 +54,6 @@ public class InputFieldValidator {
     }
 
     public static boolean isPriceValid(int quantity, double unitPrice, double totalPrice){
-        return !(quantity * unitPrice < totalPrice);
+        return quantity * unitPrice < totalPrice;
     }
 }

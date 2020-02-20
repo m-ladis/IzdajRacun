@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.BusinessInvoiceFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/invoice_number"
+                style="@android:style/Widget.Material.Light.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="5"
+                android:longClickable="false"
+                android:maxLength="9"
+                android:inputType="number"
+                android:hint="@string/invoice_number_label"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/customer_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:ems="10"
+                android:hint="@string/customer_name_hint"
+                android:inputType="textCapSentences"
+                android:maxLength="40"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/invoice_number" />
+
+            <TextView
+                android:id="@+id/quantity_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:text="@string/quantity_label"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/quantity"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/quantity"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="60dp"
+                android:ems="10"
+                android:inputType="number"
+                android:longClickable="false"
+                android:maxLength="4"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customer_oib" />
+
+            <TextView
+                android:id="@+id/unit_price_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:text="@string/unit_prica_label"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/unit_price"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/unit_price"
+                style="@android:style/Widget.Material.Light.EditText"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/unit_price_hint"
+                android:inputType="numberDecimal"
+                android:longClickable="false"
+                android:maxLength="10"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/quantity"
+                app:layout_constraintTop_toBottomOf="@+id/quantity" />
+
+            <TextView
+                android:id="@+id/currency_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/currency_label"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/unit_price"
+                app:layout_constraintStart_toEndOf="@+id/unit_price" />
+
+            <TextView
+                android:id="@+id/total_price_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:text="@string/total_price_label"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/total_price"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/total_price"
+                style="@android:style/Widget.Material.Light.EditText"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/total_price_hint"
+                android:inputType="numberDecimal"
+                android:longClickable="false"
+                android:maxLength="10"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/unit_price"
+                app:layout_constraintTop_toBottomOf="@+id/unit_price" />
+
+            <TextView
+                android:id="@+id/currency_label2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/currency_label"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/total_price"
+                app:layout_constraintStart_toEndOf="@+id/total_price" />
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:ems="10"
+                android:hint="@string/description_hint"
+                android:inputType="text"
+                android:maxLength="50"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/total_price" />
+
+            <Spinner
+                android:id="@+id/payment_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/payment_method_label"
+                app:layout_constraintTop_toBottomOf="@+id/description" />
+
+            <ImageView
+                android:id="@+id/calendar_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="28dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/payment_method"
+                app:srcCompat="@drawable/ic_date_range_black" />
+
+            <EditText
+                android:id="@+id/issue_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="@string/date_hint"
+                android:inputType="date"
+                android:longClickable="false"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/calendar_icon"
+                app:layout_constraintTop_toBottomOf="@+id/payment_method" />
+
+            <ImageView
+                android:id="@+id/calendar_icon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/issue_date"
+                app:srcCompat="@drawable/ic_date_range_black" />
+
+            <EditText
+                android:id="@+id/delivery_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="@string/issue_date_hint"
+                android:inputType="date"
+                android:longClickable="false"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/calendar_icon2"
+                app:layout_constraintTop_toBottomOf="@+id/issue_date" />
+
+            <ImageView
+                android:id="@+id/calendar_icon3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calendar_icon2"
+                app:srcCompat="@drawable/ic_date_range_black" />
+
+            <EditText
+                android:id="@+id/pay_due_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="@string/pay_due_hint"
+                android:inputType="date"
+                android:longClickable="false"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/calendar_icon3"
+                app:layout_constraintTop_toBottomOf="@+id/delivery_date" />
+
+            <EditText
+                android:id="@+id/customer_oib"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:inputType="text"
+                android:maxLength="25"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/oibLahel"
+                app:layout_constraintTop_toBottomOf="@+id/customer_address" />
+
+            <EditText
+                android:id="@+id/customer_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="32dp"
+                android:ems="10"
+                android:hint="@string/customer_address"
+                android:inputType="textCapSentences"
+                android:maxLength="95"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/addressLable"
+                app:layout_constraintTop_toBottomOf="@+id/customer_name" />
+
+            <TextView
+                android:id="@+id/payment_method_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/payment_method_label"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description" />
+
+            <TextView
+                android:id="@+id/addressLable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="8dp"
+                android:text="Adresa :"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customer_name" />
+
+            <TextView
+                android:id="@+id/oibLahel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/customer_oib_hint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customer_address" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/invoice_done_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_done_black" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

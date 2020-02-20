@@ -12,16 +12,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import hr.ml.izdajracun.R;
+import hr.ml.izdajracun.model.entity.BusinessInvoice;
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.utils.InvoiceListHelper;
 import hr.ml.izdajracun.view.OnInvoicePopupMenuItemSelectedListener;
 
 public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.InvoiceViewHolder> {
 
-    private List<Invoice> invoices;
+    private static final String TAG = "InvoicesAdepter";
+
+    private List<Invoice> invoices = new ArrayList<>();
+    private List<BusinessInvoice> businessInvoices = new ArrayList<>();
     private Context context;
     private OnInvoicePopupMenuItemSelectedListener itemOptionsListener;
 
@@ -38,7 +44,8 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
 
     @Override
     public void onBindViewHolder(@NonNull InvoiceViewHolder holder, int position) {
-        Invoice invoice = invoices.get(position);
+        Object objectAtIndex = InvoiceListHelper.getObjectAtIndex(position, invoices, businessInvoices);
+        Invoice invoice = (Invoice) objectAtIndex;
         int year = invoice.getDate().get(Calendar.YEAR);
         int month = invoice.getDate().get(Calendar.MONTH) + 1;
         int day = invoice.getDate().get(Calendar.DAY_OF_MONTH);
@@ -51,7 +58,10 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
 
     @Override
     public int getItemCount() {
-        return invoices == null ? 0 : invoices.size();
+        int size = 0;
+        size += invoices == null ? 0 : invoices.size();
+        size += businessInvoices == null ? 0 : businessInvoices.size();
+        return size;
     }
 
     public void setInvoices(List<Invoice> invoices) {
@@ -60,6 +70,10 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
 
     public void setItemOptionsListener(OnInvoicePopupMenuItemSelectedListener optionsListener) {
         this.itemOptionsListener = optionsListener;
+    }
+
+    public void setBusinessInvoices(List<BusinessInvoice> businessInvoices) {
+        this.businessInvoices = businessInvoices;
     }
 
     public class InvoiceViewHolder extends RecyclerView.ViewHolder {
@@ -87,20 +101,41 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
                     itemMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            Invoice invoice = invoices.get(getAdapterPosition());
+                            Object objectAtIndex = InvoiceListHelper.getObjectAtIndex(
+                                    getAdapterPosition(), invoices, businessInvoices);
 
-                            switch (item.getItemId()){
-                                case R.id.invoice_edit:
-                                    itemOptionsListener.edit(invoice);
-                                    return true;
-                                case R.id.invoice_delete:
-                                    itemOptionsListener.delete(invoice);
-                                    return true;
-                                case R.id.invoice_export_as_pdf:
-                                    itemOptionsListener.exportAsPdf(invoice);
-                                    return true;
-                                default:
-                                    return false;
+                            if (objectAtIndex instanceof BusinessInvoice) {
+                                BusinessInvoice businessInvoice = (BusinessInvoice) objectAtIndex;
+
+                                switch (item.getItemId()) {
+                                    case R.id.invoice_edit:
+                                        itemOptionsListener.edit(businessInvoice);
+                                        return true;
+                                    case R.id.invoice_delete:
+                                        itemOptionsListener.delete(businessInvoice);
+                                        return true;
+                                    case R.id.invoice_export_as_pdf:
+                                        itemOptionsListener.exportAsPdf(businessInvoice);
+                                        return true;
+                                    default:
+                                        return false;
+                                }
+                            } else {
+                                Invoice invoice = (Invoice) objectAtIndex;
+
+                                switch (item.getItemId()) {
+                                    case R.id.invoice_edit:
+                                        itemOptionsListener.edit(invoice);
+                                        return true;
+                                    case R.id.invoice_delete:
+                                        itemOptionsListener.delete(invoice);
+                                        return true;
+                                    case R.id.invoice_export_as_pdf:
+                                        itemOptionsListener.exportAsPdf(invoice);
+                                        return true;
+                                    default:
+                                        return false;
+                                }
                             }
                         }
                     });

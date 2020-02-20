@@ -30,6 +30,9 @@ public class Invoice implements Serializable {
     private Calendar date;
     private int year;
 
+    public Invoice() {}
+
+    @Ignore
     public Invoice(int propertyId, int number, String customerName, int quantity, double unitPrice,
                    double totalPrice, String description) {
         this.propertyId = propertyId;
@@ -49,6 +52,30 @@ public class Invoice implements Serializable {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
+        this.description = description;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 

@@ -13,13 +13,12 @@ import hr.ml.izdajracun.repository.RentalPropertyInfoRepository;
 
 public class PropertiesViewModel extends AndroidViewModel {
 
-    private RentalPropertyInfoRepository repository;
     public LiveData<List<RentalPropertyInfo>> properties;
 
     public PropertiesViewModel(@NonNull Application application) {
         super(application);
 
-        repository = new RentalPropertyInfoRepository(application);
+        RentalPropertyInfoRepository repository = new RentalPropertyInfoRepository(application);
         properties = repository.getAllPropertiesInfo();
     }
 }

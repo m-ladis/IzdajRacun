@@ -10,13 +10,15 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import hr.ml.izdajracun.model.dao.BusinessInvoiceDao;
 import hr.ml.izdajracun.model.dao.InvoiceDao;
 import hr.ml.izdajracun.model.dao.RentalPropertyInfoDao;
+import hr.ml.izdajracun.model.entity.BusinessInvoice;
 import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.model.entity.typeconverter.CalendarTypeConverter;
 
-@Database(entities = {RentalPropertyInfo.class, Invoice.class}, version = 2)
+@Database(entities = {RentalPropertyInfo.class, Invoice.class, BusinessInvoice.class}, version = 3)
 @TypeConverters(value = CalendarTypeConverter.class)
 public abstract class IzdajRacunDatabase extends RoomDatabase {
 
@@ -25,6 +27,8 @@ public abstract class IzdajRacunDatabase extends RoomDatabase {
     public abstract RentalPropertyInfoDao rentalPropertyInfoDao();
 
     public abstract InvoiceDao invoiceDao();
+
+    public abstract BusinessInvoiceDao businessInvoiceDao();
 
     public static synchronized IzdajRacunDatabase getInstance(Context context){
         if(database == null){

@@ -82,24 +82,23 @@ public class InvoiceViewModel extends AndroidViewModel {
         invoiceDate.setValue(calendar);
     }
 
-    public boolean isInvoiceDataValid(String invoiceNumber, String customerName, String quantity,
-                                       String unitPrice, String totalPrice, String date) {
+    public void isInvoiceDataValid(String invoiceNumber, String customerName, String quantity,
+                                   String unitPrice, String totalPrice, String date) {
         if(InputFieldValidator.isAnyStringEmpty(invoiceNumber, customerName, quantity, unitPrice,
                 totalPrice, date)){
 
             dataValidationStatus.setValue(DataValidationStatus.DATA_HAS_EMPTY_FIELD);
-            return false;
+            return;
         }
 
-        if(!InputFieldValidator.isPriceValid(Integer.parseInt(quantity),
+        if(InputFieldValidator.isPriceValid(Integer.parseInt(quantity),
                 Double.parseDouble(unitPrice), Double.parseDouble(totalPrice))){
 
             dataValidationStatus.setValue(DataValidationStatus.PRICE_NOT_VALID);
-            return false;
+            return;
         }
 
         dataValidationStatus.setValue(DataValidationStatus.VALID);
-        return true;
     }
 
     public RentalPropertyInfo getPropertyInfo() {

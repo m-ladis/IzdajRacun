@@ -23,7 +23,7 @@ public interface RentalPropertyInfoDao {
     @Delete
     void delete(RentalPropertyInfo rentalPropertyInfo);
 
-    @Query("SELECT * FROM rental_property_info ORDER BY id ASC")
+    @Query("SELECT * FROM rental_property_info ORDER BY id DESC")
     LiveData<List<RentalPropertyInfo>> getAllRentalPropertiesInfo();
 
 }

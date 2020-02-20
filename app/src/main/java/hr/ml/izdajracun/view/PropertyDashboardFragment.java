@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +25,7 @@ import java.util.List;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.adapter.InvoicesAdapter;
+import hr.ml.izdajracun.model.entity.BusinessInvoice;
 import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.viewmodel.PropertyDashboardViewModel;
@@ -97,9 +97,7 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
                 .get(PropertyDashboardViewModel.class);
         propertyDashboardViewModel.start(getArguments());
         propertyDashboardViewModel.updateInvoices();
-
-        Navigation.setViewNavController(invoicesRecyclerView,
-                NavHostFragment.findNavController(this));
+        propertyDashboardViewModel.updateBusinessInvoices();
 
         propertyDashboardViewModel.selectedYear.observe(this, new Observer<Integer>() {
             @Override
@@ -107,12 +105,22 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
                 currentYearTextView.setText(integer.toString());
 
                 propertyDashboardViewModel.invoices.removeObservers(getViewLifecycleOwner());
+                propertyDashboardViewModel.businessInvoices.removeObservers(getViewLifecycleOwner());
                 propertyDashboardViewModel.updateInvoices();
+                propertyDashboardViewModel.updateBusinessInvoices();
                 propertyDashboardViewModel.invoices.observe(getViewLifecycleOwner(),
                         new Observer<List<Invoice>>() {
                     @Override
                     public void onChanged(List<Invoice> invoices) {
                         adapter.setInvoices(invoices);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                propertyDashboardViewModel.businessInvoices.observe(getViewLifecycleOwner(),
+                        new Observer<List<BusinessInvoice>>() {
+                    @Override
+                    public void onChanged(List<BusinessInvoice> businessInvoices) {
+                        adapter.setBusinessInvoices(businessInvoices);
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -163,6 +171,9 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
         } else if (v == newBusinessInvoiceButton){
 
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_propertyDashboard_to_businessInvoiceFragment, getArguments());
+
         } else if (v == invoiceButton) {
             int visibility = newBusinessInvoiceButton.getVisibility();
 
@@ -192,6 +203,24 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
     @Override
     public void exportAsPdf(Invoice invoice) {
+
+    }
+
+    @Override
+    public void edit(BusinessInvoice invoice) {
+        bundle.putSerializable("invoice", invoice);
+
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_propertyDashboard_to_businessInvoiceFragment, bundle);
+    }
+
+    @Override
+    public void delete(BusinessInvoice invoice) {
+        propertyDashboardViewModel.deleteInvoice(invoice);
+    }
+
+    @Override
+    public void exportAsPdf(BusinessInvoice invoice) {
 
     }
 }

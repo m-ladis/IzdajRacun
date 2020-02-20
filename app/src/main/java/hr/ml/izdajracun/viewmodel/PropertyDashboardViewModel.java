@@ -11,8 +11,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import hr.ml.izdajracun.model.entity.BusinessInvoice;
 import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
+import hr.ml.izdajracun.repository.BusinessInvoiceRepository;
 import hr.ml.izdajracun.repository.InvoiceRepository;
 import hr.ml.izdajracun.repository.RentalPropertyInfoRepository;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
@@ -23,8 +25,10 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
 
     public MutableLiveData<Integer> selectedYear = new MutableLiveData<>();
     public LiveData<List<Invoice>> invoices;
+    public LiveData<List<BusinessInvoice>> businessInvoices;
 
     private InvoiceRepository invoiceRepository;
+    private BusinessInvoiceRepository businessInvoiceRepository;
     private RentalPropertyInfoRepository propertyInfoRepository;
     private RentalPropertyInfo propertyInfo;
 
@@ -32,6 +36,7 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
         super(application);
 
         invoiceRepository = new InvoiceRepository(application);
+        businessInvoiceRepository = new BusinessInvoiceRepository(application);
         propertyInfoRepository = new RentalPropertyInfoRepository(application);
 
         int year = CustomTimeUtils.getCurrentYear();
@@ -52,8 +57,17 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
                 .getAllInvoicesInYear(propertyInfo.getId(), selectedYear.getValue());
     }
 
+    public void updateBusinessInvoices(){
+        businessInvoices = businessInvoiceRepository
+                .getAllInvoicesInYear(propertyInfo.getId(), selectedYear.getValue());
+    }
+
     public void deleteInvoice(Invoice invoice){
         invoiceRepository.delete(invoice);
+    }
+
+    public void deleteInvoice(BusinessInvoice invoice) {
+        businessInvoiceRepository.delete(invoice);
     }
 
     public void deleteAllPropertyData(){
