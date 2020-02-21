@@ -50,27 +50,26 @@ public class AddEditPropertyViewModel extends AndroidViewModel {
         }
     }
 
-    public boolean isPropertyInfoDataValid(RentalPropertyInfo propertyInfo) {
+    public void isPropertyInfoDataValid(RentalPropertyInfo propertyInfo) {
         if(InputFieldValidator.isAnyStringEmpty(propertyInfo.getName(), propertyInfo.getAddress(),
                 propertyInfo.getOwnerFirstName(), propertyInfo.getOwnerLastName(),
                 propertyInfo.getOwnerOIB(), propertyInfo.getOwnerIBAN())){
 
             dataValidationStatus.setValue(DataValidationStatus.DATA_HAS_EMPTY_FIELD);
-            return false;
+            return;
         }
 
         if(!InputFieldValidator.isOib(propertyInfo.getOwnerOIB())){
             dataValidationStatus.setValue(DataValidationStatus.OIB_NOT_VALID);
-            return false;
+            return;
         }
 
         if(!InputFieldValidator.isHrIban(propertyInfo.getOwnerIBAN())){
             dataValidationStatus.setValue(DataValidationStatus.IBAN_NOT_VALID);
-            return false;
+            return;
         }
 
         dataValidationStatus.setValue(DataValidationStatus.VALID);
-        return true;
     }
 
     public RentalPropertyInfo getPropertyInfoToUpdate() {

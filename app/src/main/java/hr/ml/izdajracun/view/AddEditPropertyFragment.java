@@ -142,14 +142,14 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
         Toast.makeText(getContext(), R.string.non_valid_oib_toast_content, Toast.LENGTH_SHORT)
                 .show();
 
-        startAnimationOnView(ownerOibEditText);
+        startAnimationOnView(ownerIbanEditText);
     }
 
     private void showOibNotValid() {
         Toast.makeText(getContext(), R.string.non_valid_iban_toast_content, Toast.LENGTH_SHORT)
                 .show();
 
-        startAnimationOnView(ownerIbanEditText);
+        startAnimationOnView(ownerOibEditText);
     }
 
     private void startAnimationOnFirstEmptyEditText(EditText...editTexts){

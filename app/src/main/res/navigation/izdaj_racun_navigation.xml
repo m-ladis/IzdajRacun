@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_signInFragment_to_propertiesFragment"
             app:destination="@id/propertiesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/signInFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -23,10 +27,18 @@
         tools:layout="@layout/fragment_properties" >
         <action
             android:id="@+id/action_propertiesFragment_to_addPropertyFregment"
-            app:destination="@id/addPropertyFragment" />
+            app:destination="@id/addPropertyFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_propertiesFragment_to_propertyDashboard"
-            app:destination="@id/propertyDashboard" />
+            app:destination="@id/propertyDashboard"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/addPropertyFragment"
@@ -36,6 +48,10 @@
         <action
             android:id="@+id/action_addPropertyFregment_to_propertiesFragment"
             app:destination="@id/propertiesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/propertiesFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -46,18 +62,34 @@
         tools:layout="@layout/fragment_property_dashboard" >
         <action
             android:id="@+id/action_propertyDashboard_to_addPropertyFregment"
-            app:destination="@id/addPropertyFragment" />
+            app:destination="@id/addPropertyFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_propertyDashboard_to_invoiceFragment"
-            app:destination="@id/invoiceFragment" />
+            app:destination="@id/invoiceFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_propertyDashboard_to_propertiesFragment"
             app:destination="@id/propertiesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/propertiesFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_propertyDashboard_to_businessInvoiceFragment"
-            app:destination="@id/businessInvoiceFragment" />
+            app:destination="@id/businessInvoiceFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/invoiceFragment"
@@ -67,6 +99,10 @@
         <action
             android:id="@+id/action_invoiceFragment_to_propertyDashboard"
             app:destination="@id/propertyDashboard"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/propertyDashboard"
             app:popUpToInclusive="true" />
     </fragment>
@@ -78,6 +114,10 @@
         <action
             android:id="@+id/action_businessInvoiceFragment_to_propertyDashboard"
             app:destination="@id/propertyDashboard"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/propertyDashboard"
             app:popUpToInclusive="true" />
     </fragment>
