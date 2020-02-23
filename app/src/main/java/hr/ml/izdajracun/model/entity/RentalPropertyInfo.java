@@ -16,14 +16,18 @@ public class RentalPropertyInfo implements Serializable {
     private String ownerLastName;
     private String ownerIBAN;
     private String ownerOIB;
+    private String logoImage;
 
-    public RentalPropertyInfo(String name, String address, String ownerFirstName, String ownerLastName, String ownerIBAN, String ownerOIB) {
+    public RentalPropertyInfo(String name, String address, String ownerFirstName,
+                              String ownerLastName, String ownerIBAN, String ownerOIB,
+                              String logoImage) {
         this.name = name;
         this.address = address;
         this.ownerFirstName = ownerFirstName;
         this.ownerLastName = ownerLastName;
         this.ownerIBAN = ownerIBAN;
         this.ownerOIB = ownerOIB;
+        this.logoImage = logoImage;
     }
 
     public void setId(int id) {
@@ -56,5 +60,9 @@ public class RentalPropertyInfo implements Serializable {
 
     public String getOwnerOIB() {
         return ownerOIB;
+    }
+
+    public String getLogoImage() {
+        return logoImage;
     }
 }
