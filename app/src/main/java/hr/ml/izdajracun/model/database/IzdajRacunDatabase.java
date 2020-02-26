@@ -17,9 +17,10 @@ import hr.ml.izdajracun.model.entity.BusinessInvoice;
 import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.model.entity.typeconverter.CalendarTypeConverter;
+import hr.ml.izdajracun.model.entity.typeconverter.RentalPropertyInfoTypeConverter;
 
-@Database(entities = {RentalPropertyInfo.class, Invoice.class, BusinessInvoice.class}, version = 3)
-@TypeConverters(value = CalendarTypeConverter.class)
+@Database(entities = {RentalPropertyInfo.class, Invoice.class, BusinessInvoice.class}, version = 4)
+@TypeConverters(value = {CalendarTypeConverter.class, RentalPropertyInfoTypeConverter.class})
 public abstract class IzdajRacunDatabase extends RoomDatabase {
 
     private static IzdajRacunDatabase database;

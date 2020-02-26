@@ -51,18 +51,20 @@ public class InvoiceViewModel extends AndroidViewModel {
     }
 
     public void handleData(Invoice invoice){
-        Calendar calendar = invoiceDate.getValue();
-        invoice.setDate(calendar);
-        invoice.setYear(calendar.get(Calendar.YEAR));
-        invoice.setPropertyId(propertyInfo.getId());
-
         switch (mode.getValue()){
             case MODE_ADD:
                 insert(invoice);
                 break;
             case MODE_UPDATE:
-                invoice.setId(invoiceToUpdate.getId());
-                update(invoice);
+                invoiceToUpdate.setNumber(invoice.getNumber());
+                invoiceToUpdate.setCustomerName(invoice.getCustomerName());
+                invoiceToUpdate.setQuantity(invoice.getQuantity());
+                invoiceToUpdate.setUnitPrice(invoice.getUnitPrice());
+                invoiceToUpdate.setTotalPrice(invoice.getTotalPrice());
+                invoiceToUpdate.setDescription(invoice.getDescription());
+                invoiceToUpdate.setDate(invoice.getDate());
+
+                update(invoiceToUpdate);
                 break;
         }
     }
@@ -99,9 +101,5 @@ public class InvoiceViewModel extends AndroidViewModel {
         }
 
         dataValidationStatus.setValue(DataValidationStatus.VALID);
-    }
-
-    public RentalPropertyInfo getPropertyInfo() {
-        return propertyInfo;
     }
 }

@@ -21,6 +21,7 @@ public class Invoice implements Serializable {
     private int id;
 
     private int propertyId;
+    private RentalPropertyInfo propertyInfo;
     private int number;
     private String customerName;
     private int quantity;
@@ -33,26 +34,18 @@ public class Invoice implements Serializable {
     public Invoice() {}
 
     @Ignore
-    public Invoice(int propertyId, int number, String customerName, int quantity, double unitPrice,
-                   double totalPrice, String description) {
-        this.propertyId = propertyId;
+    public Invoice(RentalPropertyInfo propertyInfo, int number, String customerName, int quantity,
+                   double unitPrice, double totalPrice, String description, Calendar date, int year) {
+        this.propertyInfo = propertyInfo;
+        this.propertyId = propertyInfo.getId();
         this.number = number;
         this.customerName = customerName;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
         this.description = description;
-    }
-
-    @Ignore
-    public Invoice(int number, String customerName, int quantity, double unitPrice,
-                   double totalPrice, String description) {
-        this.number = number;
-        this.customerName = customerName;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
-        this.totalPrice = totalPrice;
-        this.description = description;
+        this.date = date;
+        this.year = year;
     }
 
     public void setNumber(int number) {
@@ -133,5 +126,13 @@ public class Invoice implements Serializable {
 
     public int getYear() {
         return year;
+    }
+
+    public RentalPropertyInfo getPropertyInfo() {
+        return propertyInfo;
+    }
+
+    public void setPropertyInfo(RentalPropertyInfo propertyInfo) {
+        this.propertyInfo = propertyInfo;
     }
 }

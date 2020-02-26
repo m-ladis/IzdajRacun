@@ -24,6 +24,7 @@ import java.util.Calendar;
 
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
 import hr.ml.izdajracun.utils.DataValidationStatus;
 import hr.ml.izdajracun.utils.ViewModelMode;
@@ -113,7 +114,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
                         viewModel.handleData(invoice);
 
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("property", viewModel.getPropertyInfo());
+                        bundle.putSerializable("property", viewModel.propertyInfo);
 
                         NavHostFragment.findNavController(getParentFragment())
                                 .navigate(R.id.action_invoiceFragment_to_propertyDashboard, bundle);
@@ -162,9 +163,13 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         String date = dateEditText.getText().toString();
 
         try{
-            invoice = new Invoice(Integer.parseInt(invoiceNumber), customerName,
-                    Integer.parseInt(quantity), Double.parseDouble(unitPrice),
-                    Double.parseDouble(totalPrice), description);
+            RentalPropertyInfo propertyInfo = viewModel.propertyInfo;
+            Calendar issueDate = viewModel.invoiceDate.getValue();
+
+            invoice = new Invoice(propertyInfo, Integer.parseInt(invoiceNumber),
+                    customerName, Integer.parseInt(quantity), Double.parseDouble(unitPrice),
+                    Double.parseDouble(totalPrice), description,
+                    issueDate, issueDate.get(Calendar.YEAR));
         } catch (Exception ignored){}
 
         viewModel.isInvoiceDataValid(invoiceNumber, customerName, quantity,

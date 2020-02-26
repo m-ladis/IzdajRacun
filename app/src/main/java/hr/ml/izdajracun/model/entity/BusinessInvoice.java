@@ -17,30 +17,18 @@ public class BusinessInvoice extends Invoice {
     public BusinessInvoice() {}
 
     @Ignore
-    public BusinessInvoice(int propertyId ,Invoice invoice, String customerAddress,
-                           String customerOib, String paymentMethod, Calendar payDueDate,
-                           Calendar deliveryDate) {
+    public BusinessInvoice(Invoice invoice, String customerAddress, String customerOib,
+                           String paymentMethod, Calendar payDueDate, Calendar deliveryDate) {
 
-        super(propertyId ,invoice.getNumber(), invoice.getCustomerName(), invoice.getQuantity(),
-                invoice.getUnitPrice(), invoice.getTotalPrice(), invoice.getDescription());
+        super(invoice.getPropertyInfo() ,invoice.getNumber(), invoice.getCustomerName(),
+                invoice.getQuantity(), invoice.getUnitPrice(), invoice.getTotalPrice(),
+                invoice.getDescription(), invoice.getDate(), invoice.getYear());
 
         this.customerAddress = customerAddress;
         this.customerOib = customerOib;
         this.paymentMethod = paymentMethod;
         this.payDueDate = payDueDate;
         this.deliveryDate = deliveryDate;
-    }
-
-    @Ignore
-    public BusinessInvoice(Invoice invoice,
-                           String customerAddress, String customerOib, String paymentMethod) {
-
-        super(invoice.getNumber(), invoice.getCustomerName(), invoice.getQuantity(),
-                invoice.getUnitPrice(), invoice.getTotalPrice(), invoice.getDescription());
-
-        this.customerAddress = customerAddress;
-        this.customerOib = customerOib;
-        this.paymentMethod = paymentMethod;
     }
 
     public void setCustomerAddress(String customerAddress) {

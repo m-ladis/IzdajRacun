@@ -104,20 +104,25 @@ public class BuisnessInvoiceViewModel extends AndroidViewModel {
     }
 
     public void handleData(BusinessInvoice businessInvoice) {
-        Calendar calendar = issueDate.getValue();
-        businessInvoice.setDate(calendar);
-        businessInvoice.setYear(calendar.get(Calendar.YEAR));
-        businessInvoice.setPropertyId(propertyInfo.getId());
-        businessInvoice.setDeliveryDate(deliveryDate.getValue());
-        businessInvoice.setPayDueDate(payDueDate.getValue());
-
         switch (mode.getValue()){
             case MODE_ADD:
                 insert(businessInvoice);
                 break;
             case MODE_UPDATE:
-                businessInvoice.setId(invoiceToUpdate.getId());
-                update(businessInvoice);
+                invoiceToUpdate.setNumber(businessInvoice.getNumber());
+                invoiceToUpdate.setCustomerName(businessInvoice.getCustomerName());
+                invoiceToUpdate.setCustomerAddress(businessInvoice.getCustomerAddress());
+                invoiceToUpdate.setCustomerOib(businessInvoice.getCustomerOib());
+                invoiceToUpdate.setQuantity(businessInvoice.getQuantity());
+                invoiceToUpdate.setUnitPrice(businessInvoice.getUnitPrice());
+                invoiceToUpdate.setTotalPrice(businessInvoice.getTotalPrice());
+                invoiceToUpdate.setDescription(businessInvoice.getDescription());
+                invoiceToUpdate.setPaymentMethod(businessInvoice.getPaymentMethod());
+                invoiceToUpdate.setDate(businessInvoice.getDate());
+                invoiceToUpdate.setPayDueDate(businessInvoice.getPayDueDate());
+                invoiceToUpdate.setDeliveryDate(businessInvoice.getDeliveryDate());
+
+                update(invoiceToUpdate);
                 break;
         }
     }

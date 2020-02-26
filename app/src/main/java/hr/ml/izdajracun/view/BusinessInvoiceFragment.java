@@ -27,6 +27,7 @@ import java.util.Calendar;
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.BusinessInvoice;
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
 import hr.ml.izdajracun.utils.DataValidationStatus;
 import hr.ml.izdajracun.utils.ViewModelMode;
@@ -200,13 +201,21 @@ public class BusinessInvoiceFragment extends Fragment implements View.OnClickLis
         String payDueDate = payDueDateEditText.getText().toString();
         String deliveryDate = deliveryDateEditText.getText().toString();
 
-        try{
-            Invoice invoice = new Invoice(Integer.parseInt(invoiceNumber), customerName,
-                    Integer.parseInt(quantity), Double.parseDouble(unitPrice),
-                    Double.parseDouble(totalPrice), description);
 
-            businessInvoice = new BusinessInvoice(invoice,
-                    customerAddress, customerOib, paymentMethod);
+
+        try{
+            RentalPropertyInfo propertyInfo = viewModel.propertyInfo;
+            Calendar issueDateValue = viewModel.issueDate.getValue();
+            Calendar payDueDateValue = viewModel.payDueDate.getValue();
+            Calendar deliveryDateValue = viewModel.deliveryDate.getValue();
+
+            Invoice invoice = new Invoice(propertyInfo, Integer.parseInt(invoiceNumber), customerName,
+                    Integer.parseInt(quantity), Double.parseDouble(unitPrice),
+                    Double.parseDouble(totalPrice), description, issueDateValue,
+                    issueDateValue.get(Calendar.YEAR));
+
+            businessInvoice = new BusinessInvoice(invoice, customerAddress, customerOib,
+                    paymentMethod, payDueDateValue, deliveryDateValue);
 
         } catch (Exception ignored){}
 
