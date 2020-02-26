@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
-            android:hint="@string/rental_property_name_hint" />
+            android:hint="@string/rental_property_name_hint"
+            android:singleLine="true" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -91,7 +91,7 @@ public class InvoiceViewModel extends AndroidViewModel {
             return;
         }
 
-        if(InputFieldValidator.isPriceValid(Integer.parseInt(quantity),
+        if(!InputFieldValidator.isPriceValid(Integer.parseInt(quantity),
                 Double.parseDouble(unitPrice), Double.parseDouble(totalPrice))){
 
             dataValidationStatus.setValue(DataValidationStatus.PRICE_NOT_VALID);

@@ -2,6 +2,8 @@ package hr.ml.izdajracun.utils;
 
 import androidx.annotation.NonNull;
 
+import java.math.BigInteger;
+
 public class InputFieldValidator {
     public static boolean isOib(@NonNull String oib) {
         try {
@@ -39,6 +41,20 @@ public class InputFieldValidator {
 
         if (iban.length() == 21) {
             isHrIban = true;
+
+            String countryCode = iban.substring(0,2);
+            if(countryCode.equals("HR")) {
+                String checkIban = iban.substring(4) + "1727" + iban.substring(2,4);
+                BigInteger bigInteger = new BigInteger(checkIban);
+                int reminder = bigInteger.remainder(BigInteger.valueOf(97)).intValue();
+
+                if(reminder == 1){
+                    isHrIban = true;
+                } else {
+                    isHrIban = false;
+                }
+
+            } else isHrIban = false;
         }
         return isHrIban;
     }
@@ -54,6 +70,6 @@ public class InputFieldValidator {
     }
 
     public static boolean isPriceValid(int quantity, double unitPrice, double totalPrice){
-        return quantity * unitPrice < totalPrice;
+        return quantity * unitPrice >= totalPrice;
     }
 }

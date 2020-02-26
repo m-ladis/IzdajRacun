@@ -76,18 +76,24 @@ public class BuisnessInvoiceViewModel extends AndroidViewModel {
         payDueDate.setValue(calendar);
     }
 
-    public void isInvoiceDataValid(String invoiceNumber, String customerName, String quantity,
+    public void isInvoiceDataValid(String invoiceNumber, String customerName,
+                                   String customerAddress, String customerOib, String quantity,
                                    String unitPrice, String totalPrice, String issueDate,
                                    String payDueDate, String deliveryDate) {
 
-        if(InputFieldValidator.isAnyStringEmpty(invoiceNumber, customerName, quantity, unitPrice,
-                totalPrice, issueDate, payDueDate, deliveryDate)){
+        if(InputFieldValidator.isAnyStringEmpty(invoiceNumber, customerName, customerAddress,
+                customerOib, quantity, unitPrice, totalPrice, issueDate, payDueDate, deliveryDate)){
 
             dataValidationStatus.setValue(DataValidationStatus.DATA_HAS_EMPTY_FIELD);
             return;
         }
 
-        if(InputFieldValidator.isPriceValid(Integer.parseInt(quantity),
+        if(!InputFieldValidator.isOib(customerOib)){
+            dataValidationStatus.setValue(DataValidationStatus.OIB_NOT_VALID);
+            return;
+        }
+
+        if(!InputFieldValidator.isPriceValid(Integer.parseInt(quantity),
                 Double.parseDouble(unitPrice), Double.parseDouble(totalPrice))){
 
             dataValidationStatus.setValue(DataValidationStatus.PRICE_NOT_VALID);

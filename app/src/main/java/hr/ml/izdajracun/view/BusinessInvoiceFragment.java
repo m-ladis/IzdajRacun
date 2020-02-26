@@ -152,6 +152,10 @@ public class BusinessInvoiceFragment extends Fragment implements View.OnClickLis
                         showUnitPriceNotValid();
                         break;
 
+                    case OIB_NOT_VALID:
+                        startAnimationOnView(customerOibEditText);
+                        break;
+
                     case VALID:
                         viewModel.handleData(businessInvoice);
 
@@ -206,8 +210,8 @@ public class BusinessInvoiceFragment extends Fragment implements View.OnClickLis
 
         } catch (Exception ignored){}
 
-        viewModel.isInvoiceDataValid(invoiceNumber, customerName, quantity,
-                unitPrice, totalPrice, issueDate, payDueDate, deliveryDate);
+        viewModel.isInvoiceDataValid(invoiceNumber, customerName, customerAddress, customerOib,
+                quantity, unitPrice, totalPrice, issueDate, payDueDate, deliveryDate);
     }
 
     private void showDatePicker(final int id) {
