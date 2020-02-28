@@ -1,8 +1,12 @@
 package hr.ml.izdajracun.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -10,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +25,9 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.itextpdf.text.DocumentException;
 
+import java.io.IOException;
 import java.util.List;
 
 import hr.ml.izdajracun.R;
@@ -28,12 +35,14 @@ import hr.ml.izdajracun.adapter.InvoicesAdapter;
 import hr.ml.izdajracun.model.entity.BusinessInvoice;
 import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
+import hr.ml.izdajracun.utils.InvoiceGenerator;
 import hr.ml.izdajracun.viewmodel.PropertyDashboardViewModel;
 
 public class PropertyDashboardFragment extends Fragment implements View.OnClickListener,
         OnInvoicePopupMenuItemSelectedListener{
 
     private static final String TAG = "PropertyDashboard";
+    private static final int RC_PERMISSION_WRITE_EXTERNAL = 100;
     private static final int editMenuItemId = 1000;
     private static final int deleteAllIMenutemId = 1001;
 
@@ -131,6 +140,8 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         adapter.setItemOptionsListener(this);
         invoicesRecyclerView.setAdapter(adapter);
 
+        checkStoragePermission();
+
         return rootView;
     }
 
@@ -203,7 +214,11 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
     @Override
     public void exportAsPdf(Invoice invoice) {
-
+        try {
+            InvoiceGenerator.generate(invoice);
+        } catch (IOException | DocumentException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -221,6 +236,29 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
 
     @Override
     public void exportAsPdf(BusinessInvoice invoice) {
+        try {
+            InvoiceGenerator.generate(invoice);
+        } catch (IOException | DocumentException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public  void checkStoragePermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG,"Permission is granted");
+
+            } else {
+
+                Log.v(TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(getActivity(), new String[]
+                        {Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_PERMISSION_WRITE_EXTERNAL);
+            }
+        }
+        else {
+            //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG,"Permission is granted");
+        }
     }
 }

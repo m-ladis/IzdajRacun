@@ -177,7 +177,7 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
                 try {
                     InputStream inputStream = contentResolver.openInputStream(uri);
                     Bitmap bitImage = BitmapFactory.decodeStream(inputStream);
-                    Bitmap scaledImage = Bitmap.createScaledBitmap(bitImage, 250,250,true);
+                    Bitmap scaledImage = Bitmap.createScaledBitmap(bitImage, 100,100,true);
                     logoPreviewImageView.setImageBitmap(scaledImage);
                     if (inputStream != null) {
                         inputStream.close();
