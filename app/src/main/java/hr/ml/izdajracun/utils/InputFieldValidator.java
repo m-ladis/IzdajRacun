@@ -40,20 +40,18 @@ public class InputFieldValidator {
         boolean isHrIban = false;
 
         if (iban.length() == 21) {
-            isHrIban = true;
-
             String countryCode = iban.substring(0,2);
             if(countryCode.equals("HR")) {
                 String checkIban = iban.substring(4) + "1727" + iban.substring(2,4);
-                BigInteger bigInteger = new BigInteger(checkIban);
-                int reminder = bigInteger.remainder(BigInteger.valueOf(97)).intValue();
 
-                if(reminder == 1){
-                    isHrIban = true;
-                } else {
+                try {
+                    BigInteger bigInteger = new BigInteger(checkIban);
+                    int reminder = bigInteger.remainder(BigInteger.valueOf(97)).intValue();
+
+                    isHrIban = reminder == 1;
+                } catch (Exception e){
                     isHrIban = false;
                 }
-
             } else isHrIban = false;
         }
         return isHrIban;

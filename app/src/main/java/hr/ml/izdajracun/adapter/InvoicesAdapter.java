@@ -19,6 +19,7 @@ import java.util.List;
 import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.model.entity.BusinessInvoice;
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.utils.InvoiceGenerator;
 import hr.ml.izdajracun.utils.InvoiceListHelper;
 import hr.ml.izdajracun.view.OnInvoicePopupMenuItemSelectedListener;
 
@@ -53,7 +54,8 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         holder.invoiceNumberTextView.setText(String.valueOf(invoice.getNumber()));
         holder.invoiceCustomerTextView.setText(invoice.getCustomerName());
         holder.invoiceDateTextView.setText(day + "." + month + "." + year + ".");
-        holder.invoiceTotalPriceTextView.setText(String.valueOf(invoice.getTotalPrice()));
+        holder.invoiceTotalPriceTextView.setText(InvoiceGenerator.roundTwoDecimal(
+                String.valueOf(invoice.getTotalPrice())));
     }
 
     @Override
