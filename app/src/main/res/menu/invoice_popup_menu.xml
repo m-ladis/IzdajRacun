@@ -8,7 +8,4 @@
         android:id="@+id/invoice_delete"
         android:title="@string/invoice_delete"/>
 
-    <item
-        android:id="@+id/invoice_export_as_pdf"
-        android:title="@string/invoice_export_as_pdf"/>
 </menu>

@@ -21,7 +21,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.itextpdf.text.DocumentException;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 import hr.ml.izdajracun.R;
@@ -30,6 +32,7 @@ import hr.ml.izdajracun.model.entity.Invoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
 import hr.ml.izdajracun.utils.DataValidationStatus;
+import hr.ml.izdajracun.utils.InvoiceGenerator;
 import hr.ml.izdajracun.utils.ViewModelMode;
 import hr.ml.izdajracun.viewmodel.BuisnessInvoiceViewModel;
 
@@ -159,6 +162,13 @@ public class BusinessInvoiceFragment extends Fragment implements View.OnClickLis
 
                     case VALID:
                         viewModel.handleData(businessInvoice);
+
+                        //generate pdf
+                        try {
+                            InvoiceGenerator.generate(businessInvoice);
+                        } catch (IOException | DocumentException e) {
+                            e.printStackTrace();
+                        }
 
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("property", viewModel.propertyInfo);

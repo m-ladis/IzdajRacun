@@ -3,11 +3,11 @@ package hr.ml.izdajracun.view;
 import hr.ml.izdajracun.model.entity.MinimalBusinessInvoice;
 import hr.ml.izdajracun.model.entity.MinimalInvoice;
 
-public interface OnInvoicePopupMenuItemSelectedListener {
+public interface OnSelectedInvoiceListener {
     void edit(MinimalInvoice invoice);
     void delete(MinimalInvoice invoice);
-    void exportAsPdf(MinimalInvoice invoice);
+    void open(MinimalInvoice invoice);
     void edit(MinimalBusinessInvoice invoice);
     void delete(MinimalBusinessInvoice invoice);
-    void exportAsPdf(MinimalBusinessInvoice invoice);
+    void open(MinimalBusinessInvoice invoice);
 }

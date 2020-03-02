@@ -1,12 +1,17 @@
 package hr.ml.izdajracun.view;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -27,6 +32,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.itextpdf.text.DocumentException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,7 +47,7 @@ import hr.ml.izdajracun.utils.InvoiceGenerator;
 import hr.ml.izdajracun.viewmodel.PropertyDashboardViewModel;
 
 public class PropertyDashboardFragment extends Fragment implements View.OnClickListener,
-        OnInvoicePopupMenuItemSelectedListener{
+        OnSelectedInvoiceListener {
 
     private static final String TAG = "PropertyDashboard";
     private static final int RC_PERMISSION_WRITE_EXTERNAL = 100;
@@ -138,8 +144,15 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
             }
         });
 
+        propertyDashboardViewModel.fileToOpen.observe(this, new Observer<File>() {
+            @Override
+            public void onChanged(File file) {
+                openPdf(file);
+            }
+        });
+
         adapter = new InvoicesAdapter(getContext());
-        adapter.setItemOptionsListener(this);
+        adapter.setSelectedInvoiceListener(this);
         invoicesRecyclerView.setAdapter(adapter);
 
         checkStoragePermission();
@@ -221,16 +234,12 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void exportAsPdf(MinimalInvoice minimalInvoice) {
+    public void open(MinimalInvoice minimalInvoice) {
         propertyDashboardViewModel.getInvoiceById(minimalInvoice.getId());
         propertyDashboardViewModel.invoice.observe(this, new Observer<Invoice>() {
             @Override
             public void onChanged(Invoice invoice) {
-                try {
-                    InvoiceGenerator.generate(invoice);
-                } catch (IOException | DocumentException e) {
-                    e.printStackTrace();
-                }
+                propertyDashboardViewModel.openPdf(invoice);
             }
         });
     }
@@ -255,16 +264,12 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void exportAsPdf(MinimalBusinessInvoice minimalBusinessInvoice) {
+    public void open(MinimalBusinessInvoice minimalBusinessInvoice) {
         propertyDashboardViewModel.getBusinessInvoiceById(minimalBusinessInvoice.getId());
         propertyDashboardViewModel.businessInvoice.observe(this, new Observer<BusinessInvoice>() {
             @Override
             public void onChanged(BusinessInvoice invoice) {
-                try {
-                    InvoiceGenerator.generate(invoice);
-                } catch (IOException | DocumentException e) {
-                    e.printStackTrace();
-                }
+                propertyDashboardViewModel.openPdf(invoice);
             }
         });
     }
@@ -285,6 +290,22 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
         else {
             //permission is automatically granted on sdk<23 upon installation
             Log.v(TAG,"Permission is granted");
+        }
+    }
+
+    private void openPdf(File file){
+        Context context = getContext();
+        Uri uri = FileProvider.getUriForFile(context,
+                context.getApplicationContext().getPackageName() + ".provider", file);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri,"application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.d(TAG, "Install .pdf viewer");
         }
     }
 }

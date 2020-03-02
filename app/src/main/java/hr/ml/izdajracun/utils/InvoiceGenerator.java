@@ -334,4 +334,12 @@ public class InvoiceGenerator {
 
         return (day + "." + month + "." + year + "." );
     }
+
+    public static File getInvoiceFile(Invoice invoice){
+        File root = Environment.getExternalStorageDirectory();
+        File dir = new File(root.getAbsolutePath() + "/IzdajRacun/"
+                + invoice.getPropertyInfo().getId() + "/" + invoice.getYear());
+
+        return new File(dir, invoice.getNumber() + ".pdf");
+    }
 }

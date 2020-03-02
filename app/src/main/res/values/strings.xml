@@ -44,7 +44,6 @@
 
     <string name="invoice_edit">Uredi</string>
     <string name="invoice_delete">Izbriši</string>
-    <string name="invoice_export_as_pdf">Izvezi u PDF</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="issue_date_hint">Datum dospijeća</string>

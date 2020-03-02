@@ -9,6 +9,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.itextpdf.text.DocumentException;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import hr.ml.izdajracun.model.entity.BusinessInvoice;
@@ -20,12 +24,14 @@ import hr.ml.izdajracun.repository.BusinessInvoiceRepository;
 import hr.ml.izdajracun.repository.InvoiceRepository;
 import hr.ml.izdajracun.repository.RentalPropertyInfoRepository;
 import hr.ml.izdajracun.utils.CustomTimeUtils;
+import hr.ml.izdajracun.utils.InvoiceGenerator;
 
 public class PropertyDashboardViewModel extends AndroidViewModel {
 
     private static final String TAG = "PropertyDashboardVM";
 
     public MutableLiveData<Integer> selectedYear = new MutableLiveData<>();
+    public MutableLiveData<File> fileToOpen = new MutableLiveData<>();
     public LiveData<List<MinimalInvoice>> invoices;
     public LiveData<List<MinimalBusinessInvoice>> businessInvoices;
     public LiveData<Invoice> invoice;
@@ -92,5 +98,19 @@ public class PropertyDashboardViewModel extends AndroidViewModel {
 
     public void decrementYear(){
         selectedYear.setValue(selectedYear.getValue() - 1);
+    }
+
+    public void openPdf(Invoice invoice) {
+        File pdfFile = InvoiceGenerator.getInvoiceFile(invoice);
+
+        if(pdfFile.isFile()){
+            fileToOpen.setValue(pdfFile);
+        } else {
+            try {
+                fileToOpen.setValue(InvoiceGenerator.generate(invoice));
+            } catch (IOException | DocumentException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
