@@ -34,6 +34,8 @@ import hr.ml.izdajracun.R;
 import hr.ml.izdajracun.adapter.InvoicesAdapter;
 import hr.ml.izdajracun.model.entity.BusinessInvoice;
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.MinimalBusinessInvoice;
+import hr.ml.izdajracun.model.entity.MinimalInvoice;
 import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 import hr.ml.izdajracun.utils.InvoiceGenerator;
 import hr.ml.izdajracun.viewmodel.PropertyDashboardViewModel;
@@ -118,17 +120,17 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
                 propertyDashboardViewModel.updateInvoices();
                 propertyDashboardViewModel.updateBusinessInvoices();
                 propertyDashboardViewModel.invoices.observe(getViewLifecycleOwner(),
-                        new Observer<List<Invoice>>() {
+                        new Observer<List<MinimalInvoice>>() {
                     @Override
-                    public void onChanged(List<Invoice> invoices) {
+                    public void onChanged(List<MinimalInvoice> invoices) {
                         adapter.setInvoices(invoices);
                         adapter.notifyDataSetChanged();
                     }
                 });
                 propertyDashboardViewModel.businessInvoices.observe(getViewLifecycleOwner(),
-                        new Observer<List<BusinessInvoice>>() {
+                        new Observer<List<MinimalBusinessInvoice>>() {
                     @Override
-                    public void onChanged(List<BusinessInvoice> businessInvoices) {
+                    public void onChanged(List<MinimalBusinessInvoice> businessInvoices) {
                         adapter.setBusinessInvoices(businessInvoices);
                         adapter.notifyDataSetChanged();
                     }
@@ -200,47 +202,71 @@ public class PropertyDashboardFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void edit(Invoice invoice) {
-        bundle.putSerializable("invoice", invoice);
+    public void edit(MinimalInvoice minimalInvoice) {
+        propertyDashboardViewModel.getInvoiceById(minimalInvoice.getId());
+        propertyDashboardViewModel.invoice.observe(this, new Observer<Invoice>() {
+            @Override
+            public void onChanged(Invoice invoice) {
+                bundle.putSerializable("invoice", invoice);
 
-        NavHostFragment.findNavController(this)
-                .navigate(R.id.action_propertyDashboard_to_invoiceFragment, bundle);
+                NavHostFragment.findNavController(getParentFragment())
+                        .navigate(R.id.action_propertyDashboard_to_invoiceFragment, bundle);
+            }
+        });
     }
 
     @Override
-    public void delete(Invoice invoice) {
-        propertyDashboardViewModel.deleteInvoice(invoice);
+    public void delete(MinimalInvoice minimalInvoice) {
+        propertyDashboardViewModel.deleteInvoiceById(minimalInvoice.getId());
     }
 
     @Override
-    public void exportAsPdf(Invoice invoice) {
-        try {
-            InvoiceGenerator.generate(invoice);
-        } catch (IOException | DocumentException e) {
-            e.printStackTrace();
-        }
+    public void exportAsPdf(MinimalInvoice minimalInvoice) {
+        propertyDashboardViewModel.getInvoiceById(minimalInvoice.getId());
+        propertyDashboardViewModel.invoice.observe(this, new Observer<Invoice>() {
+            @Override
+            public void onChanged(Invoice invoice) {
+                try {
+                    InvoiceGenerator.generate(invoice);
+                } catch (IOException | DocumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
-    public void edit(BusinessInvoice invoice) {
-        bundle.putSerializable("invoice", invoice);
+    public void edit(MinimalBusinessInvoice minimalBusinessInvoice) {
+        propertyDashboardViewModel.getBusinessInvoiceById(minimalBusinessInvoice.getId());
+        propertyDashboardViewModel.businessInvoice.observe(this, new Observer<BusinessInvoice>() {
+            @Override
+            public void onChanged(BusinessInvoice invoice) {
+                bundle.putSerializable("invoice", invoice);
 
-        NavHostFragment.findNavController(this)
-                .navigate(R.id.action_propertyDashboard_to_businessInvoiceFragment, bundle);
+                NavHostFragment.findNavController(getParentFragment())
+                        .navigate(R.id.action_propertyDashboard_to_businessInvoiceFragment, bundle);
+            }
+        });
     }
 
     @Override
-    public void delete(BusinessInvoice invoice) {
-        propertyDashboardViewModel.deleteInvoice(invoice);
+    public void delete(MinimalBusinessInvoice minimalBusinessInvoice) {
+        propertyDashboardViewModel.deleteBusinessInvoiceById(minimalBusinessInvoice.getId());
     }
 
     @Override
-    public void exportAsPdf(BusinessInvoice invoice) {
-        try {
-            InvoiceGenerator.generate(invoice);
-        } catch (IOException | DocumentException e) {
-            e.printStackTrace();
-        }
+    public void exportAsPdf(MinimalBusinessInvoice minimalBusinessInvoice) {
+        propertyDashboardViewModel.getBusinessInvoiceById(minimalBusinessInvoice.getId());
+        propertyDashboardViewModel.businessInvoice.observe(this, new Observer<BusinessInvoice>() {
+            @Override
+            public void onChanged(BusinessInvoice invoice) {
+                try {
+                    InvoiceGenerator.generate(invoice);
+                } catch (IOException | DocumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public  void checkStoragePermission() {

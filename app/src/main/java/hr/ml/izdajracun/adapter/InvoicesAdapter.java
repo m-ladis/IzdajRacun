@@ -17,8 +17,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import hr.ml.izdajracun.R;
-import hr.ml.izdajracun.model.entity.BusinessInvoice;
-import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.MinimalBusinessInvoice;
+import hr.ml.izdajracun.model.entity.MinimalInvoice;
 import hr.ml.izdajracun.utils.InvoiceGenerator;
 import hr.ml.izdajracun.utils.InvoiceListHelper;
 import hr.ml.izdajracun.view.OnInvoicePopupMenuItemSelectedListener;
@@ -27,8 +27,8 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
 
     private static final String TAG = "InvoicesAdepter";
 
-    private List<Invoice> invoices = new ArrayList<>();
-    private List<BusinessInvoice> businessInvoices = new ArrayList<>();
+    private List<MinimalInvoice> invoices = new ArrayList<>();
+    private List<MinimalBusinessInvoice> businessInvoices = new ArrayList<>();
     private Context context;
     private OnInvoicePopupMenuItemSelectedListener itemOptionsListener;
 
@@ -46,7 +46,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
     @Override
     public void onBindViewHolder(@NonNull InvoiceViewHolder holder, int position) {
         Object objectAtIndex = InvoiceListHelper.getObjectAtIndex(position, invoices, businessInvoices);
-        Invoice invoice = (Invoice) objectAtIndex;
+        MinimalInvoice invoice = (MinimalInvoice) objectAtIndex;
         int year = invoice.getDate().get(Calendar.YEAR);
         int month = invoice.getDate().get(Calendar.MONTH) + 1;
         int day = invoice.getDate().get(Calendar.DAY_OF_MONTH);
@@ -66,7 +66,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         return size;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
+    public void setInvoices(List<MinimalInvoice> invoices) {
         this.invoices = invoices;
     }
 
@@ -74,7 +74,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         this.itemOptionsListener = optionsListener;
     }
 
-    public void setBusinessInvoices(List<BusinessInvoice> businessInvoices) {
+    public void setBusinessInvoices(List<MinimalBusinessInvoice> businessInvoices) {
         this.businessInvoices = businessInvoices;
     }
 
@@ -106,8 +106,8 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
                             Object objectAtIndex = InvoiceListHelper.getObjectAtIndex(
                                     getAdapterPosition(), invoices, businessInvoices);
 
-                            if (objectAtIndex instanceof BusinessInvoice) {
-                                BusinessInvoice businessInvoice = (BusinessInvoice) objectAtIndex;
+                            if (objectAtIndex instanceof MinimalBusinessInvoice) {
+                                MinimalBusinessInvoice businessInvoice = (MinimalBusinessInvoice) objectAtIndex;
 
                                 switch (item.getItemId()) {
                                     case R.id.invoice_edit:
@@ -123,7 +123,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
                                         return false;
                                 }
                             } else {
-                                Invoice invoice = (Invoice) objectAtIndex;
+                                MinimalInvoice invoice = (MinimalInvoice) objectAtIndex;
 
                                 switch (item.getItemId()) {
                                     case R.id.invoice_edit:

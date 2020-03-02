@@ -10,6 +10,7 @@ import java.util.List;
 import hr.ml.izdajracun.model.dao.BusinessInvoiceDao;
 import hr.ml.izdajracun.model.database.IzdajRacunDatabase;
 import hr.ml.izdajracun.model.entity.BusinessInvoice;
+import hr.ml.izdajracun.model.entity.MinimalBusinessInvoice;
 
 public class BusinessInvoiceRepository {
     private BusinessInvoiceDao invoiceDao;
@@ -27,12 +28,21 @@ public class BusinessInvoiceRepository {
         new BusinessInvoiceRepository.UpdateInvoiceAsyncTask(invoiceDao).execute(invoice);
     }
 
-    public void delete(BusinessInvoice invoice){
-        new BusinessInvoiceRepository.DeleteInvoiceAsyncTask(invoiceDao).execute(invoice);
+    public void deleteById(int id){
+        new BusinessInvoiceRepository.DeleteInvoiceAsyncTask(invoiceDao).execute(id);
     }
 
     public LiveData<List<BusinessInvoice>> getAllInvoicesInYear(int propertyId, int year){
         return invoiceDao.getAllInvoicesInYear(propertyId, year);
+    }
+
+    public LiveData<List<MinimalBusinessInvoice>> getAllMinimalBusinessInvoicesInYear
+            (int propertyId, int year){
+        return invoiceDao.getAllMinimalInvoicesInYear(propertyId, year);
+    }
+
+    public LiveData<BusinessInvoice> getBusinessInvoiceById(int id){
+        return invoiceDao.getBusinessInvoiceById(id);
     }
 
     private static class InsertInvoiceAsyncTask
@@ -74,7 +84,7 @@ public class BusinessInvoiceRepository {
     }
 
     private static class DeleteInvoiceAsyncTask
-            extends AsyncTask<BusinessInvoice, Void, Void> {
+            extends AsyncTask<Integer, Void, Void> {
 
         private final BusinessInvoiceDao dao;
 
@@ -83,10 +93,10 @@ public class BusinessInvoiceRepository {
         }
 
         @Override
-        protected Void doInBackground(BusinessInvoice... invoices) {
-            BusinessInvoice invoice = invoices[0];
+        protected Void doInBackground(Integer... values) {
+            Integer id = values[0];
 
-            dao.delete(invoice);
+            dao.deleteById(id);
 
             return null;
         }

@@ -10,6 +10,7 @@ import java.util.List;
 import hr.ml.izdajracun.model.dao.InvoiceDao;
 import hr.ml.izdajracun.model.database.IzdajRacunDatabase;
 import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.MinimalInvoice;
 
 public class InvoiceRepository {
 
@@ -28,12 +29,20 @@ public class InvoiceRepository {
         new UpdateInvoiceAsyncTask(invoiceDao).execute(invoice);
     }
 
-    public void delete(Invoice invoice){
-        new DeleteInvoiceAsyncTask(invoiceDao).execute(invoice);
+    public void deleteById(int id){
+        new DeleteInvoiceAsyncTask(invoiceDao).execute(id);
     }
 
     public LiveData<List<Invoice>> getAllInvoicesInYear(int propertyId, int year){
         return invoiceDao.getAllInvoicesInYear(propertyId, year);
+    }
+
+    public LiveData<List<MinimalInvoice>> getAllMinimalInvoicesInYear(int propertyId, int year){
+        return invoiceDao.getAllMinimalInvoicesInYear(propertyId, year);
+    }
+
+    public LiveData<Invoice> getInvoiceById(int id){
+        return invoiceDao.getInvoiceById(id);
     }
 
     private static class InsertInvoiceAsyncTask
@@ -75,7 +84,7 @@ public class InvoiceRepository {
     }
 
     private static class DeleteInvoiceAsyncTask
-            extends AsyncTask<Invoice, Void, Void> {
+            extends AsyncTask<Integer, Void, Void> {
 
         private final InvoiceDao dao;
 
@@ -84,10 +93,10 @@ public class InvoiceRepository {
         }
 
         @Override
-        protected Void doInBackground(Invoice... invoices) {
-            Invoice invoice = invoices[0];
+        protected Void doInBackground(Integer... values) {
+            Integer id = values[0];
 
-            dao.delete(invoice);
+            dao.deleteById(id);
 
             return null;
         }

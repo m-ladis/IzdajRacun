@@ -5,17 +5,17 @@ import androidx.annotation.NonNull;
 import java.util.List;
 import java.util.Stack;
 
-import hr.ml.izdajracun.model.entity.BusinessInvoice;
-import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.MinimalBusinessInvoice;
+import hr.ml.izdajracun.model.entity.MinimalInvoice;
 
 public class InvoiceListHelper {
-    public static Object getObjectAtIndex(int index, @NonNull List<Invoice> invoices,
-                                          @NonNull List<BusinessInvoice> businessInvoices){
+    public static Object getObjectAtIndex(int index, @NonNull List<MinimalInvoice> invoices,
+                                          @NonNull List<MinimalBusinessInvoice> businessInvoices){
 
         Object objectAtIndex = null;
 
-        Stack<Invoice> invoiceStack = new Stack<>();
-        Stack<BusinessInvoice> businessInvoiceStack = new Stack<>();
+        Stack<MinimalInvoice> invoiceStack = new Stack<>();
+        Stack<MinimalBusinessInvoice> businessInvoiceStack = new Stack<>();
 
         invoiceStack.addAll(invoices);
         businessInvoiceStack.addAll(businessInvoices);
@@ -30,8 +30,8 @@ public class InvoiceListHelper {
                 objectAtIndex = invoiceStack.pop();
                 index--;
             } else {
-                Invoice invoice1 = invoiceStack.peek();
-                BusinessInvoice invoice2 = businessInvoiceStack.peek();
+                MinimalInvoice invoice1 = invoiceStack.peek();
+                MinimalBusinessInvoice invoice2 = businessInvoiceStack.peek();
 
                 if(invoice1.getNumber() >= invoice2.getNumber()){
                     objectAtIndex = invoiceStack.pop();

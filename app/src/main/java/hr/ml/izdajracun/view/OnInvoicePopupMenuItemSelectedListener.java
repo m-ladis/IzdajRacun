@@ -1,13 +1,13 @@
 package hr.ml.izdajracun.view;
 
-import hr.ml.izdajracun.model.entity.BusinessInvoice;
-import hr.ml.izdajracun.model.entity.Invoice;
+import hr.ml.izdajracun.model.entity.MinimalBusinessInvoice;
+import hr.ml.izdajracun.model.entity.MinimalInvoice;
 
 public interface OnInvoicePopupMenuItemSelectedListener {
-    void edit(Invoice invoice);
-    void delete(Invoice invoice);
-    void exportAsPdf(Invoice invoice);
-    void edit(BusinessInvoice invoice);
-    void delete(BusinessInvoice invoice);
-    void exportAsPdf(BusinessInvoice invoice);
+    void edit(MinimalInvoice invoice);
+    void delete(MinimalInvoice invoice);
+    void exportAsPdf(MinimalInvoice invoice);
+    void edit(MinimalBusinessInvoice invoice);
+    void delete(MinimalBusinessInvoice invoice);
+    void exportAsPdf(MinimalBusinessInvoice invoice);
 }
