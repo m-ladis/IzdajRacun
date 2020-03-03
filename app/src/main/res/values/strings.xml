@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">IzdajRacun</string>
 
-
-    <string name="sign_out_menu_item_content">Odjavi se</string>
-
     <string name="sign_in_button_content">Prijavi se</string>
-    <string name="sign_in_canceled_message">Prijava je prekinuta</string>
+    <string name="sign_in_canceled_message">Za prijavu je potrebna internet veza</string>
 
     <string name="hello_add_property_fragment">Hello add property fragment</string>
     <string name="rental_property_name_hint">Naziv objekta</string>

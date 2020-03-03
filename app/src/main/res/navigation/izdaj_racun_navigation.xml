@@ -6,21 +6,6 @@
     app:startDestination="@id/propertiesFragment">
 
     <fragment
-        android:id="@+id/signInFragment"
-        android:name="hr.ml.izdajracun.view.SignInFragment"
-        android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in" >
-        <action
-            android:id="@+id/action_signInFragment_to_propertiesFragment"
-            app:destination="@id/propertiesFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/signInFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
         android:id="@+id/propertiesFragment"
         android:name="hr.ml.izdajracun.view.PropertiesFragment"
         android:label="fragment_properties"
