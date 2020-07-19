@@ -41,6 +41,10 @@ public class BusinessInvoiceRepository {
         return invoiceDao.getAllMinimalInvoicesInYear(propertyId, year);
     }
 
+    public LiveData<List<Integer>> getYears(int propertyId){
+        return invoiceDao.getYears(propertyId);
+    }
+
     public LiveData<BusinessInvoice> getBusinessInvoiceById(int id){
         return invoiceDao.getBusinessInvoiceById(id);
     }

@@ -224,7 +224,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/calendar_icon2"
+                app:layout_constraintTop_toBottomOf="@+id/delivery_date"
                 app:srcCompat="@drawable/ic_date_range_black" />
 
             <EditText

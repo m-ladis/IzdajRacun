@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            tools:context=".view.YearlyReportFragment">
+
+            <TextView
+                android:id="@+id/taxpayer_info_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:text="@string/taxpayer_info_label"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/taxpayer_fullname_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taxpayer_info_label"
+                android:layout_marginTop="32dp"
+                android:text="@string/taxpayer_fullname_label"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/taxpayer_fullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taxpayer_fullname_label"
+                android:enabled="false"
+                android:focusable="false"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/taxpayer_oib_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taxpayer_fullname"
+                android:text="@string/taxpayer_oib_label"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/taxpayer_oib"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taxpayer_oib_label"
+                android:enabled="false"
+                android:focusable="false"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/taxpayer_place_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taxpayer_oib"
+                android:text="@string/taxpayer_place_label"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/taxpayer_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taxpayer_place_label"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/taxpayer_address_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taxpayer_place"
+                android:text="@string/taxpayer_address_label"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/taxpayer_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taxpayer_address_label"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/select_year_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taxpayer_address"
+                android:layout_marginTop="32dp"
+                android:text="@string/select_year_label" />
+
+            <Spinner
+                android:id="@+id/years"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/select_year_label"
+                android:layout_toEndOf="@+id/select_year_label" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/yearly_report_done_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_done_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

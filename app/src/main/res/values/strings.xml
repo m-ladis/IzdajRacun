@@ -36,6 +36,7 @@
 
 
     <string name="invoice_item_number_label">Broj računa:</string>
+    <string name="new_yearly_report_button_content">Obrazac EP</string>
     <string name="new_business_invoice_button_content">R1 račun</string>
     <string name="new_invoice_button_content">račun</string>
 
@@ -49,6 +50,13 @@
     <string name="payment_method_label">Način plačanja :</string>
     <string name="customer_address">Ulica i kućni broj, mjesto, država</string>
     <string name="select_logo">Odaberi logo</string>
+
+    <string name="select_year_label">Odaberi godinu izvjšća: </string>
+    <string name="taxpayer_info_label">Opći podaci o poreznom\nobvezniku</string>
+    <string name="taxpayer_place_label">Mjesto prebivališta/boravišta</string>
+    <string name="taxpayer_address_label">Adresa prebivališta/boravišta</string>
+    <string name="taxpayer_fullname_label">Ime i prezime</string>
+    <string name="taxpayer_oib_label">OIB</string>
 
     <string-array name="payment_methods">
         <item>Gotovinsko plačanje</item>

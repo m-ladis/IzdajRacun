@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/done_button"
+        app:layout_constraintBottom_toTopOf="@+id/yearly_report_done_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -132,7 +132,7 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/done_button"
+        android:id="@+id/yearly_report_done_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"

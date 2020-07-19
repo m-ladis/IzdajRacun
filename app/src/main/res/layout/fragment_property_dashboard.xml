@@ -92,6 +92,17 @@
         android:layout_marginBottom="16dp"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/new_yearly_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_yearly_report_button_content"
+        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/new_business_invioce"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/new_personal_invoice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

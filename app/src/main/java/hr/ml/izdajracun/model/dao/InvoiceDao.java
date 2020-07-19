@@ -18,6 +18,9 @@ public interface InvoiceDao extends BaseDao<Invoice>{
     @Query(value = "SELECT * FROM invoice WHERE year = :year AND propertyId = :propertyId ORDER BY number ASC ")
     LiveData<List<MinimalInvoice>> getAllMinimalInvoicesInYear(int propertyId, int year);
 
+    @Query(value = "SELECT DISTINCT year FROM invoice WHERE propertyId = :propertyId ORDER BY number ASC ")
+    LiveData<List<Integer>> getYears(int propertyId);
+
     @Query(value = "SELECT * FROM invoice WHERE id = :id")
     LiveData<Invoice> getInvoiceById(int id);
 

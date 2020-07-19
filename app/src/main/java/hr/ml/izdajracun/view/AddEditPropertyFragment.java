@@ -84,7 +84,7 @@ public class AddEditPropertyFragment extends Fragment implements View.OnClickLis
         logoPreviewImageView = root.findViewById(R.id.logo_preview);
         selectLogoButton = root.findViewById(R.id.select_logo);
         deleteLogoButton = root.findViewById(R.id.delete_logo);
-        doneButton = root.findViewById(R.id.done_button);
+        doneButton = root.findViewById(R.id.yearly_report_done_button);
 
         deleteLogoButton.setOnClickListener(this);
         selectLogoButton.setOnClickListener(this);
