@@ -59,7 +59,7 @@ public class InvoiceGenerator {
         String datumIzdao = "Račun izdao/la:     " + propertyInfo.getOwnerFirstName() + " " + propertyInfo.getOwnerLastName() + "\n" +
                 "Datum izdavanja:    " + calendarFormat(invoice.getDate()) + "\n" +
                 "Način plaćanja:     " + invoice.getPaymentMethod() + "\n" +
-                "Rok plaćanja:       " + calendarFormat(invoice.getPayDueDate()) + "\n" +
+                "Datum dospijeća:    " + calendarFormat(invoice.getPayDueDate()) + "\n" +
                 "Datum isporuke:     " + calendarFormat(invoice.getDeliveryDate());
 
         String ukupno = calculateTotal(String.valueOf(invoice.getQuantity()), String.valueOf(invoice.getUnitPrice()));
