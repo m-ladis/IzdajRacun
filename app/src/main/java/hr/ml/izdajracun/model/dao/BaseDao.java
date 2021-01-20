@@ -1,6 +1,7 @@
 package hr.ml.izdajracun.model.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Update;
 
@@ -12,6 +13,6 @@ public interface BaseDao<T> {
     @Update
     void update(T data);
 
-    @Insert
+    @Delete
     void delete(T data);
 }
