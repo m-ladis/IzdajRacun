@@ -22,6 +22,7 @@ import hr.ml.izdajracun.model.entity.typeconverter.RentalPropertyInfoTypeConvert
 @Database(entities = {RentalPropertyInfo.class, Invoice.class, BusinessInvoice.class}, version = 4)
 @TypeConverters(value = {CalendarTypeConverter.class, RentalPropertyInfoTypeConverter.class})
 public abstract class IzdajRacunDatabase extends RoomDatabase {
+    private static final String TAG = "IzdajRacunDatabase";
 
     private static IzdajRacunDatabase database;
 
@@ -41,7 +42,23 @@ public abstract class IzdajRacunDatabase extends RoomDatabase {
                         public void onOpen(@NonNull SupportSQLiteDatabase db) {
                             super.onOpen(db);
 
-                            Log.d("izdaj_racun_database", "opened");
+                            Log.d(TAG, "opened");
+                        }
+
+                        @Override
+                        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                            super.onCreate(db);
+
+
+                            Log.d(TAG, "inserting test data");
+                            database.rentalPropertyInfoDao()
+                                    .insert(new RentalPropertyInfo(
+                                            "AP1", "adresa1", "ime1",
+                                            "prezime1", "HR00", "11", null));
+                            database.rentalPropertyInfoDao()
+                                    .insert(new RentalPropertyInfo(
+                                            "AP2", "adresa2", "ime2",
+                                            "prezime2", "HR00", "22", null));
                         }
                     })
                     .build();
