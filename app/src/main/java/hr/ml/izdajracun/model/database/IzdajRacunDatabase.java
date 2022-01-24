@@ -48,17 +48,6 @@ public abstract class IzdajRacunDatabase extends RoomDatabase {
                         @Override
                         public void onCreate(@NonNull SupportSQLiteDatabase db) {
                             super.onCreate(db);
-
-
-                            Log.d(TAG, "inserting test data");
-                            database.rentalPropertyInfoDao()
-                                    .insert(new RentalPropertyInfo(
-                                            "AP1", "adresa1", "ime1",
-                                            "prezime1", "HR00", "11", null));
-                            database.rentalPropertyInfoDao()
-                                    .insert(new RentalPropertyInfo(
-                                            "AP2", "adresa2", "ime2",
-                                            "prezime2", "HR00", "22", null));
                         }
                     })
                     .build();
