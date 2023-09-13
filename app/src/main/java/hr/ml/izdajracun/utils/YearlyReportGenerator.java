@@ -153,7 +153,7 @@ public class YearlyReportGenerator {
 
 
             PdfPCell iznos = getCell(new Phrase(InvoiceGenerator.roundTwoDecimal
-                    (String.valueOf(invoice.getTotalPrice())) + " kn" , font));
+                    (String.valueOf(invoice.getTotalPrice())) + " €" , font));
             iznos.setHorizontalAlignment(Element.ALIGN_RIGHT);
             invoiceRow.addCell(iznos);
 

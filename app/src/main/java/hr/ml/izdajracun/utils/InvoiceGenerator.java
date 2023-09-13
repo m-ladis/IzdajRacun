@@ -31,7 +31,7 @@ import hr.ml.izdajracun.model.entity.RentalPropertyInfo;
 public class InvoiceGenerator {
     public static File generate(BusinessInvoice invoice) throws IOException, DocumentException {
         RentalPropertyInfo propertyInfo = invoice.getPropertyInfo();
-        BaseFont baza = BaseFont.createFont("/system/fonts/Roboto-Regular.ttf", BaseFont.CP1250 , BaseFont.EMBEDDED);
+        BaseFont baza = BaseFont.createFont("/system/fonts/Roboto-Regular.ttf", BaseFont.CP1250, BaseFont.EMBEDDED);
 
         Font font = new Font(baza, 10, Font.BOLD);
 
@@ -75,10 +75,10 @@ public class InvoiceGenerator {
         //structure
         Paragraph brRacunaPar = new Paragraph(racunNaslov, bold);
 
-        if(logoStr != null){
+        if (logoStr != null) {
             Image logo = Image.getInstance(Base64.decode(logoStr, Base64.DEFAULT));
-            logo.scaleAbsolute(50,50);
-            Paragraph logoTable = new Paragraph(new Chunk(logo, 0,-25));
+            logo.scaleAbsolute(50, 50);
+            Paragraph logoTable = new Paragraph(new Chunk(logo, 0, -25));
             document.add(logoTable);
         }
 
@@ -93,9 +93,9 @@ public class InvoiceGenerator {
         PdfPTable podTablica = new PdfPTable(2);
         podTablica.setWidthPercentage(40);
         podTablica.addCell(getCell("Popust", Element.ALIGN_LEFT, font));
-        podTablica.addCell(new Phrase(roundTwoDecimal(calculateDiscount(ukupno, String.valueOf(invoice.getTotalPrice()))) + " kn", font));
+        podTablica.addCell(new Phrase(roundTwoDecimal(calculateDiscount(ukupno, String.valueOf(invoice.getTotalPrice()))) + " €", font));
         podTablica.addCell(getCell("Za naplatu", Element.ALIGN_LEFT, font));
-        podTablica.addCell(new Phrase(roundTwoDecimal(String.valueOf(invoice.getTotalPrice())) + " kn", font));
+        podTablica.addCell(new Phrase(roundTwoDecimal(String.valueOf(invoice.getTotalPrice())) + " €", font));
 
         PdfPTable racunTab = new PdfPTable(5);
 
@@ -111,8 +111,8 @@ public class InvoiceGenerator {
         racunTab.addCell(uslugaSmj);
         racunTab.addCell(new Phrase("1", font));
         racunTab.addCell(new Phrase(String.valueOf(invoice.getQuantity()), font));
-        racunTab.addCell(new Phrase(roundTwoDecimal(String.valueOf(invoice.getUnitPrice())) + " kn", font));
-        racunTab.addCell(new Phrase(roundTwoDecimal(ukupno) + " kn", font));
+        racunTab.addCell(new Phrase(roundTwoDecimal(String.valueOf(invoice.getUnitPrice())) + " €", font));
+        racunTab.addCell(new Phrase(roundTwoDecimal(ukupno) + " €", font));
 
         Paragraph boravisnaPar = new Paragraph(boravisna, font);
 
@@ -163,7 +163,7 @@ public class InvoiceGenerator {
 
     public static File generate(Invoice invoice) throws IOException, DocumentException {
         RentalPropertyInfo propertyInfo = invoice.getPropertyInfo();
-        BaseFont baza = BaseFont.createFont("/system/fonts/Roboto-Regular.ttf", BaseFont.CP1250 , BaseFont.EMBEDDED);
+        BaseFont baza = BaseFont.createFont("/system/fonts/Roboto-Regular.ttf", BaseFont.CP1250, BaseFont.EMBEDDED);
 
         Font font = new Font(baza, 10, Font.BOLD);
 
@@ -203,10 +203,10 @@ public class InvoiceGenerator {
         //structure
         Paragraph brRacunaPar = new Paragraph(racunNaslov, bold);
 
-        if(logoStr != null){
+        if (logoStr != null) {
             Image logo = Image.getInstance(Base64.decode(logoStr, Base64.DEFAULT));
-            logo.scaleAbsolute(50,50);
-            Paragraph logoTable = new Paragraph(new Chunk(logo, 0,-25));
+            logo.scaleAbsolute(50, 50);
+            Paragraph logoTable = new Paragraph(new Chunk(logo, 0, -25));
             document.add(logoTable);
         }
 
@@ -221,9 +221,9 @@ public class InvoiceGenerator {
         PdfPTable podTablica = new PdfPTable(2);
         podTablica.setWidthPercentage(40);
         podTablica.addCell(getCell("Popust", Element.ALIGN_LEFT, font));
-        podTablica.addCell(new Phrase(roundTwoDecimal(calculateDiscount(ukupno, String.valueOf(invoice.getTotalPrice()))) + " kn", font));
+        podTablica.addCell(new Phrase(roundTwoDecimal(calculateDiscount(ukupno, String.valueOf(invoice.getTotalPrice()))) + " €", font));
         podTablica.addCell(getCell("Za naplatu", Element.ALIGN_LEFT, font));
-        podTablica.addCell(new Phrase(roundTwoDecimal(String.valueOf(invoice.getTotalPrice())) + " kn", font));
+        podTablica.addCell(new Phrase(roundTwoDecimal(String.valueOf(invoice.getTotalPrice())) + " €", font));
 
         PdfPTable racunTab = new PdfPTable(5);
 
@@ -239,8 +239,8 @@ public class InvoiceGenerator {
         racunTab.addCell(uslugaSmj);
         racunTab.addCell(new Phrase("1", font));
         racunTab.addCell(new Phrase(String.valueOf(invoice.getQuantity()), font));
-        racunTab.addCell(new Phrase(roundTwoDecimal(String.valueOf(invoice.getUnitPrice())) + " kn", font));
-        racunTab.addCell(new Phrase(roundTwoDecimal(ukupno) + " kn", font));
+        racunTab.addCell(new Phrase(roundTwoDecimal(String.valueOf(invoice.getUnitPrice())) + " €", font));
+        racunTab.addCell(new Phrase(roundTwoDecimal(ukupno) + " €", font));
 
         Paragraph boravisnaPar = new Paragraph(boravisna, font);
 
@@ -298,16 +298,16 @@ public class InvoiceGenerator {
         return cell;
     }
 
-    public static String calculateTotal(String quantity, String unitPrice){
+    public static String calculateTotal(String quantity, String unitPrice) {
         int qnt = Integer.parseInt(quantity);
         float price = Float.parseFloat(unitPrice);
 
-        float total = qnt*price;
+        float total = qnt * price;
 
         return (String.valueOf(total));
     }
 
-    public static String roundTwoDecimal(String number){
+    public static String roundTwoDecimal(String number) {
         double price = Double.parseDouble(number);
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMANY);
@@ -318,7 +318,7 @@ public class InvoiceGenerator {
         return numberFormat.format(price);
     }
 
-    public static String calculateDiscount(String total, String guestPays){
+    public static String calculateDiscount(String total, String guestPays) {
         double totalPrice = Double.parseDouble(total);
         double guestPaysPrice = Double.parseDouble(guestPays);
 
@@ -327,15 +327,15 @@ public class InvoiceGenerator {
         return (String.valueOf(discount));
     }
 
-    public static String calendarFormat(Calendar calendar){
+    public static String calendarFormat(Calendar calendar) {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        return (day + "." + month + "." + year + "." );
+        return (day + "." + month + "." + year + ".");
     }
 
-    public static File getInvoiceFile(Invoice invoice){
+    public static File getInvoiceFile(Invoice invoice) {
         File root = Environment.getExternalStorageDirectory();
         File dir = new File(root.getAbsolutePath() + "/IzdajRacun/"
                 + invoice.getPropertyInfo().getId() + "/" + invoice.getYear());

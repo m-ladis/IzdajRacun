@@ -1,13 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "hr.ml.izdajracun"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 1
+        multiDexEnabled true
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,7 +35,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
-    def room_version = "2.2.3"
+    def room_version = "2.4.0"
+
+    implementation 'com.android.support:multidex:1.0.3'
+
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
